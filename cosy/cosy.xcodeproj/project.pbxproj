@@ -1,0 +1,782 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9471C8B626E0089D269 /* AppDelegate.swift */; };
+		1A97C94A1C8B626E0089D269 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9491C8B626E0089D269 /* ViewController.swift */; };
+		1A97C94D1C8B626E0089D269 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C94B1C8B626E0089D269 /* Main.storyboard */; };
+		1A97C94F1C8B626E0089D269 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C94E1C8B626E0089D269 /* Assets.xcassets */; };
+		1A97C9521C8B626E0089D269 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */; };
+		1A97C95D1C8B62710089D269 /* cosyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C95C1C8B62710089D269 /* cosyTests.swift */; };
+		1A97C9681C8B62710089D269 /* cosyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9671C8B62710089D269 /* cosyUITests.swift */; };
+		1A97C96D1C8B62710089D269 /* cosy WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1A97C96C1C8B62710089D269 /* cosy WatchKit App.app */; };
+		1A97C9731C8B62710089D269 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C9711C8B62710089D269 /* Interface.storyboard */; };
+		1A97C9751C8B62710089D269 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C9741C8B62710089D269 /* Assets.xcassets */; };
+		1A97C97C1C8B62710089D269 /* cosy WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1A97C97B1C8B62710089D269 /* cosy WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1A97C9831C8B62710089D269 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9821C8B62710089D269 /* InterfaceController.swift */; };
+		1A97C9851C8B62710089D269 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9841C8B62710089D269 /* ExtensionDelegate.swift */; };
+		1A97C9871C8B62710089D269 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9861C8B62710089D269 /* NotificationController.swift */; };
+		1A97C9891C8B62710089D269 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9881C8B62710089D269 /* GlanceController.swift */; };
+		1A97C98B1C8B62710089D269 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C98A1C8B62710089D269 /* ComplicationController.swift */; };
+		1A97C98D1C8B62710089D269 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C98C1C8B62710089D269 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1A97C9591C8B62710089D269 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A97C93C1C8B626E0089D269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A97C9431C8B626E0089D269;
+			remoteInfo = cosy;
+		};
+		1A97C9641C8B62710089D269 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A97C93C1C8B626E0089D269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A97C9431C8B626E0089D269;
+			remoteInfo = cosy;
+		};
+		1A97C96E1C8B62710089D269 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A97C93C1C8B626E0089D269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A97C96B1C8B62710089D269;
+			remoteInfo = "cosy WatchKit App";
+		};
+		1A97C97D1C8B62710089D269 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A97C93C1C8B626E0089D269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A97C97A1C8B62710089D269;
+			remoteInfo = "cosy WatchKit Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1A97C9941C8B62710089D269 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1A97C97C1C8B62710089D269 /* cosy WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9981C8B62710089D269 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				1A97C96D1C8B62710089D269 /* cosy WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1A97C9441C8B626E0089D269 /* cosy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cosy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A97C9471C8B626E0089D269 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1A97C9491C8B626E0089D269 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1A97C94C1C8B626E0089D269 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1A97C94E1C8B626E0089D269 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A97C9511C8B626E0089D269 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1A97C9531C8B626E0089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A97C9581C8B62700089D269 /* cosyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cosyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A97C95C1C8B62710089D269 /* cosyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cosyTests.swift; sourceTree = "<group>"; };
+		1A97C95E1C8B62710089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A97C9631C8B62710089D269 /* cosyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cosyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A97C9671C8B62710089D269 /* cosyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cosyUITests.swift; sourceTree = "<group>"; };
+		1A97C9691C8B62710089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A97C96C1C8B62710089D269 /* cosy WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cosy WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A97C9721C8B62710089D269 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		1A97C9741C8B62710089D269 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A97C9761C8B62710089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A97C97B1C8B62710089D269 /* cosy WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "cosy WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A97C9811C8B62710089D269 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		1A97C9821C8B62710089D269 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		1A97C9841C8B62710089D269 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		1A97C9861C8B62710089D269 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		1A97C9881C8B62710089D269 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
+		1A97C98A1C8B62710089D269 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		1A97C98C1C8B62710089D269 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A97C98E1C8B62710089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1A97C9411C8B626E0089D269 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9551C8B62700089D269 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9601C8B62710089D269 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9781C8B62710089D269 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A97C93B1C8B626E0089D269 = {
+			isa = PBXGroup;
+			children = (
+				1A97C9461C8B626E0089D269 /* cosy */,
+				1A97C95B1C8B62710089D269 /* cosyTests */,
+				1A97C9661C8B62710089D269 /* cosyUITests */,
+				1A97C9701C8B62710089D269 /* cosy WatchKit App */,
+				1A97C97F1C8B62710089D269 /* cosy WatchKit Extension */,
+				1A97C9451C8B626E0089D269 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1A97C9451C8B626E0089D269 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9441C8B626E0089D269 /* cosy.app */,
+				1A97C9581C8B62700089D269 /* cosyTests.xctest */,
+				1A97C9631C8B62710089D269 /* cosyUITests.xctest */,
+				1A97C96C1C8B62710089D269 /* cosy WatchKit App.app */,
+				1A97C97B1C8B62710089D269 /* cosy WatchKit Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1A97C9461C8B626E0089D269 /* cosy */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9471C8B626E0089D269 /* AppDelegate.swift */,
+				1A97C9491C8B626E0089D269 /* ViewController.swift */,
+				1A97C94B1C8B626E0089D269 /* Main.storyboard */,
+				1A97C94E1C8B626E0089D269 /* Assets.xcassets */,
+				1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */,
+				1A97C9531C8B626E0089D269 /* Info.plist */,
+			);
+			path = cosy;
+			sourceTree = "<group>";
+		};
+		1A97C95B1C8B62710089D269 /* cosyTests */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C95C1C8B62710089D269 /* cosyTests.swift */,
+				1A97C95E1C8B62710089D269 /* Info.plist */,
+			);
+			path = cosyTests;
+			sourceTree = "<group>";
+		};
+		1A97C9661C8B62710089D269 /* cosyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9671C8B62710089D269 /* cosyUITests.swift */,
+				1A97C9691C8B62710089D269 /* Info.plist */,
+			);
+			path = cosyUITests;
+			sourceTree = "<group>";
+		};
+		1A97C9701C8B62710089D269 /* cosy WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9711C8B62710089D269 /* Interface.storyboard */,
+				1A97C9741C8B62710089D269 /* Assets.xcassets */,
+				1A97C9761C8B62710089D269 /* Info.plist */,
+			);
+			path = "cosy WatchKit App";
+			sourceTree = "<group>";
+		};
+		1A97C97F1C8B62710089D269 /* cosy WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9821C8B62710089D269 /* InterfaceController.swift */,
+				1A97C9841C8B62710089D269 /* ExtensionDelegate.swift */,
+				1A97C9861C8B62710089D269 /* NotificationController.swift */,
+				1A97C9881C8B62710089D269 /* GlanceController.swift */,
+				1A97C98A1C8B62710089D269 /* ComplicationController.swift */,
+				1A97C98C1C8B62710089D269 /* Assets.xcassets */,
+				1A97C98E1C8B62710089D269 /* Info.plist */,
+				1A97C9801C8B62710089D269 /* Supporting Files */,
+			);
+			path = "cosy WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		1A97C9801C8B62710089D269 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9811C8B62710089D269 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1A97C9431C8B626E0089D269 /* cosy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A97C9991C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy" */;
+			buildPhases = (
+				1A97C9401C8B626E0089D269 /* Sources */,
+				1A97C9411C8B626E0089D269 /* Frameworks */,
+				1A97C9421C8B626E0089D269 /* Resources */,
+				1A97C9981C8B62710089D269 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A97C96F1C8B62710089D269 /* PBXTargetDependency */,
+			);
+			name = cosy;
+			productName = cosy;
+			productReference = 1A97C9441C8B626E0089D269 /* cosy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1A97C9571C8B62700089D269 /* cosyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A97C99C1C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosyTests" */;
+			buildPhases = (
+				1A97C9541C8B62700089D269 /* Sources */,
+				1A97C9551C8B62700089D269 /* Frameworks */,
+				1A97C9561C8B62700089D269 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A97C95A1C8B62710089D269 /* PBXTargetDependency */,
+			);
+			name = cosyTests;
+			productName = cosyTests;
+			productReference = 1A97C9581C8B62700089D269 /* cosyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1A97C9621C8B62710089D269 /* cosyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A97C99F1C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosyUITests" */;
+			buildPhases = (
+				1A97C95F1C8B62710089D269 /* Sources */,
+				1A97C9601C8B62710089D269 /* Frameworks */,
+				1A97C9611C8B62710089D269 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A97C9651C8B62710089D269 /* PBXTargetDependency */,
+			);
+			name = cosyUITests;
+			productName = cosyUITests;
+			productReference = 1A97C9631C8B62710089D269 /* cosyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		1A97C96B1C8B62710089D269 /* cosy WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A97C9951C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy WatchKit App" */;
+			buildPhases = (
+				1A97C96A1C8B62710089D269 /* Resources */,
+				1A97C9941C8B62710089D269 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A97C97E1C8B62710089D269 /* PBXTargetDependency */,
+			);
+			name = "cosy WatchKit App";
+			productName = "cosy WatchKit App";
+			productReference = 1A97C96C1C8B62710089D269 /* cosy WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		1A97C97A1C8B62710089D269 /* cosy WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A97C9911C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy WatchKit Extension" */;
+			buildPhases = (
+				1A97C9771C8B62710089D269 /* Sources */,
+				1A97C9781C8B62710089D269 /* Frameworks */,
+				1A97C9791C8B62710089D269 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "cosy WatchKit Extension";
+			productName = "cosy WatchKit Extension";
+			productReference = 1A97C97B1C8B62710089D269 /* cosy WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1A97C93C1C8B626E0089D269 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = Pentapie;
+				TargetAttributes = {
+					1A97C9431C8B626E0089D269 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					1A97C9571C8B62700089D269 = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = 1A97C9431C8B626E0089D269;
+					};
+					1A97C9621C8B62710089D269 = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = 1A97C9431C8B626E0089D269;
+					};
+					1A97C96B1C8B62710089D269 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					1A97C97A1C8B62710089D269 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 1A97C93F1C8B626E0089D269 /* Build configuration list for PBXProject "cosy" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1A97C93B1C8B626E0089D269;
+			productRefGroup = 1A97C9451C8B626E0089D269 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1A97C9431C8B626E0089D269 /* cosy */,
+				1A97C9571C8B62700089D269 /* cosyTests */,
+				1A97C9621C8B62710089D269 /* cosyUITests */,
+				1A97C96B1C8B62710089D269 /* cosy WatchKit App */,
+				1A97C97A1C8B62710089D269 /* cosy WatchKit Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1A97C9421C8B626E0089D269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97C9521C8B626E0089D269 /* LaunchScreen.storyboard in Resources */,
+				1A97C94F1C8B626E0089D269 /* Assets.xcassets in Resources */,
+				1A97C94D1C8B626E0089D269 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9561C8B62700089D269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9611C8B62710089D269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C96A1C8B62710089D269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97C9751C8B62710089D269 /* Assets.xcassets in Resources */,
+				1A97C9731C8B62710089D269 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9791C8B62710089D269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97C98D1C8B62710089D269 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1A97C9401C8B626E0089D269 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97C94A1C8B626E0089D269 /* ViewController.swift in Sources */,
+				1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9541C8B62700089D269 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97C95D1C8B62710089D269 /* cosyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C95F1C8B62710089D269 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97C9681C8B62710089D269 /* cosyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A97C9771C8B62710089D269 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97C9871C8B62710089D269 /* NotificationController.swift in Sources */,
+				1A97C9851C8B62710089D269 /* ExtensionDelegate.swift in Sources */,
+				1A97C98B1C8B62710089D269 /* ComplicationController.swift in Sources */,
+				1A97C9831C8B62710089D269 /* InterfaceController.swift in Sources */,
+				1A97C9891C8B62710089D269 /* GlanceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1A97C95A1C8B62710089D269 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A97C9431C8B626E0089D269 /* cosy */;
+			targetProxy = 1A97C9591C8B62710089D269 /* PBXContainerItemProxy */;
+		};
+		1A97C9651C8B62710089D269 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A97C9431C8B626E0089D269 /* cosy */;
+			targetProxy = 1A97C9641C8B62710089D269 /* PBXContainerItemProxy */;
+		};
+		1A97C96F1C8B62710089D269 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A97C96B1C8B62710089D269 /* cosy WatchKit App */;
+			targetProxy = 1A97C96E1C8B62710089D269 /* PBXContainerItemProxy */;
+		};
+		1A97C97E1C8B62710089D269 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A97C97A1C8B62710089D269 /* cosy WatchKit Extension */;
+			targetProxy = 1A97C97D1C8B62710089D269 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1A97C94B1C8B626E0089D269 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A97C94C1C8B626E0089D269 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A97C9511C8B626E0089D269 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1A97C9711C8B62710089D269 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A97C9721C8B62710089D269 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1A97C98F1C8B62710089D269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1A97C9901C8B62710089D269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1A97C9921C8B62710089D269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				INFOPLIST_FILE = "cosy WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosy.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		1A97C9931C8B62710089D269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				INFOPLIST_FILE = "cosy WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosy.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		1A97C9961C8B62710089D269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = cosy_WatchKit_Extension;
+				INFOPLIST_FILE = "cosy WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosy.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		1A97C9971C8B62710089D269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = cosy_WatchKit_Extension;
+				INFOPLIST_FILE = "cosy WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosy.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		1A97C99A1C8B62710089D269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = cosy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1A97C99B1C8B62710089D269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = cosy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1A97C99D1C8B62710089D269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = cosyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cosy.app/cosy";
+			};
+			name = Debug;
+		};
+		1A97C99E1C8B62710089D269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = cosyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cosy.app/cosy";
+			};
+			name = Release;
+		};
+		1A97C9A01C8B62710089D269 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = cosyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = cosy;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		1A97C9A11C8B62710089D269 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = cosyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pentapie.BampoeJ.cosyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = cosy;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1A97C93F1C8B626E0089D269 /* Build configuration list for PBXProject "cosy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A97C98F1C8B62710089D269 /* Debug */,
+				1A97C9901C8B62710089D269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A97C9911C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A97C9921C8B62710089D269 /* Debug */,
+				1A97C9931C8B62710089D269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1A97C9951C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A97C9961C8B62710089D269 /* Debug */,
+				1A97C9971C8B62710089D269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1A97C9991C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A97C99A1C8B62710089D269 /* Debug */,
+				1A97C99B1C8B62710089D269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1A97C99C1C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A97C99D1C8B62710089D269 /* Debug */,
+				1A97C99E1C8B62710089D269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1A97C99F1C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A97C9A01C8B62710089D269 /* Debug */,
+				1A97C9A11C8B62710089D269 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1A97C93C1C8B626E0089D269 /* Project object */;
+}
