@@ -1,0 +1,10 @@
+language: objective-c
+osx_image: xcode7.2
+xcode_project: cosy/cosy.xcodeproj
+xcode_scheme: cosy
+xcode_sdk:
+  - iphonesimulator9.2
+  - watchsimulator2.1
+script:
+  - xcodebuild CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= PROVISIONING_PROFILE= clean build test -project cosy/cosy.xcodeproj -scheme cosy -destination 'platform=iOS Simulator,name=iPhone 6,OS=9.2'
+  - xcodebuild CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= PROVISIONING_PROFILE= clean build -project cosy/cosy.xcodeproj -scheme 'cosy WatchKit App'
