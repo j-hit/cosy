@@ -743,6 +743,7 @@
 				1A97C9931C8B62710089D269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1A97C9951C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy WatchKit App" */ = {
 			isa = XCConfigurationList;
@@ -751,6 +752,7 @@
 				1A97C9971C8B62710089D269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1A97C9991C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosy" */ = {
 			isa = XCConfigurationList;
@@ -759,6 +761,7 @@
 				1A97C99B1C8B62710089D269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1A97C99C1C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosyTests" */ = {
 			isa = XCConfigurationList;
@@ -767,6 +770,7 @@
 				1A97C99E1C8B62710089D269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1A97C99F1C8B62710089D269 /* Build configuration list for PBXNativeTarget "cosyUITests" */ = {
 			isa = XCConfigurationList;
@@ -775,6 +779,7 @@
 				1A97C9A11C8B62710089D269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
