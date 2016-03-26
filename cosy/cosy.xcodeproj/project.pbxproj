@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6534261CA70C1C0033DFDB /* Authenticator.swift */; };
+		1A65342B1CA743080033DFDB /* ThermostatsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */; };
 		1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9471C8B626E0089D269 /* AppDelegate.swift */; };
-		1A97C94A1C8B626E0089D269 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9491C8B626E0089D269 /* ViewController.swift */; };
+		1A97C94A1C8B626E0089D269 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9491C8B626E0089D269 /* LoginViewController.swift */; };
 		1A97C94D1C8B626E0089D269 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C94B1C8B626E0089D269 /* Main.storyboard */; };
 		1A97C94F1C8B626E0089D269 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C94E1C8B626E0089D269 /* Assets.xcassets */; };
 		1A97C9521C8B626E0089D269 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */; };
@@ -85,9 +87,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A6534261CA70C1C0033DFDB /* Authenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
+		1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatsTableViewController.swift; sourceTree = "<group>"; };
 		1A97C9441C8B626E0089D269 /* cosy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cosy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A97C9471C8B626E0089D269 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1A97C9491C8B626E0089D269 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1A97C9491C8B626E0089D269 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1A97C94C1C8B626E0089D269 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A97C94E1C8B626E0089D269 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A97C9511C8B626E0089D269 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -183,11 +187,13 @@
 			isa = PBXGroup;
 			children = (
 				1A97C9471C8B626E0089D269 /* AppDelegate.swift */,
-				1A97C9491C8B626E0089D269 /* ViewController.swift */,
+				1A97C9491C8B626E0089D269 /* LoginViewController.swift */,
 				1A97C94B1C8B626E0089D269 /* Main.storyboard */,
 				1A97C94E1C8B626E0089D269 /* Assets.xcassets */,
 				1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */,
 				1A97C9531C8B626E0089D269 /* Info.plist */,
+				1A6534261CA70C1C0033DFDB /* Authenticator.swift */,
+				1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */,
 			);
 			path = cosy;
 			sourceTree = "<group>";
@@ -554,8 +560,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A97C94A1C8B626E0089D269 /* ViewController.swift in Sources */,
+				1A65342B1CA743080033DFDB /* ThermostatsTableViewController.swift in Sources */,
+				1A97C94A1C8B626E0089D269 /* LoginViewController.swift in Sources */,
 				1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */,
+				1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
