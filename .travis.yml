@@ -6,8 +6,6 @@ xcode_scheme: cosy
 xcode_sdk:
   - iphonesimulator9.2
   - watchsimulator2.1
-before_install:
-    - gem install cocoapods
 script:
   - xcodebuild CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= PROVISIONING_PROFILE= clean build test -workspace cosy/cosy.xcworkspace -scheme cosy -destination 'platform=iOS Simulator,name=iPhone 6,OS=9.2'
   - xcodebuild CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= PROVISIONING_PROFILE= clean build -workspace cosy/cosy.xcworkspace -scheme 'cosy WatchKit App'
