@@ -1,5 +1,6 @@
 language: objective-c
-osx_image: xcode7.1
+podfile: cosy/Podfile
+osx_image: xcode7.2
 xcode_workspace: cosy/cosy.xcworkspace
 xcode_scheme: cosy
 xcode_sdk:
