@@ -18,6 +18,10 @@ class LoginViewController: UIViewController {
   
   let authenticator = Authenticator()
   
+  override func viewWillAppear(animated: Bool) {
+    reloadLastUsedEmailAddressAndPassword()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     authenticator.delegate = self
@@ -33,7 +37,38 @@ class LoginViewController: UIViewController {
   }
   
   @IBAction func signInButtonPressed(sender: AnyObject) {
-    authenticator.performSignIn(withUsername: "james.bampoe@siemens.com", andPassword: "Test1234")
+    if let emailAddress = emailTextField.text, password = passwordTextField.text where !emailAddress.isEmpty && !password.isEmpty  {
+      authenticator.performSignIn(withUsername: emailAddress, andPassword: password)
+      saveLastUsed(emailAddress: emailAddress, andPassword: password)
+    } else {
+      showInformation("Fill in email address and password", withColor: UIColor.redColor())
+    }
+  }
+  
+  private func showInformation(information: String, withColor color: UIColor) {
+    self.informationLabel.text = information
+    self.informationLabel.alpha = 0
+    self.informationLabel.textColor = color
+    
+    UIView.animateWithDuration(2.0, animations: { () -> Void in
+      self.informationLabel.alpha = 1
+      }, completion: { (_) -> Void in
+        UIView.animateWithDuration(2.5, animations: { () -> Void in
+          self.informationLabel.alpha = 0
+          }, completion: { (_) -> Void in
+            self.informationLabel.text = ""
+        })
+    })
+  }
+  
+  private func saveLastUsed(emailAddress emailAddress: String, andPassword password: String) {
+    ApplicationSettingsManager.sharedInstance.lastUsedEmailAddress = emailAddress
+    ApplicationSettingsManager.sharedInstance.lastUsedPassword = password
+  }
+  
+  private func reloadLastUsedEmailAddressAndPassword() {
+    emailTextField.text = ApplicationSettingsManager.sharedInstance.lastUsedEmailAddress
+    passwordTextField.text = ApplicationSettingsManager.sharedInstance.lastUsedPassword
   }
 }
 
@@ -43,21 +78,8 @@ extension LoginViewController: AuthenticatorDelegate {
   }
   
   func authenticator(didFailToAuthenticateWithError error: String) {
-    dispatch_async(dispatch_get_main_queue()) {
-      self.informationLabel.text = "Failed to sign in. Make sure your email address and password are correct and then try again."
-      self.informationLabel.alpha = 0
-      self.informationLabel.textColor = UIColor.redColor()
-      
-      UIView.animateWithDuration(2.0, animations: { () -> Void in
-        self.informationLabel.alpha = 1
-        }, completion: { (_) -> Void in
-          UIView.animateWithDuration(2.5, animations: { () -> Void in
-            self.informationLabel.alpha = 0
-            }, completion: { (_) -> Void in
-              self.informationLabel.text = ""
-          })
-      })
-    }
+    //"Failed to sign in. Make sure your email address and password are correct and then try again."
+    showInformation(error, withColor: UIColor.redColor())
   }
 }
 

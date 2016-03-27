@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A09F38F1CA86CCD00D91E69 /* ApplicationSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */; };
 		1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6534261CA70C1C0033DFDB /* Authenticator.swift */; };
 		1A65342B1CA743080033DFDB /* ThermostatsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */; };
 		1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9471C8B626E0089D269 /* AppDelegate.swift */; };
@@ -87,6 +88,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationSettingsManager.swift; sourceTree = "<group>"; };
 		1A6534261CA70C1C0033DFDB /* Authenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatsTableViewController.swift; sourceTree = "<group>"; };
 		1A97C9441C8B626E0089D269 /* cosy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cosy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +159,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A09F3901CA8775900D91E69 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9491C8B626E0089D269 /* LoginViewController.swift */,
+				1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		1A09F3911CA8776800D91E69 /* logic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = logic;
+			sourceTree = "<group>";
+		};
 		1A97C93B1C8B626E0089D269 = {
 			isa = PBXGroup;
 			children = (
@@ -186,14 +204,15 @@
 		1A97C9461C8B626E0089D269 /* cosy */ = {
 			isa = PBXGroup;
 			children = (
+				1A09F3901CA8775900D91E69 /* view */,
+				1A09F3911CA8776800D91E69 /* logic */,
 				1A97C9471C8B626E0089D269 /* AppDelegate.swift */,
-				1A97C9491C8B626E0089D269 /* LoginViewController.swift */,
 				1A97C94B1C8B626E0089D269 /* Main.storyboard */,
 				1A97C94E1C8B626E0089D269 /* Assets.xcassets */,
 				1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */,
 				1A97C9531C8B626E0089D269 /* Info.plist */,
 				1A6534261CA70C1C0033DFDB /* Authenticator.swift */,
-				1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */,
+				1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */,
 			);
 			path = cosy;
 			sourceTree = "<group>";
@@ -561,6 +580,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A65342B1CA743080033DFDB /* ThermostatsTableViewController.swift in Sources */,
+				1A09F38F1CA86CCD00D91E69 /* ApplicationSettingsManager.swift in Sources */,
 				1A97C94A1C8B626E0089D269 /* LoginViewController.swift in Sources */,
 				1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */,
 				1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */,

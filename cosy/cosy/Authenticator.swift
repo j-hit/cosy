@@ -27,14 +27,13 @@ final class Authenticator {
   
   func performSignIn(withUsername username: String, andPassword password: String) {
     let HTTPBodyForRequest = [
-      // READ USERNAME AND PASSWORD FROM INPUT FIELDS
       // READ BASEURL FROM APP SETTINGS
       
       "create": "session",
       "initial-values":
         [
-          "user-name": username,//"james.bampoe@siemens.com",
-          "password": password//"Test1234"
+          "user-name": username,
+          "password": password
       ]
     ]
     
@@ -53,6 +52,15 @@ final class Authenticator {
               self.sessionID = sessionID
           }
         case .Failure(let error):
+          // TODO: Remove print statement
+          var statusCode = 0
+          if let httpError = response.result.error {
+            statusCode = httpError.code
+          } else if let code = response.response?.statusCode {
+            statusCode = code
+          }
+          print("Status code: \(statusCode)")
+          
           self.delegate?.authenticator(didFailToAuthenticateWithError: error.localizedDescription)
         }
     }
