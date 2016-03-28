@@ -21,11 +21,11 @@ class LoginViewController: UIViewController {
   
   override func viewWillAppear(animated: Bool) {
     reloadLastUsedEmailAddressAndPassword()
+    authenticator.delegate = self
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    authenticator.delegate = self
     informationLabel.text = ""
   }
   

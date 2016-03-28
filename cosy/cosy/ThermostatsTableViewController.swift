@@ -86,6 +86,6 @@ extension ThermostatsTableViewController: AuthenticatorDelegate {
   
   func authenticatorDidPerformSignOut() {
     watchConnectivityHandler.transferApplicationSettingsToWatch()
-    navigationController?.popToRootViewControllerAnimated(true)
+    self.dismissViewControllerAnimated(true, completion: nil)
   }
 }
