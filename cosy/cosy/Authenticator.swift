@@ -12,9 +12,12 @@ import Alamofire
 protocol AuthenticatorDelegate {
   func authenticator(didRetrieveSessionID sessionID: String)
   func authenticator(didFailToAuthenticateWithError error: String)
+  func authenticatorDidPerformSignOut()
 }
 
 protocol Authenticator: class {
   var delegate: AuthenticatorDelegate? { get set }
   func performSignIn(withUsername username: String, andPassword password: String)
+  func performSignOut()
+  func updateSessionID(sessionID: String?)
 }

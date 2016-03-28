@@ -13,7 +13,16 @@ final class AuthenicatorMock: Authenticator {
   
   func performSignIn(withUsername username: String, andPassword password: String) {
     let sessionID = "defaultSessionID77"
+    updateSessionID(sessionID)
     delegate?.authenticator(didRetrieveSessionID: sessionID)
+  }
+  
+  func performSignOut() {
+    updateSessionID(nil)
+    delegate?.authenticatorDidPerformSignOut()
+  }
+  
+  func updateSessionID(sessionID: String?) {
     ApplicationSettingsManager.sharedInstance.sessionID = sessionID
   }
 }

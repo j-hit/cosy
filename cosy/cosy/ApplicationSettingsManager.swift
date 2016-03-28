@@ -84,7 +84,33 @@ final class ApplicationSettingsManager {
         userDefaults.removeObjectForKey(keys.sessionID)
       }
       
-      userDefaults.synchronize()
+      userDefaults.synchronize() // TODO: Check if required
+    }
+  }
+  
+  func exportAsDictionary() -> [String : AnyObject] {
+    let applicationSettings: [String : AnyObject] = [
+      keys.mockModeEnabled : mockModeEnabled,
+      keys.sessionID : sessionID ?? "",
+      keys.baseURL : baseURLOfCPSCloud
+    ]
+    
+    return applicationSettings
+  }
+  
+  func importFromDictionary(dictionary: [String : AnyObject]) {
+    if let mockModeEnabled = dictionary[keys.mockModeEnabled] as? Bool {
+      self.mockModeEnabled = mockModeEnabled
+    }
+    if let sessionID = dictionary[keys.sessionID] as? String {
+      if(sessionID.isEmpty) {
+        self.sessionID = nil
+      } else {
+        self.sessionID = sessionID
+      }
+    }
+    if let baseURLOfCPSCloud = dictionary[keys.baseURL] as? String {
+      self.baseURLOfCPSCloud = baseURLOfCPSCloud
     }
   }
   

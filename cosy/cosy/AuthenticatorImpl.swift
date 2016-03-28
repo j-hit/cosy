@@ -21,6 +21,7 @@ final class AuthenticatorImpl: Authenticator {
   }*/
   
   func performSignIn(withUsername username: String, andPassword password: String) {
+    let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
     let HTTPBodyForRequest = [
       // READ BASEURL FROM APP SETTINGS
       
@@ -32,7 +33,7 @@ final class AuthenticatorImpl: Authenticator {
       ]
     ]
     
-    let URLRequest = NSMutableURLRequest(URL: NSURL(string: "https://nebula.rdzug.net/api/sessions/@items")!)
+    let URLRequest = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/api/sessions/@items")!) // TODO: Construct path more cleverly
     URLRequest.HTTPMethod = "POST"
     URLRequest.setValue("application/json;charset=UTF-8", forHTTPHeaderField: "Content-Type")
     URLRequest.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(HTTPBodyForRequest, options: [])
@@ -45,7 +46,7 @@ final class AuthenticatorImpl: Authenticator {
           if let JSONResponse = response.result.value,
             sessionID = JSONResponse["CCL_SESSION_ID"] as? String{
               self.delegate?.authenticator(didRetrieveSessionID: sessionID)
-              ApplicationSettingsManager.sharedInstance.sessionID = sessionID
+              self.updateSessionID(sessionID)
           }
         case .Failure(let error):
           // TODO: Remove print statement
@@ -62,4 +63,11 @@ final class AuthenticatorImpl: Authenticator {
     }
   }
   
+  func performSignOut() {
+    // TODO: Add code
+  }
+  
+  func updateSessionID(sessionID: String?) {
+    ApplicationSettingsManager.sharedInstance.sessionID = sessionID
+  }
 }

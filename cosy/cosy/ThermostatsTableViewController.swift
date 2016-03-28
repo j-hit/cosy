@@ -12,8 +12,13 @@ class ThermostatsTableViewController: UITableViewController {
   
   let thermostatCellIdentifier = "ThermostatTableViewCell"
   
+  let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
+  let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    authenticator.delegate = self
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = false
@@ -65,34 +70,22 @@ class ThermostatsTableViewController: UITableViewController {
     return UITableViewAutomaticDimension
   }
   
-  /*
-  // Override to support conditional editing of the table view.
-  override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-  // Return false if you do not want the specified item to be editable.
-  return true
+  @IBAction func signOutPressed(sender: AnyObject) {
+    authenticator.performSignOut()
   }
-  */
-  
-  /*
-  // Override to support editing the table view.
-  override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-  if editingStyle == .Delete {
-  // Delete the row from the data source
-  tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-  } else if editingStyle == .Insert {
-  // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+}
+
+extension ThermostatsTableViewController: AuthenticatorDelegate {
+  func authenticator(didRetrieveSessionID sessionID: String) {
+    // TODO: Reload table
   }
+  
+  func authenticator(didFailToAuthenticateWithError error: String) {
+    // TODO: Show information
   }
-  */
   
-  /*
-  // MARK: - Navigation
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-  // Get the new view controller using segue.destinationViewController.
-  // Pass the selected object to the new view controller.
+  func authenticatorDidPerformSignOut() {
+    watchConnectivityHandler.transferApplicationSettingsToWatch()
+    navigationController?.popToRootViewControllerAnimated(true)
   }
-  */
-  
 }

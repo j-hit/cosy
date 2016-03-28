@@ -17,6 +17,7 @@ class LoginViewController: UIViewController {
   private let segueIdentifierToShowThermostatsView = "showListOfThermostats"
   
   let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
+  let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
   
   override func viewWillAppear(animated: Bool) {
     reloadLastUsedEmailAddressAndPassword()
@@ -75,11 +76,16 @@ class LoginViewController: UIViewController {
 extension LoginViewController: AuthenticatorDelegate {
   func authenticator(didRetrieveSessionID error: String) {
     performSegueWithIdentifier(segueIdentifierToShowThermostatsView, sender: nil)
+    watchConnectivityHandler.transferApplicationSettingsToWatch()
   }
   
   func authenticator(didFailToAuthenticateWithError error: String) {
     //"Failed to sign in. Make sure your email address and password are correct and then try again."
     showInformation(error, withColor: UIColor.redColor())
+  }
+  
+  func authenticatorDidPerformSignOut() {
+    watchConnectivityHandler.transferApplicationSettingsToWatch()
   }
 }
 

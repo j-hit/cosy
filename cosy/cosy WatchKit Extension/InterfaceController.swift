@@ -12,6 +12,8 @@ import Foundation
 
 class InterfaceController: WKInterfaceController {
   
+  @IBOutlet var informationLabel: WKInterfaceLabel!
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     
@@ -22,8 +24,10 @@ class InterfaceController: WKInterfaceController {
     // This method is called when watch view controller is about to be visible to user
     super.willActivate()
     if let sessionID = ApplicationSettingsManager.sharedInstance.sessionID {
+      informationLabel.setText("sessionID = \(sessionID)")
       print("sessionID = \(sessionID)")
     } else {
+      informationLabel.setText("no sessionID found")
       print("no sessionID found")
     }
   }

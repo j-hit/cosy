@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       return AuthenticatorImpl()
     }
   }()
+  
+  let watchConnectivityHandler = iPhoneWatchConnectivityHandler()
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     return true

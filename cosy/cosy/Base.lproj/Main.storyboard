@@ -143,7 +143,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Thermostats" id="l8L-vp-EZA">
-                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="CcC-D7-SQY"/>
+                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="CcC-D7-SQY">
+                            <connections>
+                                <action selector="signOutPressed:" destination="hbT-IS-DTy" id="i7p-8N-8NE"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IBl-8e-QxJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
