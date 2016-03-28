@@ -10,6 +10,7 @@ import Foundation
 
 final class ApplicationSettingsManager {
   static let sharedInstance = ApplicationSettingsManager()
+  static let key = "applicationSettings"
   
   private struct keys {
     static let lastUsedEmailAddress = "emailAddress"

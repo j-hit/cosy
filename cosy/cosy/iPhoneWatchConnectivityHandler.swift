@@ -28,7 +28,7 @@ final class iPhoneWatchConnectivityHandler: NSObject {
       let session = WCSession.defaultSession()
       if session.watchAppInstalled {
         do {
-          let applicationSettings = ["applicationSettings": ApplicationSettingsManager.sharedInstance.exportAsDictionary()]
+          let applicationSettings = [ApplicationSettingsManager.key: ApplicationSettingsManager.sharedInstance.exportAsDictionary()]
           try session.updateApplicationContext(applicationSettings)
         } catch {
           print("ERROR: \(error)")

@@ -29,7 +29,7 @@ final class WatchAppWatchConnectivityHandler: NSObject {
 extension WatchAppWatchConnectivityHandler: WCSessionDelegate {
   func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
     print("Phone->Watch Receiving Context: \(applicationContext)")
-    if let applicationSettings = applicationContext["applicationSettings"] as? [String: AnyObject] {
+    if let applicationSettings = applicationContext[ApplicationSettingsManager.key] as? [String: AnyObject] {
       ApplicationSettingsManager.sharedInstance.importFromDictionary(applicationSettings)
       delegate?.didUpdateApplicationSettings()
     }

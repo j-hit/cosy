@@ -12,16 +12,12 @@ import Alamofire
 final class AuthenticatorImpl: Authenticator {
   var delegate: AuthenticatorDelegate?
   
-  /*private var sessionID: String? {
-    didSet {
-      if let session = sessionID {
-        delegate?.authenticator(didRetrieveSessionID: session)
-      }
-    }
-  }*/
-  
   func performSignIn(withUsername username: String, andPassword password: String) {
-    let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
+    guard let urlForSignIn = URLForPerformingSignIn() else {
+      self.delegate?.authenticator(didFailToAuthenticateWithError: "URL for sign in could not be constructed")
+      return
+    }
+    
     let HTTPBodyForRequest = [
       "create": "session",
       "initial-values":
@@ -31,7 +27,7 @@ final class AuthenticatorImpl: Authenticator {
       ]
     ]
     
-    let URLRequest = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/api/sessions/@items")!) // TODO: Construct path more cleverly
+    let URLRequest = NSMutableURLRequest(URL: urlForSignIn)
     URLRequest.HTTPMethod = "POST"
     URLRequest.setValue("application/json;charset=UTF-8", forHTTPHeaderField: "Content-Type")
     URLRequest.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(HTTPBodyForRequest, options: [])
@@ -59,6 +55,14 @@ final class AuthenticatorImpl: Authenticator {
           self.delegate?.authenticator(didFailToAuthenticateWithError: error.localizedDescription)
         }
     }
+  }
+  
+  private func URLForPerformingSignIn() -> NSURL? {
+    let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
+    guard let urlForSignIn = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/api/sessions/@items") else {
+      return nil
+    }
+    return urlForSignIn
   }
   
   func performSignOut() {
