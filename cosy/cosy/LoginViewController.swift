@@ -14,9 +14,9 @@ class LoginViewController: UIViewController {
   @IBOutlet weak var passwordTextField: UITextField!
   @IBOutlet weak var informationLabel: UILabel!
   
-  let segueIdentifierToShowThermostatsView = "showListOfThermostats"
+  private let segueIdentifierToShowThermostatsView = "showListOfThermostats"
   
-  let authenticator = Authenticator()
+  let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
   
   override func viewWillAppear(animated: Bool) {
     reloadLastUsedEmailAddressAndPassword()

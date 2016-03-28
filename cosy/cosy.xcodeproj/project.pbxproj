@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1A09F38F1CA86CCD00D91E69 /* ApplicationSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */; };
+		1A09F3941CA878F900D91E69 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1A09F3931CA878F900D91E69 /* Settings.bundle */; };
+		1A09F3961CA87DEE00D91E69 /* AuthenticatorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09F3951CA87DEE00D91E69 /* AuthenticatorImpl.swift */; };
+		1A09F3981CA87F5800D91E69 /* AuthenticatorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09F3971CA87F5800D91E69 /* AuthenticatorMock.swift */; };
+		1A09F3991CA88BEA00D91E69 /* ApplicationSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */; };
 		1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6534261CA70C1C0033DFDB /* Authenticator.swift */; };
 		1A65342B1CA743080033DFDB /* ThermostatsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */; };
 		1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9471C8B626E0089D269 /* AppDelegate.swift */; };
@@ -89,6 +93,9 @@
 
 /* Begin PBXFileReference section */
 		1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationSettingsManager.swift; sourceTree = "<group>"; };
+		1A09F3931CA878F900D91E69 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		1A09F3951CA87DEE00D91E69 /* AuthenticatorImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatorImpl.swift; sourceTree = "<group>"; };
+		1A09F3971CA87F5800D91E69 /* AuthenticatorMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatorMock.swift; sourceTree = "<group>"; };
 		1A6534261CA70C1C0033DFDB /* Authenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatsTableViewController.swift; sourceTree = "<group>"; };
 		1A97C9441C8B626E0089D269 /* cosy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cosy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,8 +178,20 @@
 		1A09F3911CA8776800D91E69 /* logic */ = {
 			isa = PBXGroup;
 			children = (
+				1A6534261CA70C1C0033DFDB /* Authenticator.swift */,
+				1A09F3951CA87DEE00D91E69 /* AuthenticatorImpl.swift */,
+				1A09F3971CA87F5800D91E69 /* AuthenticatorMock.swift */,
 			);
 			name = logic;
+			sourceTree = "<group>";
+		};
+		1A09F3921CA878A600D91E69 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1A97C9531C8B626E0089D269 /* Info.plist */,
+				1A09F3931CA878F900D91E69 /* Settings.bundle */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		1A97C93B1C8B626E0089D269 = {
@@ -206,12 +225,11 @@
 			children = (
 				1A09F3901CA8775900D91E69 /* view */,
 				1A09F3911CA8776800D91E69 /* logic */,
+				1A09F3921CA878A600D91E69 /* Supporting Files */,
 				1A97C9471C8B626E0089D269 /* AppDelegate.swift */,
 				1A97C94B1C8B626E0089D269 /* Main.storyboard */,
 				1A97C94E1C8B626E0089D269 /* Assets.xcassets */,
 				1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */,
-				1A97C9531C8B626E0089D269 /* Info.plist */,
-				1A6534261CA70C1C0033DFDB /* Authenticator.swift */,
 				1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */,
 			);
 			path = cosy;
@@ -442,6 +460,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A09F3941CA878F900D91E69 /* Settings.bundle in Resources */,
 				1A97C9521C8B626E0089D269 /* LaunchScreen.storyboard in Resources */,
 				1A97C94F1C8B626E0089D269 /* Assets.xcassets in Resources */,
 				1A97C94D1C8B626E0089D269 /* Main.storyboard in Resources */,
@@ -582,7 +601,9 @@
 				1A65342B1CA743080033DFDB /* ThermostatsTableViewController.swift in Sources */,
 				1A09F38F1CA86CCD00D91E69 /* ApplicationSettingsManager.swift in Sources */,
 				1A97C94A1C8B626E0089D269 /* LoginViewController.swift in Sources */,
+				1A09F3961CA87DEE00D91E69 /* AuthenticatorImpl.swift in Sources */,
 				1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */,
+				1A09F3981CA87F5800D91E69 /* AuthenticatorMock.swift in Sources */,
 				1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,6 +632,7 @@
 				1A97C9851C8B62710089D269 /* ExtensionDelegate.swift in Sources */,
 				1A97C98B1C8B62710089D269 /* ComplicationController.swift in Sources */,
 				1A97C9831C8B62710089D269 /* InterfaceController.swift in Sources */,
+				1A09F3991CA88BEA00D91E69 /* ApplicationSettingsManager.swift in Sources */,
 				1A97C9891C8B62710089D269 /* GlanceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

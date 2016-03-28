@@ -99,23 +99,23 @@
                         <outlet property="emailTextField" destination="frR-DS-0o2" id="SUf-Pq-SK1"/>
                         <outlet property="informationLabel" destination="bhm-gA-fLR" id="Arh-sT-ftX"/>
                         <outlet property="passwordTextField" destination="H80-Xs-Zdx" id="mDt-Ta-LsD"/>
-                        <segue destination="hbT-IS-DTy" kind="show" identifier="showListOfThermostats" id="tMh-Zv-IaD"/>
+                        <segue destination="q6A-lr-34G" kind="show" identifier="showListOfThermostats" id="tMh-Zv-IaD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
-        <!--Table View Controller-->
+        <!--Thermostats-->
         <scene sceneID="DhY-1u-aoa">
             <objects>
-                <tableViewController id="hbT-IS-DTy" sceneMemberID="viewController">
+                <tableViewController id="hbT-IS-DTy" customClass="ThermostatsTableViewController" customModule="cosy" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="A2W-rL-CWL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ThermostatTableViewCell" id="GRQ-QW-oP0">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GRQ-QW-oP0" id="hlG-RE-AWQ">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -142,8 +142,29 @@
                             <outlet property="delegate" destination="hbT-IS-DTy" id="sEu-Wt-5uS"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Thermostats" id="l8L-vp-EZA">
+                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="CcC-D7-SQY"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IBl-8e-QxJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2053" y="321"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Xea-k9-vWU">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q6A-lr-34G" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="d51-RY-8ls">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hbT-IS-DTy" kind="relationship" relationship="rootViewController" id="gN1-lP-bcY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LO2-T0-LUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1241" y="321"/>
         </scene>

@@ -44,17 +44,25 @@ class ThermostatsTableViewController: UITableViewController {
   override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     var titleForHeader = ""
     switch section {
-    case 1:
+    case 0:
       titleForHeader = "Home"
-    case 2:
+    case 1:
       titleForHeader = "Office"
-    case 3:
+    case 2:
       titleForHeader = "Country cottage"
     default:
       break
     }
     
     return titleForHeader
+  }
+  
+  override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    return 44.0
+  }
+  
+  override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    return UITableViewAutomaticDimension
   }
   
   /*
