@@ -23,8 +23,6 @@ final class AuthenticatorImpl: Authenticator {
   func performSignIn(withUsername username: String, andPassword password: String) {
     let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
     let HTTPBodyForRequest = [
-      // READ BASEURL FROM APP SETTINGS
-      
       "create": "session",
       "initial-values":
         [

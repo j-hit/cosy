@@ -12,7 +12,7 @@ final class AuthenicatorMock: Authenticator {
   var delegate: AuthenticatorDelegate?
   
   func performSignIn(withUsername username: String, andPassword password: String) {
-    let sessionID = "defaultSessionID77"
+    let sessionID = "mockModeSessionID"
     updateSessionID(sessionID)
     delegate?.authenticator(didRetrieveSessionID: sessionID)
   }

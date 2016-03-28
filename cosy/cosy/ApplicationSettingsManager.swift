@@ -83,8 +83,6 @@ final class ApplicationSettingsManager {
       } else {
         userDefaults.removeObjectForKey(keys.sessionID)
       }
-      
-      userDefaults.synchronize() // TODO: Check if required
     }
   }
   
