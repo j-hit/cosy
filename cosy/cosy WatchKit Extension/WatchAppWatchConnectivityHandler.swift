@@ -10,6 +10,8 @@ import Foundation
 import WatchConnectivity
 
 final class WatchAppWatchConnectivityHandler: NSObject {
+  var delegate: WatchAppWatchConnectivityHandlerDelegate?
+  
   override init() {
     super.init()
     setupWatchConnectivity()
@@ -29,6 +31,7 @@ extension WatchAppWatchConnectivityHandler: WCSessionDelegate {
     print("Phone->Watch Receiving Context: \(applicationContext)")
     if let applicationSettings = applicationContext["applicationSettings"] as? [String: AnyObject] {
       ApplicationSettingsManager.sharedInstance.importFromDictionary(applicationSettings)
+      delegate?.didUpdateApplicationSettings()
     }
   }
 }
