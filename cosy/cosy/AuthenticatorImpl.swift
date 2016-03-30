@@ -34,16 +34,13 @@ final class AuthenticatorImpl: Authenticator {
               self.delegate?.authenticator(didRetrieveSessionID: sessionID)
           }
         case .Failure(let error):
-          // TODO: Remove print statement
-          var statusCode = 0
-          if let httpError = response.result.error {
-            statusCode = httpError.code
-          } else if let code = response.response?.statusCode {
-            statusCode = code
+          var errorDescription: String
+          if response.response?.statusCode == 403 {
+            errorDescription = "Username or password is wrong"
+          } else {
+            errorDescription = error.localizedDescription
           }
-          print("Status code: \(statusCode)")
-          
-          self.delegate?.authenticator(didFailToAuthenticateWithError: error.localizedDescription)
+          self.delegate?.authenticator(didFailToAuthenticateWithError: errorDescription)
         }
     }
   }
