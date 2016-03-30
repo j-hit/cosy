@@ -99,6 +99,7 @@
                         <outlet property="emailTextField" destination="frR-DS-0o2" id="SUf-Pq-SK1"/>
                         <outlet property="informationLabel" destination="bhm-gA-fLR" id="Arh-sT-ftX"/>
                         <outlet property="passwordTextField" destination="H80-Xs-Zdx" id="mDt-Ta-LsD"/>
+                        <outlet property="signInButton" destination="80D-wB-vk1" id="Ygd-vq-sMh"/>
                         <segue destination="q6A-lr-34G" kind="show" identifier="showListOfThermostats" id="tMh-Zv-IaD"/>
                     </connections>
                 </viewController>

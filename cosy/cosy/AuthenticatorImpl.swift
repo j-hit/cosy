@@ -18,19 +18,10 @@ final class AuthenticatorImpl: Authenticator {
       return
     }
     
-    let HTTPBodyForRequest = [
-      "create": "session",
-      "initial-values":
-        [
-          "user-name": username,
-          "password": password
-      ]
-    ]
-    
     let URLRequest = NSMutableURLRequest(URL: urlForSignIn)
     URLRequest.HTTPMethod = "POST"
     URLRequest.setValue("application/json;charset=UTF-8", forHTTPHeaderField: "Content-Type")
-    URLRequest.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(HTTPBodyForRequest, options: [])
+    URLRequest.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(bodyForSignInRequestWith(username: username, andPassword: password), options: [])
     
     Alamofire.request(URLRequest)
       .validate()
@@ -39,8 +30,8 @@ final class AuthenticatorImpl: Authenticator {
         case .Success:
           if let JSONResponse = response.result.value,
             sessionID = JSONResponse["CCL_SESSION_ID"] as? String{
-              self.delegate?.authenticator(didRetrieveSessionID: sessionID)
               self.updateSessionID(sessionID)
+              self.delegate?.authenticator(didRetrieveSessionID: sessionID)
           }
         case .Failure(let error):
           // TODO: Remove print statement
@@ -65,8 +56,21 @@ final class AuthenticatorImpl: Authenticator {
     return urlForSignIn
   }
   
+  private func bodyForSignInRequestWith(username username: String, andPassword password: String) -> [String: NSObject] {
+    return [
+      "create": "session",
+      "initial-values":
+        [
+          "user-name": username,
+          "password": password
+      ]
+    ]
+  }
+  
   func performSignOut() {
-    // TODO: Add code
+    // TODO: Perform sign out on CCL
+    updateSessionID(nil)
+    delegate?.authenticatorDidPerformSignOut()
   }
   
   func updateSessionID(sessionID: String?) {

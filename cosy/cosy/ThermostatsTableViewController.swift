@@ -10,10 +10,10 @@ import UIKit
 
 class ThermostatsTableViewController: UITableViewController {
   
-  let thermostatCellIdentifier = "ThermostatTableViewCell"
+  private let thermostatCellIdentifier = "ThermostatTableViewCell"
   
-  let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
-  let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
+  private let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
+  private let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
   
   override func viewDidLoad() {
     super.viewDidLoad()

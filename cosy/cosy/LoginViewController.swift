@@ -13,13 +13,15 @@ class LoginViewController: UIViewController {
   @IBOutlet weak var emailTextField: UITextField!
   @IBOutlet weak var passwordTextField: UITextField!
   @IBOutlet weak var informationLabel: UILabel!
+  @IBOutlet weak var signInButton: UIButton!
   
   private let segueIdentifierToShowThermostatsView = "showListOfThermostats"
   
-  let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
-  let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
+  private let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
+  private let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
   
   override func viewWillAppear(animated: Bool) {
+    self.signInButton.hidden = false
     reloadLastUsedEmailAddressAndPassword()
     authenticator.delegate = self
   }
@@ -37,10 +39,11 @@ class LoginViewController: UIViewController {
     return true
   }
   
-  @IBAction func signInButtonPressed(sender: AnyObject) {
+  @IBAction func signInButtonPressed(sender: UIButton) {
     if let emailAddress = emailTextField.text, password = passwordTextField.text where !emailAddress.isEmpty && !password.isEmpty  {
       authenticator.performSignIn(withUsername: emailAddress, andPassword: password)
       saveLastUsed(emailAddress: emailAddress, andPassword: password)
+      sender.hidden = true
     } else {
       showInformation("Fill in email address and password", withColor: UIColor.redColor())
     }
@@ -74,13 +77,14 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: AuthenticatorDelegate {
-  func authenticator(didRetrieveSessionID error: String) {
+  func authenticator(didRetrieveSessionID sessionID: String) {
     performSegueWithIdentifier(segueIdentifierToShowThermostatsView, sender: nil)
-    watchConnectivityHandler.transferApplicationSettingsToWatch()
+    watchConnectivityHandler.transferApplicationSettingsToWatch() // TODO: Only send sessionID
   }
   
   func authenticator(didFailToAuthenticateWithError error: String) {
     //"Failed to sign in. Make sure your email address and password are correct and then try again."
+    self.signInButton.hidden = false
     showInformation(error, withColor: UIColor.redColor())
   }
   
