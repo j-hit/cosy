@@ -22,7 +22,7 @@
 		1A97C94D1C8B626E0089D269 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C94B1C8B626E0089D269 /* Main.storyboard */; };
 		1A97C94F1C8B626E0089D269 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C94E1C8B626E0089D269 /* Assets.xcassets */; };
 		1A97C9521C8B626E0089D269 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C9501C8B626E0089D269 /* LaunchScreen.storyboard */; };
-		1A97C95D1C8B62710089D269 /* cosyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C95C1C8B62710089D269 /* cosyTests.swift */; };
+		1A97C95D1C8B62710089D269 /* ApplicationSettingsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C95C1C8B62710089D269 /* ApplicationSettingsManagerTests.swift */; };
 		1A97C9681C8B62710089D269 /* cosyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9671C8B62710089D269 /* cosyUITests.swift */; };
 		1A97C96D1C8B62710089D269 /* cosy WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1A97C96C1C8B62710089D269 /* cosy WatchKit App.app */; };
 		1A97C9731C8B62710089D269 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C9711C8B62710089D269 /* Interface.storyboard */; };
@@ -113,7 +113,7 @@
 		1A97C9511C8B626E0089D269 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A97C9531C8B626E0089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A97C9581C8B62700089D269 /* cosyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cosyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A97C95C1C8B62710089D269 /* cosyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cosyTests.swift; sourceTree = "<group>"; };
+		1A97C95C1C8B62710089D269 /* ApplicationSettingsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationSettingsManagerTests.swift; sourceTree = "<group>"; };
 		1A97C95E1C8B62710089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A97C9631C8B62710089D269 /* cosyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cosyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A97C9671C8B62710089D269 /* cosyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cosyUITests.swift; sourceTree = "<group>"; };
@@ -273,7 +273,7 @@
 		1A97C95B1C8B62710089D269 /* cosyTests */ = {
 			isa = PBXGroup;
 			children = (
-				1A97C95C1C8B62710089D269 /* cosyTests.swift */,
+				1A97C95C1C8B62710089D269 /* ApplicationSettingsManagerTests.swift */,
 				1A97C95E1C8B62710089D269 /* Info.plist */,
 			);
 			path = cosyTests;
@@ -650,7 +650,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A97C95D1C8B62710089D269 /* cosyTests.swift in Sources */,
+				1A97C95D1C8B62710089D269 /* ApplicationSettingsManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
