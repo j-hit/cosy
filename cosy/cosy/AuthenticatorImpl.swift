@@ -12,9 +12,11 @@ import Alamofire
 final class AuthenticatorImpl: Authenticator {
   var delegate: AuthenticatorDelegate?
   
+  private let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
+  
   func performSignIn(withUsername username: String, andPassword password: String) {
     guard let urlForSignIn = URLForPerformingSignIn() else {
-      self.delegate?.authenticator(didFailToAuthenticateWithError: "URL for sign in could not be constructed")
+      self.delegate?.authenticator(didFailToAuthenticateWithError: NSLocalizedString("SignInURLConstructionFailure", comment: "Error: Failure constructing sign in URL"))
       return
     }
     
@@ -36,7 +38,7 @@ final class AuthenticatorImpl: Authenticator {
         case .Failure(let error):
           var errorDescription: String
           if response.response?.statusCode == 403 {
-            errorDescription = "Username or password is wrong"
+            errorDescription = NSLocalizedString("SignInCredentialIncorrect", comment: "Error: Email address or password incorrect")
           } else {
             errorDescription = error.localizedDescription
           }
@@ -46,7 +48,6 @@ final class AuthenticatorImpl: Authenticator {
   }
   
   private func URLForPerformingSignIn() -> NSURL? {
-    let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
     guard let urlForSignIn = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/api/sessions/@items") else {
       return nil
     }
@@ -65,9 +66,22 @@ final class AuthenticatorImpl: Authenticator {
   }
   
   func performSignOut() {
-    // TODO: Perform sign out on CCL
-    updateSessionID(nil)
-    delegate?.authenticatorDidPerformSignOut()
+    guard let sessionID = ApplicationSettingsManager.sharedInstance.sessionID,urlForSignOut = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/api/sessions/\(sessionID)") else {
+      return
+    }
+        
+    Alamofire.request(.DELETE, urlForSignOut)
+      .validate()
+      .responseString { response in
+        if(response.result.isSuccess) {
+          NSLog("Logout successful")
+        } else {
+          NSLog("Logout unsuccessful -> Error: \(response.result.value ?? "")")
+        }
+    }
+    
+    self.updateSessionID(nil)
+    self.delegate?.authenticatorDidPerformSignOut()
   }
   
   func updateSessionID(sessionID: String?) {

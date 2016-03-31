@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
       saveLastUsed(emailAddress: emailAddress, andPassword: password)
       sender.hidden = true
     } else {
-      showInformation("Fill in email address and password", withColor: UIColor.redColor())
+      showInformation(NSLocalizedString("SignInCredentialIncomplete", comment: "Information: Email address or password missing"), withColor: UIColor.redColor())
     }
   }
   
@@ -83,7 +83,6 @@ extension LoginViewController: AuthenticatorDelegate {
   }
   
   func authenticator(didFailToAuthenticateWithError error: String) {
-    //"Failed to sign in. Make sure your email address and password are correct and then try again."
     self.signInButton.hidden = false
     showInformation(error, withColor: UIColor.redColor())
   }

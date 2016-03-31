@@ -34,6 +34,7 @@
 		1A97C9891C8B62710089D269 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9881C8B62710089D269 /* GlanceController.swift */; };
 		1A97C98B1C8B62710089D269 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C98A1C8B62710089D269 /* ComplicationController.swift */; };
 		1A97C98D1C8B62710089D269 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C98C1C8B62710089D269 /* Assets.xcassets */; };
+		1AB62C2F1CAD228300C35351 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1AB62C311CAD228300C35351 /* Localizable.strings */; };
 		E06C56A3B360800EBA5CF038 /* Pods_cosy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5257619CF738DFD3AF52D2 /* Pods_cosy.framework */; };
 		F0DDECB18CF36E45D1AA864D /* Pods_cosy_WatchKit_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DD14E31CDA82E9A8F9FA86F /* Pods_cosy_WatchKit_Extension.framework */; };
 /* End PBXBuildFile section */
@@ -130,6 +131,7 @@
 		1A97C98A1C8B62710089D269 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		1A97C98C1C8B62710089D269 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A97C98E1C8B62710089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AB62C301CAD228300C35351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3F5257619CF738DFD3AF52D2 /* Pods_cosy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cosy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B94268BDAA80F10BE09BE62 /* Pods-cosy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cosy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cosy/Pods-cosy.debug.xcconfig"; sourceTree = "<group>"; };
 		619BCA83F4682C80526EE06A /* Pods-cosy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cosy.release.xcconfig"; path = "Pods/Target Support Files/Pods-cosy/Pods-cosy.release.xcconfig"; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				1A97C9531C8B626E0089D269 /* Info.plist */,
 				1A09F3931CA878F900D91E69 /* Settings.bundle */,
+				1AB62C311CAD228300C35351 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB62C2F1CAD228300C35351 /* Localizable.strings in Resources */,
 				1A09F3941CA878F900D91E69 /* Settings.bundle in Resources */,
 				1A97C9521C8B626E0089D269 /* LaunchScreen.storyboard in Resources */,
 				1A97C94F1C8B626E0089D269 /* Assets.xcassets in Resources */,
@@ -721,6 +725,14 @@
 				1A97C9721C8B62710089D269 /* Base */,
 			);
 			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+		1AB62C311CAD228300C35351 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1AB62C301CAD228300C35351 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
