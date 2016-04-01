@@ -70,18 +70,21 @@ final class ThermostatManagerImpl: ThermostatManager {
     
     let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
     
-    guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(identifier)/@description") else {
+    guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(identifier)") else {
       return
     }
     
-    Alamofire.request(.GET, urlForLocationName, headers: headersForRequest)
+    Alamofire.request(.GET, urlForLocationName, headers: headersForRequest, parameters: ["properties": "object-name,description"])
       .responseJSON { response in
         switch response.result {
         case .Success:
-          if let locationName = response.result.value as? String
+          if let JSONResponse = response.result.value, locationName = JSONResponse["object-name"] as? String, thermostatName = JSONResponse["description"] as? String
           {
-            self.thermostatLocations.append(ThermostatLocation(identifier: identifier, locationName: locationName))
-            print("location name: \(locationName)")
+            let location = ThermostatLocation(identifier: identifier, locationName: locationName)
+            location.addThermostat(Thermostat(name: thermostatName))
+            self.thermostatLocations.append(location)
+            
+            print("location name: \(locationName) - thermostat name: \(thermostatName)")
             self.delegate?.didUpdateListOfThermostats() // TODO: Optimise
           }
         case .Failure(let error):
