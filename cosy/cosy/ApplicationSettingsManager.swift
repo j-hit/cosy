@@ -62,7 +62,7 @@ final class ApplicationSettingsManager {
       if let baseURL = userDefaults.stringForKey(keys.baseURL) where !baseURL.isEmpty {
         return baseURL
       } else {
-        return "https://nebula.rdzug.net"
+        return "https://nebula.rdzug.net/ccl"
       }
     }
     set {

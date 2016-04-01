@@ -12,6 +12,7 @@ final class ThermostatLocation {
   var locationName: String
   var isOccupied: Bool
   var thermostats: [Thermostat]
+  var identifier: String
   
   var imageName: String {
     if isOccupied {
@@ -21,14 +22,19 @@ final class ThermostatLocation {
     }
   }
   
-  init(locationName: String, isOccupied: Bool){
+  init(identifier: String, locationName: String, isOccupied: Bool){
+    self.identifier = identifier
     self.locationName = locationName
     self.isOccupied = isOccupied
     thermostats = [Thermostat]()
   }
   
-  convenience init(locationName: String) {
-    self.init(locationName: locationName, isOccupied: false)
+  convenience init(identifier: String) {
+    self.init(identifier: identifier, locationName: "location", isOccupied: false)
+  }
+  
+  convenience init(identifier: String, locationName: String) {
+    self.init(identifier: identifier, locationName: locationName, isOccupied: false)
   }
   
   func addThermostat(thermostat: Thermostat) {

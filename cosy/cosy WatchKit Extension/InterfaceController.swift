@@ -34,13 +34,12 @@ class InterfaceController: WKInterfaceController {
     
     thermostatManager = watchDelegate.thermostatManager
     thermostatManager?.delegate = self
-    reloadDataShownOnView()
   }
   
   override func willActivate() {
     super.willActivate()
+    reloadDataShownOnView()
     thermostatManager?.reloadData()
-    //reloadDataShownOnView()
   }
   
   override func didDeactivate() {
@@ -107,6 +106,9 @@ class InterfaceController: WKInterfaceController {
 extension InterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
     reloadDataShownOnView()
+    if(userHasBeenAuthenticated) {
+      thermostatManager?.reloadData()
+    }
   }
 }
 

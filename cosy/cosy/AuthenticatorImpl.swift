@@ -48,7 +48,7 @@ final class AuthenticatorImpl: Authenticator {
   }
   
   private func URLForPerformingSignIn() -> NSURL? {
-    guard let urlForSignIn = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/api/sessions/@items") else {
+    guard let urlForSignIn = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/sessions/@items") else {
       return nil
     }
     return urlForSignIn
