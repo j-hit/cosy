@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  cosy
+
+  Created by James Bampoe on 31/03/16.
+  Copyright © 2016 Pentapie. All rights reserved.
+*/
+/* Information: Email address or password missing */
+"SignInCredentialIncomplete" = "Fill in username and password";
+
+/* Error: Failure constructing sign in URL */
+"SignInURLConstructionFailure" = "URL for sign in could not be constructed";
+
+/* Error: Email address or password incorrect */
+"SignInCredentialIncorrect" = "Failed to sign in. Make sure email address and password are correct then try again";
