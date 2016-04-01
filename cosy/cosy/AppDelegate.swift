@@ -13,9 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
+  // TODO: Refactor with appConfiguratorFactory and enum (Dependency Injection)
   lazy var authenticator: Authenticator = {
     if ApplicationSettingsManager.sharedInstance.mockModeEnabled {
-        return AuthenicatorMock()
+        return AuthenticatorMock()
     } else {
       return AuthenticatorImpl()
     }

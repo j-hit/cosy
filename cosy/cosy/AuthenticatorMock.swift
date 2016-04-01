@@ -8,13 +8,14 @@
 
 import Foundation
 
-final class AuthenicatorMock: Authenticator {
+final class AuthenticatorMock: Authenticator {
   var delegate: AuthenticatorDelegate?
   
+  let mockSessionID = "mockModeSessionID"
+  
   func performSignIn(withUsername username: String, andPassword password: String) {
-    let sessionID = "mockModeSessionID"
-    updateSessionID(sessionID)
-    delegate?.authenticator(didRetrieveSessionID: sessionID)
+    updateSessionID(mockSessionID)
+    delegate?.authenticator(didRetrieveSessionID: mockSessionID)
   }
   
   func performSignOut() {

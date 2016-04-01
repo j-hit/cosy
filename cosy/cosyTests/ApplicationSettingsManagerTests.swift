@@ -57,7 +57,7 @@ class applicationSettingsManagerTests: XCTestCase {
     applicationSettingsManager.sessionID = sessionID
     XCTAssertEqual(sessionID, applicationSettingsManager.sessionID)
     applicationSettingsManager.sessionID = nil
-    XCTAssertEqual(sessionID, nil)
+    XCTAssertEqual(applicationSettingsManager.sessionID, nil)
   }
   
   func testPerformanceFetchingSessionID() {
