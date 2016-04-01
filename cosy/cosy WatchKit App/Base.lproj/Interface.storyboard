@@ -10,10 +10,48 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="cosy_WatchKit_App" customModuleProvider="target">
                     <items>
+                        <table alignment="left" id="EkT-oj-jEw">
+                            <items>
+                                <tableRow identifier="LocationRow" selectable="NO" id="j3F-3u-9l3" customClass="LocationRowController" customModule="cosy_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="PKv-P8-I0O">
+                                        <items>
+                                            <label width="0.75" alignment="left" verticalAlignment="center" text="Location" numberOfLines="0" id="rmj-zE-XYr">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                            </label>
+                                            <imageView alignment="right" verticalAlignment="center" image="occupied" id="HW9-6F-C0U"/>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="locationLabel" destination="rmj-zE-XYr" id="S5O-ep-AIg"/>
+                                        <outlet property="locationStateImage" destination="HW9-6F-C0U" id="zKC-56-XXK"/>
+                                    </connections>
+                                </tableRow>
+                                <tableRow identifier="ThermostatRow" id="1ER-ep-8Zx" customClass="ThermostatRowController" customModule="cosy_WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="8cz-1g-8B7">
+                                        <items>
+                                            <label alignment="left" verticalAlignment="center" text="Thermostat" numberOfLines="0" id="2S2-fb-Q7m"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="thermostatLabel" destination="2S2-fb-Q7m" id="X4b-Kw-Abw"/>
+                                    </connections>
+                                </tableRow>
+                                <tableRow identifier="LoadingRow" selectable="NO" id="4Ma-i1-bM0">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="3pJ-fS-33t">
+                                        <items>
+                                            <label alignment="left" text="Loading..." id="Ld7-Pg-aSm"/>
+                                        </items>
+                                    </group>
+                                </tableRow>
+                            </items>
+                        </table>
                         <label alignment="left" text="Label" numberOfLines="0" id="Rmz-bd-CX9"/>
                     </items>
                     <connections>
                         <outlet property="informationLabel" destination="Rmz-bd-CX9" id="IY5-A9-D3G"/>
+                        <outlet property="thermostatsTable" destination="EkT-oj-jEw" id="BaL-RE-bPw"/>
                     </connections>
                 </controller>
             </objects>
