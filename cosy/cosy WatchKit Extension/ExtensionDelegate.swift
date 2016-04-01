@@ -11,6 +11,13 @@ import WatchKit
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
   
   let watchConnectivityHandler = WatchAppWatchConnectivityHandler()
+  lazy var thermostatManager: ThermostatManager = {
+    if ApplicationSettingsManager.sharedInstance.mockModeEnabled {
+      return ThermostatManagerMock()
+    } else {
+      return ThermostatManagerImpl()
+    }
+  }()
   
   func applicationDidFinishLaunching() {
     // Perform any final initialization of your application.

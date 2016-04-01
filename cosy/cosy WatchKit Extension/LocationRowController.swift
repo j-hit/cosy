@@ -11,4 +11,6 @@ import WatchKit
 class LocationRowController: NSObject {
   @IBOutlet var locationLabel: WKInterfaceLabel!
   @IBOutlet var locationStateImage: WKInterfaceImage!
+  
+  static let identifier = "LocationRow"
 }

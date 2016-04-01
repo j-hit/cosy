@@ -8,15 +8,27 @@
 
 import Foundation
 
-final class ThermostatManager {
+protocol ThermostatManagerDelegate {
+  func didUpdateListOfThermostats()
+}
+
+protocol ThermostatManager {
+  var delegate: ThermostatManagerDelegate? { get set }
+  var thermostatLocations: [ThermostatLocation] { get }
+  func reloadData()
+}
+
+final class ThermostatManagerMock: ThermostatManager {
+  var delegate: ThermostatManagerDelegate?
   var thermostatLocations: [ThermostatLocation]
   
   init() {
     thermostatLocations = [ThermostatLocation]()
-    loadData()
+    reloadData()
   }
   
-  private func loadData() {
+  func reloadData() {
+    thermostatLocations.removeAll()
     let locationCasa = ThermostatLocation(locationName: "Casa", isOccupied: true)
     locationCasa.addThermostat(Thermostat(name: "Living room"))
     locationCasa.addThermostat(Thermostat(name: "Bedroom"))
@@ -28,5 +40,7 @@ final class ThermostatManager {
     
     thermostatLocations.append(locationCasa)
     thermostatLocations.append(locationOffice)
+    
+    delegate?.didUpdateListOfThermostats()
   }
 }

@@ -10,4 +10,6 @@ import WatchKit
 
 class ThermostatRowController: NSObject {
   @IBOutlet var thermostatLabel: WKInterfaceLabel!
+  
+  static let identifier = "ThermostatRow"
 }
