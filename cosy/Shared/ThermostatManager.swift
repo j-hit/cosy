@@ -24,11 +24,6 @@ final class ThermostatManagerMock: ThermostatManager {
   
   init() {
     thermostatLocations = [ThermostatLocation]()
-  }
-  
-  func fetchNewData() {
-    // TODO: Reload data depending on the current time
-    thermostatLocations.removeAll()
     let locationCasa = ThermostatLocation(identifier: "1BIE53-5TXOH-DFTHT-2LBT4-11111", locationName: "Casa", isOccupied: true)
     locationCasa.addThermostat(Thermostat(name: "Living room"))
     locationCasa.addThermostat(Thermostat(name: "Bedroom"))
@@ -40,7 +35,9 @@ final class ThermostatManagerMock: ThermostatManager {
     
     thermostatLocations.append(locationCasa)
     thermostatLocations.append(locationOffice)
-    
-    delegate?.didUpdateListOfThermostats()
+  }
+  
+  func fetchNewData() {
+    // TODO: Reload data depending on the current time
   }
 }

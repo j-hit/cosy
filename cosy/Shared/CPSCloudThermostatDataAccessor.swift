@@ -27,8 +27,8 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     }
   }
   
-  func fetchDataOfThermostat(withIdentifier identifier: String) -> Thermostat? {
-    return nil
+  func fetchDataOfThermostat(withIdentifier identifier: String) {
+    // TODO: Fetch data from server
   }
   
   func fetchAvailableLocationsWithThermostatNames() {
@@ -60,7 +60,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
                 self.fetchNameForLocation(fetchedLocation)
                 NSLog("location key: \(locationIdentifier)")
               } else {
-                // TODO: Inform about error
+                self.outstandingRequestsForLocationFetchToFinish--
               }
             }
           }

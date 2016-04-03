@@ -47,4 +47,8 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
   func thermostatDataAccessorFailedToFetchLocations() {
     state = .Ready
   }
+  
+  func thermostatDataAccessor(didFetchThermostat thermostat: Thermostat) {
+    // TODO: Handle and inform ThermostatManagerDelegate
+  }
 }
