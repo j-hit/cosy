@@ -15,28 +15,19 @@ protocol ThermostatManagerDelegate {
 protocol ThermostatManager {
   var delegate: ThermostatManagerDelegate? { get set }
   var thermostatLocations: [ThermostatLocation] { get }
-  var state: ThermostatManagerState { get }
-  func reloadData()
-}
-
-enum ThermostatManagerState{
-  case Ready
-  case ExpectingNewData
+  func fetchNewData()
 }
 
 final class ThermostatManagerMock: ThermostatManager {
   var delegate: ThermostatManagerDelegate?
   var thermostatLocations: [ThermostatLocation]
-  private (set) var state: ThermostatManagerState
   
   init() {
     thermostatLocations = [ThermostatLocation]()
-    state = .Ready
   }
   
-  func reloadData() {
-    state = .ExpectingNewData
-    
+  func fetchNewData() {
+    // TODO: Reload data depending on the current time
     thermostatLocations.removeAll()
     let locationCasa = ThermostatLocation(identifier: "1BIE53-5TXOH-DFTHT-2LBT4-11111", locationName: "Casa", isOccupied: true)
     locationCasa.addThermostat(Thermostat(name: "Living room"))
@@ -51,7 +42,5 @@ final class ThermostatManagerMock: ThermostatManager {
     thermostatLocations.append(locationOffice)
     
     delegate?.didUpdateListOfThermostats()
-    
-    state = .Ready
   }
 }

@@ -15,7 +15,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     if ApplicationSettingsManager.sharedInstance.mockModeEnabled {
       return ThermostatManagerMock()
     } else {
-      return ThermostatManagerImpl()
+      return ThermostatManagerImpl(dataAccessor: CPSCloudThermostatDataAccessor())
     }
   }()
   
