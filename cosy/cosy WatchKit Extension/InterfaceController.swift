@@ -81,6 +81,14 @@ class InterfaceController: WKInterfaceController {
     }
   }
   
+  private func showLoadingDataMessage() {
+    clearThermostatsTable()
+    thermostatsTable.setNumberOfRows(1, withRowType: InformationRowController.identifier)
+    if let controller = thermostatsTable.rowControllerAtIndex(0) as? InformationRowController {
+      controller.informationLabel.setText("Loading data..") // TODO: Use localised string
+    }
+  }
+  
   private func clearThermostatsTable() {
     thermostatsTable.removeRowsAtIndexes(NSIndexSet(indexesInRange: NSRange(location: 0, length: thermostatsTable.numberOfRows)))
   }
@@ -105,7 +113,11 @@ class InterfaceController: WKInterfaceController {
     if(userHasBeenAuthenticated) {
       thermostatManager?.fetchNewData()
       // TODO: If table is empty then show loading row
+      if(thermostatsTable.numberOfRows == 0) {
+        showLoadingDataMessage()
+      }
     } else {
+      // TODO: Clear thermostatmanager cache
       showAuthenticationRequiredMessage()
     }
   }
