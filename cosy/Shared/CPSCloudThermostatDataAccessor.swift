@@ -32,7 +32,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   }
   
   func fetchAvailableLocationsWithThermostatNames() {
-    performRequestToFetchListOfLocations() // TODO: don't get pass through
+    performRequestToFetchListOfLocations() // TODO: don't just pass through
   }
   
   private func performRequestToFetchListOfLocations() {
@@ -66,7 +66,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           }
         case .Failure(let error):
           NSLog("Error fetching locations: \(error.localizedDescription)")
-          // inform delegate
+          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
         }
     }
   }
@@ -94,6 +94,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           }
         case .Failure(let error):
           NSLog("Error fetching location name: \(error.localizedDescription)")
+          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
         }
         self.outstandingRequestsForLocationFetchToFinish--
     }

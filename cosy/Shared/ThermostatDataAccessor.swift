@@ -10,6 +10,7 @@ import Foundation
 
 protocol ThermostatDataAccessorDelegate {
   func thermostatDataAccessor(didFetchLocations locations: [ThermostatLocation])
+  func thermostatDataAccessorFailedToFetchLocations()
 }
 
 protocol ThermostatDataAccessor {

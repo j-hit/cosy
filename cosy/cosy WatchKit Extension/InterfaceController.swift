@@ -30,16 +30,15 @@ class InterfaceController: WKInterfaceController {
     super.awakeWithContext(context)
     watchDelegate.watchConnectivityHandler.delegate = self
     
-    // TODO: If session ID is found then initiate search on thermostatManager
-    
     thermostatManager = watchDelegate.thermostatManager
     thermostatManager?.delegate = self
+    
+    reloadDataShownOnView() // TODO: show row if no data available
   }
   
   override func willActivate() {
     super.willActivate()
-    reloadDataShownOnView()
-    thermostatManager?.fetchNewData()
+    tryToFetchNewData()
   }
   
   override func didDeactivate() {
@@ -101,14 +100,21 @@ class InterfaceController: WKInterfaceController {
       informationLabel.setText("no sessionID found")
     }
   }
+  
+  private func tryToFetchNewData() {
+    if(userHasBeenAuthenticated) {
+      thermostatManager?.fetchNewData()
+      // TODO: If table is empty then show loading row
+    } else {
+      showAuthenticationRequiredMessage()
+    }
+  }
 }
 
 extension InterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
-    reloadDataShownOnView()
-    if(userHasBeenAuthenticated) {
-      thermostatManager?.fetchNewData()
-    }
+    reloadDataShownOnView() // For session ID (remove later)
+    tryToFetchNewData()
   }
 }
 

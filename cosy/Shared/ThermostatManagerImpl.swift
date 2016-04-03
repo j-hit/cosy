@@ -31,6 +31,7 @@ final class ThermostatManagerImpl: ThermostatManager {
     guard state == ThermostatManagerState.Ready else {
       return
     }
+    state = .ExpectingNewData
     dataAccessor.fetchAvailableLocationsWithThermostatNames()
   }
 }
@@ -39,6 +40,11 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
   func thermostatDataAccessor(didFetchLocations locations: [ThermostatLocation]) {
     // TODO: merge data & only inform delegate if something changed
     thermostatLocations = locations
-    delegate?.didUpdateListOfThermostats()  // Move to didSet of the var
+    state = .Ready
+    delegate?.didUpdateListOfThermostats()
+  }
+  
+  func thermostatDataAccessorFailedToFetchLocations() {
+    state = .Ready
   }
 }
