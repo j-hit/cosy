@@ -11,10 +11,13 @@ import Alamofire
 
 final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   var delegate: ThermostatDataAccessorDelegate?
+  var settingsProvider: SettingsProvider
+  var lastFetchedLocations: [ThermostatLocation]
   
-  let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
-  
-  var lastFetchedLocations = [ThermostatLocation]()
+  init(settingsProvider: SettingsProvider) {
+    self.settingsProvider = settingsProvider
+    self.lastFetchedLocations = [ThermostatLocation]()
+  }
   
   var outstandingRequestsForLocationFetchToFinish: Int = 0 {
     didSet {
@@ -25,6 +28,10 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
         outstandingRequestsForLocationFetchToFinish = 0
       }
     }
+  }
+  
+  var baseURL: String {
+    return settingsProvider.baseURLOfCPSCloud
   }
   
   func fetchDataOfThermostat(withIdentifier identifier: String) {
@@ -60,7 +67,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
                 self.fetchNameForLocation(fetchedLocation)
                 NSLog("location key: \(locationIdentifier)")
               } else {
-                self.outstandingRequestsForLocationFetchToFinish--
+                self.outstandingRequestsForLocationFetchToFinish -= 1
               }
             }
           }
@@ -75,8 +82,6 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     guard let headersForRequest = headerForFetchingListOfLocations() else {
       return
     }
-    
-    let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
     
     guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(location.identifier)") else {
       return
@@ -96,12 +101,12 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           NSLog("Error fetching location name: \(error.localizedDescription)")
           self.delegate?.thermostatDataAccessorFailedToFetchLocations()
         }
-        self.outstandingRequestsForLocationFetchToFinish--
+        self.outstandingRequestsForLocationFetchToFinish -= 1
     }
   }
   
   private func headerForFetchingListOfLocations() -> [String: String]? {
-    guard let sessionID = ApplicationSettingsManager.sharedInstance.sessionID else {
+    guard let sessionID = settingsProvider.sessionID else {
       return nil
     }
     

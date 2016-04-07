@@ -8,10 +8,12 @@
 
 import Foundation
 
-final class ApplicationSettingsManager {
+final class ApplicationSettingsManager: SettingsProvider {
   static let sharedInstance = ApplicationSettingsManager()
-  static let key = "applicationSettings"
-  
+  var key: String {
+    return "applicationSettings"
+  }
+
   private struct keys {
     static let lastUsedEmailAddress = "emailAddress"
     static let lastUsedPassword = "password"

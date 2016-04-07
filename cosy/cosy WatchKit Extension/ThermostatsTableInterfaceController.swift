@@ -9,17 +9,21 @@
 import WatchKit
 import Foundation
 
-class InterfaceController: WKInterfaceController {
+class ThermostatsTableInterfaceController: WKInterfaceController {
   @IBOutlet var thermostatsTable: WKInterfaceTable!
   
   @IBOutlet var informationLabel: WKInterfaceLabel!
   
   private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
   
-  var thermostatManager: ThermostatManager?
+  private var thermostatManager: ThermostatManager?
+  
+  private var settingsProvider: SettingsProvider {
+    return ExtensionDelegate.settingsProvider
+  }
   
   private var userHasBeenAuthenticated: Bool {
-    if let _ = ApplicationSettingsManager.sharedInstance.sessionID {
+    if let _ = settingsProvider.sessionID {
       return true
     } else {
       return false
@@ -100,7 +104,7 @@ class InterfaceController: WKInterfaceController {
     
     if(userHasBeenAuthenticated) {
       showAllThermostats(fromThermostatManager: thermostatManager)
-      if let sessionID = ApplicationSettingsManager.sharedInstance.sessionID {
+      if let sessionID = settingsProvider.sessionID {
         informationLabel.setText("sessionID = \(sessionID)") // TEST
       }
     } else {
@@ -123,14 +127,14 @@ class InterfaceController: WKInterfaceController {
   }
 }
 
-extension InterfaceController: WatchAppWatchConnectivityHandlerDelegate {
+extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
     reloadDataShownOnView() // For session ID (remove later)
     tryToFetchNewData()
   }
 }
 
-extension InterfaceController: ThermostatManagerDelegate {
+extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
     reloadDataShownOnView()
   }
