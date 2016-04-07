@@ -12,7 +12,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
+  
+  static let settingsProvider = ApplicationSettingsManager.sharedInstance
 
+  let watchConnectivityHandler = iPhoneWatchConnectivityHandler(settingsProvider: settingsProvider)
+  
   // TODO: Refactor with appConfiguratorFactory and enum (Dependency Injection)
   lazy var authenticator: Authenticator = {
     if ApplicationSettingsManager.sharedInstance.mockModeEnabled {
@@ -21,8 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       return AuthenticatorImpl()
     }
   }()
-  
-  let watchConnectivityHandler = iPhoneWatchConnectivityHandler()
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     return true

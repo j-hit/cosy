@@ -8,10 +8,12 @@
 
 import Foundation
 
-final class ApplicationSettingsManager {
+final class ApplicationSettingsManager: SettingsProvider {
   static let sharedInstance = ApplicationSettingsManager()
-  static let key = "applicationSettings"
-  
+  var key: String {
+    return "applicationSettings"
+  }
+
   private struct keys {
     static let lastUsedEmailAddress = "emailAddress"
     static let lastUsedPassword = "password"
@@ -62,7 +64,7 @@ final class ApplicationSettingsManager {
       if let baseURL = userDefaults.stringForKey(keys.baseURL) where !baseURL.isEmpty {
         return baseURL
       } else {
-        return "https://nebula.rdzug.net"
+        return "https://nebula.rdzug.net/ccl"
       }
     }
     set {
