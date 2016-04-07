@@ -87,10 +87,19 @@
                             <color key="textColor" red="1" green="0.46666666670000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="font" type="system" weight="thin" pointSize="70"/>
                         </label>
-                        <slider width="1" alignment="left" verticalAlignment="bottom" continuous="YES" value="15" minimum="10" maximum="40" steps="30" id="KZS-cr-NeH">
+                        <slider width="1" alignment="left" verticalAlignment="bottom" continuous="YES" value="18" minimum="10" maximum="40" steps="30" id="KZS-cr-NeH">
                             <color key="color" red="1" green="0.46666666670000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onTemperatureSetPointChanged:" destination="OjV-xj-1aT" id="Tkk-3p-e5F"/>
+                            </connections>
                         </slider>
                     </items>
+                    <connections>
+                        <outlet property="currentTemperatureLabel" destination="sYJ-he-f92" id="7eG-Du-MLn"/>
+                        <outlet property="heatCoolLabel" destination="qBW-eA-vpx" id="rCy-Jb-KMC"/>
+                        <outlet property="temperatureSetPointLabel" destination="ygq-QZ-zPd" id="Fz5-t7-PJh"/>
+                        <outlet property="temperatureSetPointSlider" destination="KZS-cr-NeH" id="Wvv-AA-oqG"/>
+                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="540" y="347"/>
