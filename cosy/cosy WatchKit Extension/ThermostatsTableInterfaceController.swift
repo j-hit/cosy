@@ -72,9 +72,20 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
         row.locationLabel.setText(thermostatLocation.locationName)
         row.locationStateImage.setImageNamed(thermostatLocation.imageName)
       } else if let row = row as? ThermostatRowController {
-        row.thermostatLabel.setText(thermostatsOfSpecifiedLocation[rowIndex - rows - 1].name)
+        let thermostat = thermostatsOfSpecifiedLocation[rowIndex - rows - 1]
+        row.thermostatLabel.setText(thermostat.name)
+        row.thermostat = thermostat
       }
     }
+  }
+  
+  override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table: WKInterfaceTable, rowIndex: Int) -> AnyObject? {
+    if segueIdentifier == "showThermostat" {
+      if let row = table.rowControllerAtIndex(rowIndex) as? ThermostatRowController {
+        return row.thermostat
+      }
+    }
+    return nil
   }
   
   private func showAuthenticationRequiredMessage() {

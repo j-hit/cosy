@@ -36,6 +36,7 @@
                                     </group>
                                     <connections>
                                         <outlet property="thermostatLabel" destination="2S2-fb-Q7m" id="X4b-Kw-Abw"/>
+                                        <segue destination="OjV-xj-1aT" kind="push" identifier="showThermostat" id="Vv9-Le-COz"/>
                                     </connections>
                                 </tableRow>
                                 <tableRow identifier="InformationRow" selectable="NO" id="4Ma-i1-bM0" customClass="InformationRowController" customModule="cosy_WatchKit_Extension">
@@ -62,6 +63,37 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="235" y="347"/>
+        </scene>
+        <!--Thermostat Interface Controller-->
+        <scene sceneID="ipG-UE-da3">
+            <objects>
+                <controller id="OjV-xj-1aT" customClass="ThermostatInterfaceController" customModule="cosy_WatchKit_Extension">
+                    <items>
+                        <group width="1" alignment="left" id="fuQ-qA-Qps">
+                            <items>
+                                <label width="0.45000000000000001" alignment="left" text="heat" textAlignment="center" id="qBW-eA-vpx">
+                                    <color key="textColor" red="1" green="0.46666666666666667" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                </label>
+                                <separator alignment="left" id="fLj-gY-eHK">
+                                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </separator>
+                                <label width="0.5" alignment="right" text="now 18°" textAlignment="center" id="sYJ-he-f92">
+                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                </label>
+                            </items>
+                        </group>
+                        <label alignment="center" verticalAlignment="center" text="25°" id="ygq-QZ-zPd">
+                            <color key="textColor" red="1" green="0.46666666670000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="font" type="system" weight="thin" pointSize="70"/>
+                        </label>
+                        <slider width="1" alignment="left" verticalAlignment="bottom" continuous="YES" value="15" minimum="10" maximum="40" steps="30" id="KZS-cr-NeH">
+                            <color key="color" red="1" green="0.46666666670000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </slider>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="540" y="347"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
