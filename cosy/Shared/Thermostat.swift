@@ -27,8 +27,10 @@ enum ThermostatState {
 
 final class Thermostat {
   var name: String
+  weak var correspondingLocation: ThermostatLocation?
   var currentTemperature: Int?
   var temperatureSetPoint: Int?
+  var isInAutoMode: Bool
   var state: ThermostatState {
     if (temperatureSetPoint > currentTemperature) {
       return .Heating
@@ -39,10 +41,16 @@ final class Thermostat {
     }
   }
   
-  init(name: String) {
+  private init(name: String) {
     self.name = name
     // test
     self.currentTemperature = 18
     self.temperatureSetPoint = 23
+    self.isInAutoMode = true
+  }
+  
+  convenience init(name: String, correspondingLocation: ThermostatLocation) {
+    self.init(name: name)
+    self.correspondingLocation = correspondingLocation
   }
 }
