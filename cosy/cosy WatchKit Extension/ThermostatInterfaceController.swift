@@ -23,11 +23,14 @@ class ThermostatInterfaceController: WKInterfaceController {
     }
   }
   
+  var lastThermostatState = ThermostatState.Idle
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     if let thermostat = context as? Thermostat {
       self.thermostat = thermostat
     }
+    visualiseForState(lastThermostatState)
   }
   
   override func willActivate() {
@@ -59,28 +62,19 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   func visualiseStateOfThermostat() {
     if let state = thermostat?.state {
-      var stateDescription: String
-      switch state {
-      case .Heating:
-        stateDescription = "heat"
-        temperatureSetPointSlider.setColor(UIColor.orangeColor())
-        heatCoolLabel.setTextColor(UIColor.orangeColor())
-        temperatureSetPointLabel.setTextColor(UIColor.orangeColor())
-      case .Cooling:
-        stateDescription = "cool"
-        temperatureSetPointSlider.setColor(UIColor.blueColor())
-        heatCoolLabel.setTextColor(UIColor.blueColor())
-        temperatureSetPointLabel.setTextColor(UIColor.blueColor())
-      case .Idle:
-        stateDescription = "idle"
-        temperatureSetPointSlider.setColor(UIColor.grayColor())
-        heatCoolLabel.setTextColor(UIColor.grayColor())
-        temperatureSetPointLabel.setTextColor(UIColor.grayColor())
+      if state != lastThermostatState {
+        visualiseForState(state)
+        lastThermostatState = state
       }
-      heatCoolLabel.setText(stateDescription)
-    } else {
-      heatCoolLabel.setText("--")
     }
+  }
+  
+  func visualiseForState(state: ThermostatState) {
+    let stateVisualiser = state.visualiser()
+    temperatureSetPointSlider.setColor(stateVisualiser.color)
+    heatCoolLabel.setTextColor(stateVisualiser.color)
+    temperatureSetPointLabel.setTextColor(stateVisualiser.color)
+    heatCoolLabel.setText(stateVisualiser.description)
   }
   
   @IBAction func onTemperatureSetPointChanged(value: Float) {

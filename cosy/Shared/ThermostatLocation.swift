@@ -8,7 +8,11 @@
 
 import Foundation
 
-final class ThermostatLocation {
+func ==(lhs: ThermostatLocation, rhs: ThermostatLocation) -> Bool{
+  return lhs.identifier == rhs.identifier
+}
+
+final class ThermostatLocation: Hashable {
   var locationName: String
   var isOccupied: Bool
   var thermostats: [Thermostat]
@@ -20,6 +24,10 @@ final class ThermostatLocation {
     } else {
       return "unoccupied"
     }
+  }
+  
+  var hashValue: Int {
+    return self.identifier.hashValue
   }
   
   init(identifier: String, locationName: String, isOccupied: Bool){

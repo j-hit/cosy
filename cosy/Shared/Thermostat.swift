@@ -12,6 +12,17 @@ enum ThermostatState {
   case Heating
   case Cooling
   case Idle
+  
+  func visualiser() -> ThermostatStateVisualiser {
+    switch self {
+    case Heating:
+      return HeatingStateVisualiser()
+    case Cooling:
+      return CoolingStateVisualiser()
+    case Idle:
+      return IdleStateVisualiser()
+    }
+  }
 }
 
 final class Thermostat {

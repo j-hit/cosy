@@ -27,6 +27,14 @@
 		1A7C04861CAE643D002CDE1A /* ThermostatLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C04851CAE643D002CDE1A /* ThermostatLocation.swift */; };
 		1A7C04881CAE65BB002CDE1A /* Thermostat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C04871CAE65BB002CDE1A /* Thermostat.swift */; };
 		1A7C048A1CAE6621002CDE1A /* ThermostatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C04891CAE6621002CDE1A /* ThermostatManager.swift */; };
+		1A954F1D1CB79A5300D5C06D /* ThermostatStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F1C1CB79A5300D5C06D /* ThermostatStateVisualiser.swift */; };
+		1A954F1F1CB79B7E00D5C06D /* HeatingStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F1E1CB79B7E00D5C06D /* HeatingStateVisualiser.swift */; };
+		1A954F211CB79CEB00D5C06D /* CoolingStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F201CB79CEB00D5C06D /* CoolingStateVisualiser.swift */; };
+		1A954F231CB79DA200D5C06D /* IdleStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F221CB79DA200D5C06D /* IdleStateVisualiser.swift */; };
+		1A954F251CB7A67B00D5C06D /* ThermostatStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F1C1CB79A5300D5C06D /* ThermostatStateVisualiser.swift */; };
+		1A954F261CB7A68900D5C06D /* HeatingStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F1E1CB79B7E00D5C06D /* HeatingStateVisualiser.swift */; };
+		1A954F271CB7A69400D5C06D /* CoolingStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F201CB79CEB00D5C06D /* CoolingStateVisualiser.swift */; };
+		1A954F281CB7A6A000D5C06D /* IdleStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F221CB79DA200D5C06D /* IdleStateVisualiser.swift */; };
 		1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9471C8B626E0089D269 /* AppDelegate.swift */; };
 		1A97C94A1C8B626E0089D269 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A97C9491C8B626E0089D269 /* LoginViewController.swift */; };
 		1A97C94D1C8B626E0089D269 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A97C94B1C8B626E0089D269 /* Main.storyboard */; };
@@ -132,6 +140,10 @@
 		1A7C04851CAE643D002CDE1A /* ThermostatLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatLocation.swift; path = Shared/ThermostatLocation.swift; sourceTree = "<group>"; };
 		1A7C04871CAE65BB002CDE1A /* Thermostat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Thermostat.swift; path = Shared/Thermostat.swift; sourceTree = "<group>"; };
 		1A7C04891CAE6621002CDE1A /* ThermostatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatManager.swift; path = Shared/ThermostatManager.swift; sourceTree = "<group>"; };
+		1A954F1C1CB79A5300D5C06D /* ThermostatStateVisualiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatStateVisualiser.swift; path = Shared/ThermostatStateVisualiser.swift; sourceTree = "<group>"; };
+		1A954F1E1CB79B7E00D5C06D /* HeatingStateVisualiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeatingStateVisualiser.swift; path = Shared/HeatingStateVisualiser.swift; sourceTree = "<group>"; };
+		1A954F201CB79CEB00D5C06D /* CoolingStateVisualiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoolingStateVisualiser.swift; path = Shared/CoolingStateVisualiser.swift; sourceTree = "<group>"; };
+		1A954F221CB79DA200D5C06D /* IdleStateVisualiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IdleStateVisualiser.swift; path = Shared/IdleStateVisualiser.swift; sourceTree = "<group>"; };
 		1A97C9441C8B626E0089D269 /* cosy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cosy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A97C9471C8B626E0089D269 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A97C9491C8B626E0089D269 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				1A9B73C91CB10D6100C62F10 /* model */,
+				1A954F241CB7A5E100D5C06D /* view */,
 				1A9B73CA1CB10D8700C62F10 /* logic */,
 				1A9B73CB1CB10D9B00C62F10 /* service */,
 			);
@@ -269,6 +282,17 @@
 				1A7C04831CAE6120002CDE1A /* ThermostatRowController.swift */,
 				1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */,
 				1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		1A954F241CB7A5E100D5C06D /* view */ = {
+			isa = PBXGroup;
+			children = (
+				1A954F1C1CB79A5300D5C06D /* ThermostatStateVisualiser.swift */,
+				1A954F1E1CB79B7E00D5C06D /* HeatingStateVisualiser.swift */,
+				1A954F201CB79CEB00D5C06D /* CoolingStateVisualiser.swift */,
+				1A954F221CB79DA200D5C06D /* IdleStateVisualiser.swift */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -719,11 +743,15 @@
 				1A9B73CE1CB10E0B00C62F10 /* ThermostatLocation.swift in Sources */,
 				1A97C9481C8B626E0089D269 /* AppDelegate.swift in Sources */,
 				1A09F3981CA87F5800D91E69 /* AuthenticatorMock.swift in Sources */,
+				1A954F281CB7A6A000D5C06D /* IdleStateVisualiser.swift in Sources */,
 				1A2A9E2E1CA91159009550C1 /* iPhoneWatchConnectivityHandler.swift in Sources */,
 				1A5AE6EB1CB10BA4008E4A3B /* CPSCloudThermostatDataAccessor.swift in Sources */,
 				1A9B73CF1CB10E0D00C62F10 /* Thermostat.swift in Sources */,
 				1A9B73CC1CB10DFC00C62F10 /* ThermostatManager.swift in Sources */,
+				1A954F261CB7A68900D5C06D /* HeatingStateVisualiser.swift in Sources */,
+				1A954F251CB7A67B00D5C06D /* ThermostatStateVisualiser.swift in Sources */,
 				1A9B73CD1CB10E0000C62F10 /* ThermostatManagerImpl.swift in Sources */,
+				1A954F271CB7A69400D5C06D /* CoolingStateVisualiser.swift in Sources */,
 				1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -749,7 +777,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A954F231CB79DA200D5C06D /* IdleStateVisualiser.swift in Sources */,
+				1A954F211CB79CEB00D5C06D /* CoolingStateVisualiser.swift in Sources */,
 				1A2A9E331CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift in Sources */,
+				1A954F1D1CB79A5300D5C06D /* ThermostatStateVisualiser.swift in Sources */,
 				1A97C9871C8B62710089D269 /* NotificationController.swift in Sources */,
 				1A7C04821CAE6111002CDE1A /* LocationRowController.swift in Sources */,
 				1A7C04861CAE643D002CDE1A /* ThermostatLocation.swift in Sources */,
@@ -765,6 +796,7 @@
 				1AEF1CAF1CAEA422008B346D /* ThermostatManagerImpl.swift in Sources */,
 				1A7C04841CAE6120002CDE1A /* ThermostatRowController.swift in Sources */,
 				1A2A9E311CA91987009550C1 /* WatchAppWatchConnectivityHandler.swift in Sources */,
+				1A954F1F1CB79B7E00D5C06D /* HeatingStateVisualiser.swift in Sources */,
 				1A7C04881CAE65BB002CDE1A /* Thermostat.swift in Sources */,
 				1A97C9891C8B62710089D269 /* GlanceController.swift in Sources */,
 				1A5AE6E61CB106C5008E4A3B /* ThermostatDataAccessor.swift in Sources */,
