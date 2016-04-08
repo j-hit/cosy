@@ -14,6 +14,6 @@ struct IdleStateVisualiser: ThermostatStateVisualiser {
     return UIColor.lightGrayColor()
   }
   var description: String {
-    return ""
+    return "Idle"
   }
 }
