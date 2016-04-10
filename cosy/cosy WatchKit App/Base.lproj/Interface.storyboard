@@ -105,11 +105,6 @@
                                 </connections>
                             </menuItem>
                         </items>
-                        <variation key="default">
-                            <mask key="items">
-                                <exclude reference="y7P-GW-1SC"/>
-                            </mask>
-                        </variation>
                     </menu>
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="sYJ-he-f92" id="7eG-Du-MLn"/>

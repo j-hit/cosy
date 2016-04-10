@@ -26,6 +26,9 @@ enum ThermostatState {
 }
 
 final class Thermostat {
+  static let maximumTemperatureValue: Float = 40.0
+  static let minimumTemperatureValue: Float = 10.0
+  
   var name: String
   weak var correspondingLocation: ThermostatLocation?
   var currentTemperature: Int?

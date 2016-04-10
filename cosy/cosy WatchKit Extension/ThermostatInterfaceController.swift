@@ -140,23 +140,24 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   private func addAwayMenuItem() {
-    addMenuItemWithItemIcon(.Info, title: "Away", action: #selector(ThermostatInterfaceController.onAwaySelected))
+    addMenuItemWithImageNamed("menu-unoccupied", title: "Away", action: #selector(ThermostatInterfaceController.onAwaySelected))
   }
   
   private func addHomeMenuItem() {
-    addMenuItemWithItemIcon(.Info, title: "Home", action: #selector(ThermostatInterfaceController.onHomeSelected))
+    addMenuItemWithImageNamed("menu-occupied", title: "Home", action: #selector(ThermostatInterfaceController.onHomeSelected))
   }
   
   private func addAutoMenuItem() {
-    addMenuItemWithItemIcon(.Info, title: "Auto", action: #selector(ThermostatInterfaceController.onAutoSelected))
+    addMenuItemWithImageNamed("menu-auto", title: "Auto", action: #selector(ThermostatInterfaceController.onAutoSelected))
   }
   
   private func addManualMenuItem() {
-    addMenuItemWithItemIcon(.Info, title: "Manual", action: #selector(ThermostatInterfaceController.onManualSelected))
+    addMenuItemWithImageNamed("menu-manual", title: "Manual", action: #selector(ThermostatInterfaceController.onManualSelected))
   }
   
   @IBAction func onFavouriteSelected() {
     // Set thermostat as favourite
+    WKInterfaceDevice.currentDevice().playHaptic(.Success)
   }
   
   // MARK: Interface builder actions
@@ -164,5 +165,10 @@ class ThermostatInterfaceController: WKInterfaceController {
   @IBAction func onTemperatureSetPointChanged(value: Float) {
     thermostat?.temperatureSetPoint = Int(value)
     reloadDataShownOnView()
+    if value == Thermostat.maximumTemperatureValue {
+      WKInterfaceDevice.currentDevice().playHaptic(.DirectionUp)
+    } else if value == Thermostat.minimumTemperatureValue {
+      WKInterfaceDevice.currentDevice().playHaptic(.DirectionDown)
+    }
   }
 }
