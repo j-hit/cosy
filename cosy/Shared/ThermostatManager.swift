@@ -12,10 +12,11 @@ protocol ThermostatManagerDelegate {
   func didUpdateListOfThermostats()
 }
 
-protocol ThermostatManager {
+protocol ThermostatManager: class {
   var delegate: ThermostatManagerDelegate? { get set }
   var thermostatLocations: [ThermostatLocation] { get }
   func fetchNewData()
+  func saveTemperatureSetPointOfThermostat(thermostat: Thermostat)
 }
 
 final class ThermostatManagerMock: ThermostatManager {
@@ -39,5 +40,8 @@ final class ThermostatManagerMock: ThermostatManager {
   }
   
   func fetchNewData() {
+  }
+  
+  func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
   }
 }

@@ -18,18 +18,23 @@ class ThermostatInterfaceController: WKInterfaceController {
   @IBOutlet var temperatureSetPointSlider: WKInterfaceSlider!
   @IBOutlet var informationLabel: WKInterfaceLabel!
   
+  private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
+  
+  private var thermostatManager: ThermostatManager?
   var thermostat: Thermostat? {
     didSet {
       self.setTitle(thermostat?.name)
     }
   }
-  
   var lastThermostatState = ThermostatState.Idle
+  
+  var timer: NSTimer?
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     if let thermostat = context as? Thermostat {
       self.thermostat = thermostat
+      self.thermostatManager = watchDelegate.thermostatManager
     }
     visualiseForState(lastThermostatState)
   }
@@ -169,6 +174,15 @@ class ThermostatInterfaceController: WKInterfaceController {
       WKInterfaceDevice.currentDevice().playHaptic(.DirectionUp)
     } else if value == Thermostat.minimumTemperatureValue {
       WKInterfaceDevice.currentDevice().playHaptic(.DirectionDown)
+    }
+    
+    timer?.invalidate()
+    timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(saveTemperatureSetPoint), userInfo: nil, repeats: false)
+  }
+  
+  func saveTemperatureSetPoint() {
+    if let thermostat = thermostat {
+      thermostatManager?.saveTemperatureSetPointOfThermostat(thermostat)
     }
   }
 }

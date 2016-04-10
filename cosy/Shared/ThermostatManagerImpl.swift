@@ -34,6 +34,10 @@ final class ThermostatManagerImpl: ThermostatManager {
     state = .ExpectingNewData
     dataAccessor.fetchAvailableLocationsWithThermostatNames()
   }
+  
+  func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
+    print("saved temperature set point of thermostat")
+  }
 }
 
 extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {

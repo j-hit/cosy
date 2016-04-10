@@ -127,7 +127,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   private func tryToFetchNewData() {
     if(userHasBeenAuthenticated) {
       thermostatManager?.fetchNewData()
-      // TODO: If table is empty then show loading row
       if(thermostatsTable.numberOfRows == 0) {
         showLoadingDataMessage()
       }
