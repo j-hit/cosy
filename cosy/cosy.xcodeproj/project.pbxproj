@@ -59,6 +59,8 @@
 		1AB62C2F1CAD228300C35351 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1AB62C311CAD228300C35351 /* Localizable.strings */; };
 		1AB62C331CAD50C500C35351 /* AuthenticatorMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB62C321CAD50C500C35351 /* AuthenticatorMockTests.swift */; };
 		1ACBA51B1CBF82CF00814DD9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1ACBA51D1CBF82CF00814DD9 /* Localizable.strings */; };
+		1ACBA51F1CBF8E4E00814DD9 /* StateVisualiserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBA51E1CBF8E4E00814DD9 /* StateVisualiserTests.swift */; };
+		1ACBA5211CBF96FF00814DD9 /* ThermostatLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBA5201CBF96FF00814DD9 /* ThermostatLocationTests.swift */; };
 		1AD8673B1CB4D93D00B940DE /* SettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */; };
 		1AD8673C1CB4D94F00B940DE /* SettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */; };
 		1AEF1CAD1CAE98A0008B346D /* InformationRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */; };
@@ -174,6 +176,8 @@
 		1AB62C301CAD228300C35351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1AB62C321CAD50C500C35351 /* AuthenticatorMockTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatorMockTests.swift; sourceTree = "<group>"; };
 		1ACBA51C1CBF82CF00814DD9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1ACBA51E1CBF8E4E00814DD9 /* StateVisualiserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVisualiserTests.swift; sourceTree = "<group>"; };
+		1ACBA5201CBF96FF00814DD9 /* ThermostatLocationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatLocationTests.swift; sourceTree = "<group>"; };
 		1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsProvider.swift; path = Shared/SettingsProvider.swift; sourceTree = "<group>"; };
 		1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationRowController.swift; sourceTree = "<group>"; };
 		1AEF1CAE1CAEA422008B346D /* ThermostatManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatManagerImpl.swift; path = Shared/ThermostatManagerImpl.swift; sourceTree = "<group>"; };
@@ -347,6 +351,8 @@
 				1A97C95C1C8B62710089D269 /* ApplicationSettingsManagerTests.swift */,
 				1AB62C321CAD50C500C35351 /* AuthenticatorMockTests.swift */,
 				1A97C95E1C8B62710089D269 /* Info.plist */,
+				1ACBA51E1CBF8E4E00814DD9 /* StateVisualiserTests.swift */,
+				1ACBA5201CBF96FF00814DD9 /* ThermostatLocationTests.swift */,
 			);
 			path = cosyTests;
 			sourceTree = "<group>";
@@ -766,7 +772,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A97C95D1C8B62710089D269 /* ApplicationSettingsManagerTests.swift in Sources */,
+				1ACBA51F1CBF8E4E00814DD9 /* StateVisualiserTests.swift in Sources */,
 				1AB62C331CAD50C500C35351 /* AuthenticatorMockTests.swift in Sources */,
+				1ACBA5211CBF96FF00814DD9 /* ThermostatLocationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
