@@ -34,12 +34,27 @@ final class ThermostatManagerImpl: ThermostatManager {
     state = .ExpectingNewData
     dataAccessor.fetchAvailableLocationsWithThermostatNames()
   }
+  
+  func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
+    print("saved temperature set point of thermostat")
+  }
 }
 
 extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
   func thermostatDataAccessor(didFetchLocations locations: [ThermostatLocation]) {
-    // TODO: merge data & only inform delegate if something changed
-    thermostatLocations = locations
+    //let removedLocations = Set<ThermostatLocation>(thermostatLocations).subtract(locations)
+    
+    let newFoundLocations = Set<ThermostatLocation>(locations).subtract(thermostatLocations)
+    
+    let alreadyExistingLocations = Set<ThermostatLocation>(thermostatLocations).intersect(locations)
+    for existingLocation in alreadyExistingLocations {
+      let correspondingNewLocaton = Set<ThermostatLocation>(locations).filter{ $0.identifier == existingLocation.identifier }
+      if let newLocationName = correspondingNewLocaton.first?.locationName {
+        existingLocation.locationName = newLocationName
+      }
+    }
+    
+    thermostatLocations = Array(newFoundLocations.union(alreadyExistingLocations))
     state = .Ready
     delegate?.didUpdateListOfThermostats()
   }

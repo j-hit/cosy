@@ -12,10 +12,11 @@ protocol ThermostatManagerDelegate {
   func didUpdateListOfThermostats()
 }
 
-protocol ThermostatManager {
+protocol ThermostatManager: class {
   var delegate: ThermostatManagerDelegate? { get set }
   var thermostatLocations: [ThermostatLocation] { get }
   func fetchNewData()
+  func saveTemperatureSetPointOfThermostat(thermostat: Thermostat)
 }
 
 final class ThermostatManagerMock: ThermostatManager {
@@ -25,19 +26,22 @@ final class ThermostatManagerMock: ThermostatManager {
   init() {
     thermostatLocations = [ThermostatLocation]()
     let locationCasa = ThermostatLocation(identifier: "1BIE53-5TXOH-DFTHT-2LBT4-11111", locationName: "Casa", isOccupied: true)
-    locationCasa.addThermostat(Thermostat(name: "Living room"))
-    locationCasa.addThermostat(Thermostat(name: "Bedroom"))
-    locationCasa.addThermostat(Thermostat(name: "Guest room"))
+    locationCasa.addThermostat(Thermostat(name: "Living room", correspondingLocation: locationCasa))
     
     let locationOffice = ThermostatLocation(identifier: "2BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Office", isOccupied: false)
-    locationOffice.addThermostat(Thermostat(name: "Kitchen"))
-    locationOffice.addThermostat(Thermostat(name: "Lobby"))
+    locationOffice.addThermostat(Thermostat(name: "Lobby", correspondingLocation: locationCasa))
+    
+    let locationCountrySide = ThermostatLocation(identifier: "3BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Country side", isOccupied: false)
+    locationCountrySide.addThermostat(Thermostat(name: "Cottage", correspondingLocation: locationCasa))
     
     thermostatLocations.append(locationCasa)
     thermostatLocations.append(locationOffice)
+    thermostatLocations.append(locationCountrySide)
   }
   
   func fetchNewData() {
-    // TODO: Reload data depending on the current time
+  }
+  
+  func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
   }
 }

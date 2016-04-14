@@ -8,7 +8,11 @@
 
 import Foundation
 
-final class ThermostatLocation {
+func ==(lhs: ThermostatLocation, rhs: ThermostatLocation) -> Bool{
+  return lhs.identifier == rhs.identifier
+}
+
+final class ThermostatLocation: Hashable {
   var locationName: String
   var isOccupied: Bool
   var thermostats: [Thermostat]
@@ -22,6 +26,10 @@ final class ThermostatLocation {
     }
   }
   
+  var hashValue: Int {
+    return self.identifier.hashValue
+  }
+  
   init(identifier: String, locationName: String, isOccupied: Bool){
     self.identifier = identifier
     self.locationName = locationName
@@ -30,7 +38,7 @@ final class ThermostatLocation {
   }
   
   convenience init(identifier: String) {
-    self.init(identifier: identifier, locationName: "location", isOccupied: false)
+    self.init(identifier: identifier, locationName: NSLocalizedString("DefaultLocationName", comment: "The default name of a location"), isOccupied: false)
   }
   
   convenience init(identifier: String, locationName: String) {

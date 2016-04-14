@@ -94,7 +94,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           if let JSONResponse = response.result.value, locationName = JSONResponse["object-name"] as? String, thermostatName = JSONResponse["description"] as? String
           {
             location.locationName = locationName
-            location.addThermostat(Thermostat(name: thermostatName))
+            location.addThermostat(Thermostat(name: thermostatName, correspondingLocation: location))
             NSLog("location name: \(locationName) - thermostat name: \(thermostatName)")
           }
         case .Failure(let error):
