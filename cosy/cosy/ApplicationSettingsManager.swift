@@ -24,6 +24,24 @@ final class ApplicationSettingsManager: SettingsProvider {
   
   private lazy var userDefaults = NSUserDefaults.standardUserDefaults()
   
+  var favouriteThermostat: Thermostat? {
+    get {
+      if let decodedData = userDefaults.objectForKey("favourite") as? NSData {
+        return NSKeyedUnarchiver.unarchiveObjectWithData(decodedData) as? Thermostat
+      } else {
+        return nil
+      }
+    }
+    set {
+      if let thermostat = newValue {
+        let encodedData = NSKeyedArchiver.archivedDataWithRootObject(thermostat)
+        userDefaults.setObject(encodedData, forKey: "favourite")
+      } else {
+        userDefaults.removeObjectForKey("favourite")
+      }
+    }
+  }
+  
   var mockModeEnabled: Bool {
     get {
       return NSUserDefaults.standardUserDefaults().boolForKey(keys.mockModeEnabled)

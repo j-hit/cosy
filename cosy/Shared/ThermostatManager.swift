@@ -15,6 +15,7 @@ protocol ThermostatManagerDelegate {
 protocol ThermostatManager: class {
   var delegate: ThermostatManagerDelegate? { get set }
   var thermostatLocations: [ThermostatLocation] { get }
+  var favouriteThermostat: Thermostat? { get set }
   func fetchNewData()
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat)
 }
@@ -22,6 +23,14 @@ protocol ThermostatManager: class {
 final class ThermostatManagerMock: ThermostatManager {
   var delegate: ThermostatManagerDelegate?
   var thermostatLocations: [ThermostatLocation]
+  var favouriteThermostat: Thermostat? {
+    willSet(newFavourite) {
+      if let previousFavourite = favouriteThermostat {
+        previousFavourite.isMarkedAsFavourite = false
+      }
+      newFavourite?.isMarkedAsFavourite = true
+    }
+  }
   
   init() {
     thermostatLocations = [ThermostatLocation]()

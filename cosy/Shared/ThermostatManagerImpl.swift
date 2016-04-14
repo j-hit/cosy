@@ -20,6 +20,15 @@ final class ThermostatManagerImpl: ThermostatManager {
   private var dataAccessor: ThermostatDataAccessor
   private var state: ThermostatManagerState
   
+  var favouriteThermostat: Thermostat? {
+    willSet(newFavourite) {
+      if let previousFavourite = favouriteThermostat {
+        previousFavourite.isMarkedAsFavourite = false
+      }
+      newFavourite?.isMarkedAsFavourite = true
+    }
+  }
+  
   init(dataAccessor: ThermostatDataAccessor) {
     self.thermostatLocations = [ThermostatLocation]()
     self.state = ThermostatManagerState.Ready

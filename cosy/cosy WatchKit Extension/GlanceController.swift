@@ -9,23 +9,40 @@
 import WatchKit
 import Foundation
 
-
 class GlanceController: WKInterfaceController {
-
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
-        
-        // Configure interface objects here.
+  
+  @IBOutlet var thermostatNameLabel: WKInterfaceLabel!
+  @IBOutlet var temperatureSetpointLabel: WKInterfaceLabel!
+  @IBOutlet var currentTemperatureLabel: WKInterfaceLabel!
+  @IBOutlet var thermostatStateImage: WKInterfaceImage!
+  
+  override func awakeWithContext(context: AnyObject?) {
+    super.awakeWithContext(context)
+    
+    // Configure interface objects here.
+  }
+  
+  override func willActivate() {
+    super.willActivate()
+    if let thermostat = ExtensionDelegate.settingsProvider.favouriteThermostat {
+      thermostatNameLabel.setText(thermostat.name)
+      temperatureSetpointLabel.setText("\(thermostat.temperatureSetPoint ?? 0)")
+      currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), thermostat.currentTemperature ?? 0))
+      
+      switch thermostat.state {
+      case .Heating:
+        thermostatStateImage.setImageNamed("heating-glance")
+      case .Cooling:
+        thermostatStateImage.setImageNamed("cooling-glance")
+      default:
+        thermostatStateImage.setImage(nil)
+      }
+      
+      temperatureSetpointLabel.setTextColor(thermostat.state.visualiser().color)
     }
-
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-    }
-
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
-    }
-
+  }
+  
+  override func didDeactivate() {
+    super.didDeactivate()
+  }
 }

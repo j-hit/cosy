@@ -46,6 +46,11 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   override func didDeactivate() {
     super.didDeactivate()
+    if let thermostat = thermostat {
+      if thermostat.isMarkedAsFavourite {
+        ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
+      }
+    }
   }
   
   private func reloadDataShownOnView() {
@@ -161,7 +166,9 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   @IBAction func onFavouriteSelected() {
-    // Set thermostat as favourite
+    thermostatManager?.favouriteThermostat = thermostat
+    ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
+    
     WKInterfaceDevice.currentDevice().playHaptic(.Success)
   }
   
