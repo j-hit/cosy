@@ -32,10 +32,8 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
-    if let thermostat = context as? Thermostat {
-      self.thermostat = thermostat
-      self.thermostatManager = watchDelegate.thermostatManager
-    }
+    self.thermostat = context as? Thermostat
+    self.thermostatManager = watchDelegate.thermostatManager
     visualiseForState(lastThermostatState)
   }
   

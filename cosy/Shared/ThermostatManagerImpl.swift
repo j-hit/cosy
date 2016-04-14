@@ -47,6 +47,10 @@ final class ThermostatManagerImpl: ThermostatManager {
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
     print("saved temperature set point of thermostat")
   }
+  
+  func clearAllData() {
+    thermostatLocations.removeAll()
+  }
 }
 
 extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {

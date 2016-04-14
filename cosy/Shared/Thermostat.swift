@@ -25,10 +25,6 @@ enum ThermostatState {
   }
 }
 
-func ==(lhs: Thermostat, rhs: Thermostat) -> Bool{
-  return lhs.name == rhs.name && lhs.correspondingLocation == rhs.correspondingLocation
-}
-
 final class Thermostat: NSObject, NSCoding {
   static let maximumTemperatureValue: Float = 40.0
   static let minimumTemperatureValue: Float = 10.0
@@ -63,8 +59,6 @@ final class Thermostat: NSObject, NSCoding {
     self.init(name: name)
     self.correspondingLocation = correspondingLocation
   }
-  
-  /////
   
   convenience init(name: String, currentTemperature: Int?, temperatureSetPoint: Int?, isInAutoMode: Bool, correspondingLocation: ThermostatLocation?) {
     self.init(name: name)
