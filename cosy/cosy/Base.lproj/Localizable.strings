@@ -13,3 +13,15 @@
 
 /* Error: Email address or password incorrect */
 "SignInCredentialIncorrect" = "Failed to sign in. Make sure email address and password are correct then try again";
+
+/* Informs the user that the thermostat is in cooling state */
+"CoolingStateDescription" = "cool";
+
+/* The default name of a location */
+"DefaultLocationName" = "location";
+
+/* Informs the user that the thermostat is in heating state */
+"HeatingStateDescription" = "heat";
+
+/* Informs the user that the thermostat is in idle state */
+"IdleStateDescription" = "idle";

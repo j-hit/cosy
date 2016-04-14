@@ -14,6 +14,6 @@ struct HeatingStateVisualiser: ThermostatStateVisualiser {
     return UIColor(red:1.00, green:0.47, blue:0.00, alpha:1.0)
   }
   var description: String {
-    return "heat"
+    return NSLocalizedString("HeatingStateDescription", comment: "Informs the user that the thermostat is in heating state")
   }
 }

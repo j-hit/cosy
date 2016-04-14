@@ -38,7 +38,7 @@ final class ThermostatLocation: Hashable {
   }
   
   convenience init(identifier: String) {
-    self.init(identifier: identifier, locationName: "location", isOccupied: false)
+    self.init(identifier: identifier, locationName: NSLocalizedString("DefaultLocationName", comment: "The default name of a location"), isOccupied: false)
   }
   
   convenience init(identifier: String, locationName: String) {

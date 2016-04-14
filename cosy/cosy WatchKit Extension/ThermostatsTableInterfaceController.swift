@@ -14,6 +14,8 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   
   @IBOutlet var informationLabel: WKInterfaceLabel!
   
+  private let segueIdentifierToShowThermostat = "showThermostat"
+  
   private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
   
   private var thermostatManager: ThermostatManager?
@@ -80,7 +82,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   }
   
   override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table: WKInterfaceTable, rowIndex: Int) -> AnyObject? {
-    if segueIdentifier == "showThermostat" {
+    if segueIdentifier == segueIdentifierToShowThermostat {
       if let row = table.rowControllerAtIndex(rowIndex) as? ThermostatRowController {
         return row.thermostat
       }
@@ -92,7 +94,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     clearThermostatsTable()
     thermostatsTable.setNumberOfRows(1, withRowType: InformationRowController.identifier)
     if let controller = thermostatsTable.rowControllerAtIndex(0) as? InformationRowController {
-      controller.informationLabel.setText("Sign in with the cosy app on your iPhone") // TODO: Use localised string
+      controller.informationLabel.setText(NSLocalizedString("SignInRequiredInformation", comment: "informs the user that a sign in with the counterpart iOS app is required"))
     }
   }
   
@@ -100,7 +102,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     clearThermostatsTable()
     thermostatsTable.setNumberOfRows(1, withRowType: InformationRowController.identifier)
     if let controller = thermostatsTable.rowControllerAtIndex(0) as? InformationRowController {
-      controller.informationLabel.setText("Loading data..") // TODO: Use localised string
+      controller.informationLabel.setText(NSLocalizedString("LoadingDataInformation", comment: "informs the user data is being loaded"))
     }
   }
   

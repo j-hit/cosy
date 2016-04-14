@@ -50,13 +50,13 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   private func reloadDataShownOnView() {
     if let currentTemperature = thermostat?.currentTemperature {
-      currentTemperatureLabel.setText("now \(currentTemperature)°") // TODO: use localised string
+      currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature))
     } else {
       currentTemperatureLabel.setText("--")
     }
     
     if let temperatureSetPoint = thermostat?.temperatureSetPoint {
-      temperatureSetPointLabel.setText("\(temperatureSetPoint)°")
+      temperatureSetPointLabel.setText(String(format: NSLocalizedString("TemperatureSetpointDescription", comment: "describes the temperature set-point of a thermostat"), temperatureSetPoint))
       temperatureSetPointSlider.setValue(Float(temperatureSetPoint))
     } else {
       temperatureSetPointLabel.setText("--")
@@ -100,7 +100,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     if let thermostat = thermostat {
       thermostat.correspondingLocation?.isOccupied = false
       temperatureSetPointSlider.setHidden(true)
-      informationLabel.setText("away")
+      informationLabel.setText(NSLocalizedString("LocationNotOccupiedDescription", comment: "describes that a location is not occupied"))
       informationLabel.setHidden(false)
       
       clearAllMenuItems()
@@ -123,7 +123,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     if let thermostat = thermostat {
       thermostat.isInAutoMode = true
       temperatureSetPointSlider.setHidden(true)
-      informationLabel.setText("auto")
+      informationLabel.setText(NSLocalizedString("ThermostatInAutoModeDescription", comment: "describes that a thermostat is in auto mode"))
       informationLabel.setHidden(false)
       
       clearAllMenuItems()
@@ -145,19 +145,19 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   private func addAwayMenuItem() {
-    addMenuItemWithImageNamed("menu-unoccupied", title: "Away", action: #selector(ThermostatInterfaceController.onAwaySelected))
+    addMenuItemWithImageNamed("menu-unoccupied", title: NSLocalizedString("AwayMenuItemTitle", comment: "Title shown below the away icon in the context menu"), action: #selector(ThermostatInterfaceController.onAwaySelected))
   }
   
   private func addHomeMenuItem() {
-    addMenuItemWithImageNamed("menu-occupied", title: "Home", action: #selector(ThermostatInterfaceController.onHomeSelected))
+    addMenuItemWithImageNamed("menu-occupied", title: NSLocalizedString("HomeMenuItemTitle", comment: "Title shown below the home icon in the context menu"), action: #selector(ThermostatInterfaceController.onHomeSelected))
   }
   
   private func addAutoMenuItem() {
-    addMenuItemWithImageNamed("menu-auto", title: "Auto", action: #selector(ThermostatInterfaceController.onAutoSelected))
+    addMenuItemWithImageNamed("menu-auto", title: NSLocalizedString("AutoMenuItemTitle", comment: "Title shown below the auto icon in the context menu"), action: #selector(ThermostatInterfaceController.onAutoSelected))
   }
   
   private func addManualMenuItem() {
-    addMenuItemWithImageNamed("menu-manual", title: "Manual", action: #selector(ThermostatInterfaceController.onManualSelected))
+    addMenuItemWithImageNamed("menu-manual", title: NSLocalizedString("ManualMenuItemTitle", comment: "Title shown below the manual icon in the context menu"), action: #selector(ThermostatInterfaceController.onManualSelected))
   }
   
   @IBAction func onFavouriteSelected() {
