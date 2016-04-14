@@ -25,7 +25,11 @@ enum ThermostatState {
   }
 }
 
-final class Thermostat {
+func ==(lhs: Thermostat, rhs: Thermostat) -> Bool{
+  return lhs.name == rhs.name && lhs.correspondingLocation == rhs.correspondingLocation
+}
+
+final class Thermostat: Equatable {
   static let maximumTemperatureValue: Float = 40.0
   static let minimumTemperatureValue: Float = 10.0
   
@@ -57,3 +61,4 @@ final class Thermostat {
     self.correspondingLocation = correspondingLocation
   }
 }
+
