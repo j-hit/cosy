@@ -16,19 +16,35 @@ class GlanceController: WKInterfaceController {
   @IBOutlet var currentTemperatureLabel: WKInterfaceLabel!
   @IBOutlet var thermostatStateImage: WKInterfaceImage!
   
+  private var thermostat: Thermostat?
+  private var watchDelegate: ExtensionDelegate?
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
-    
-    // Configure interface objects here.
+    watchDelegate = WKExtension.sharedExtension().delegate as? ExtensionDelegate
   }
   
   override func willActivate() {
     super.willActivate()
-    if let thermostat = ExtensionDelegate.settingsProvider.favouriteThermostat {
-      thermostatNameLabel.setText(thermostat.name)
-      temperatureSetpointLabel.setText("\(thermostat.temperatureSetPoint ?? 0)")
-      currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), thermostat.currentTemperature ?? 0))
+    thermostat = ExtensionDelegate.settingsProvider.favouriteThermostat
+    if let thermostat = thermostat {
+      thermostat.delegate = self
       
+      thermostatNameLabel.setText(thermostat.name)
+      showCurrentTemperature(thermostat.currentTemperature)
+      showTemperatureSetpoint(thermostat.temperatureSetPoint)
+      showStateImage()
+      
+      watchDelegate?.thermostatManager.updateData(ofThermostat: thermostat)
+    }
+  }
+  
+  override func didDeactivate() {
+    super.didDeactivate()
+  }
+  
+  private func showStateImage() {
+    if let thermostat = thermostat {
       switch thermostat.state {
       case .Heating:
         thermostatStateImage.setImageNamed("heating-glance")
@@ -37,12 +53,31 @@ class GlanceController: WKInterfaceController {
       default:
         thermostatStateImage.setImage(nil)
       }
-      
-      temperatureSetpointLabel.setTextColor(thermostat.state.visualiser().color)
     }
   }
   
-  override func didDeactivate() {
-    super.didDeactivate()
+  private func showCurrentTemperature(currentTemperature: Int?) {
+    currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature ?? 0))
+  }
+  
+  private func showTemperatureSetpoint(temperatureSetpoint: Int?) {
+    temperatureSetpointLabel.setText("\(temperatureSetpoint ?? 0)")
+    temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
+  }
+}
+
+extension GlanceController: ThermostatDelegate {
+  func didUpdateName(toNewValue newValue: String) {
+    thermostatNameLabel.setText(newValue)
+  }
+  
+  func didUpdateCurrentTemperature(toNewValue newValue: Int) {
+    showCurrentTemperature(newValue)
+    showStateImage()
+  }
+  
+  func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
+    showTemperatureSetpoint(newValue)
+    showStateImage()
   }
 }

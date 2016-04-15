@@ -15,6 +15,7 @@ protocol SettingsProvider {
   var lastUsedPassword: String { get set }
   var baseURLOfCPSCloud: String { get set }
   var sessionID: String? { get set }
+  var favouriteThermostat: Thermostat? { get set }
   func importFromDictionary(dictionary: [String : AnyObject])
   func exportAsDictionary() -> [String : AnyObject]
 }

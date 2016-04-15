@@ -17,6 +17,7 @@ protocol ThermostatManager: class {
   var thermostatLocations: [ThermostatLocation] { get }
   var favouriteThermostat: Thermostat? { get set }
   func fetchNewData()
+  func updateData(ofThermostat thermostat: Thermostat)
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat)
   func clearAllData()
 }

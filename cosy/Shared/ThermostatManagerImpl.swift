@@ -44,6 +44,10 @@ final class ThermostatManagerImpl: ThermostatManager {
     dataAccessor.fetchAvailableLocationsWithThermostatNames()
   }
   
+  func updateData(ofThermostat thermostat: Thermostat) {
+    // TODO: Implement
+  }
+  
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
     print("saved temperature set point of thermostat")
   }

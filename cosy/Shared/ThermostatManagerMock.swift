@@ -9,6 +9,7 @@
 import Foundation
 
 final class ThermostatManagerMock: ThermostatManager {
+  var settingsProvider: SettingsProvider
   var delegate: ThermostatManagerDelegate?
   var thermostatLocations: [ThermostatLocation]
   var favouriteThermostat: Thermostat? {
@@ -20,7 +21,8 @@ final class ThermostatManagerMock: ThermostatManager {
     }
   }
   
-  init() {
+  init(settingsProvider: SettingsProvider) {
+    self.settingsProvider = settingsProvider
     self.thermostatLocations = [ThermostatLocation]()
     fetchNewData()
   }
@@ -39,6 +41,27 @@ final class ThermostatManagerMock: ThermostatManager {
     thermostatLocations.append(locationCasa)
     thermostatLocations.append(locationOffice)
     thermostatLocations.append(locationCountrySide)
+    
+    delegate?.didUpdateListOfThermostats()
+  }
+  
+  func updateData(ofThermostat thermostat: Thermostat) {
+    setRandomValuesToThermostat(thermostat)
+  }
+  
+  private func setRandomValuesToThermostat(thermostat: Thermostat) {
+    let seconds = 2.0
+    let delay = seconds * Double(NSEC_PER_SEC)
+    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+    
+    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+      thermostat.currentTemperature = Int(arc4random_uniform(30) + 5)
+      thermostat.temperatureSetPoint = Int(arc4random_uniform(30) + 5)
+      
+      if thermostat.isMarkedAsFavourite {
+        self.settingsProvider.favouriteThermostat = thermostat
+      }
+    })
   }
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {

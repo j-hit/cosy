@@ -8,31 +8,41 @@
 
 import Foundation
 
-enum ThermostatState {
-  case Heating
-  case Cooling
-  case Idle
-  
-  func visualiser() -> ThermostatStateVisualiser {
-    switch self {
-    case Heating:
-      return HeatingStateVisualiser()
-    case Cooling:
-      return CoolingStateVisualiser()
-    case Idle:
-      return IdleStateVisualiser()
-    }
-  }
+protocol ThermostatDelegate {
+  func didUpdateName(toNewValue newValue: String)
+  func didUpdateCurrentTemperature(toNewValue newValue: Int)
+  func didUpdateTemperatureSetpoint(toNewValue newValue: Int)
 }
 
 final class Thermostat: NSObject, NSCoding {
   static let maximumTemperatureValue: Float = 40.0
   static let minimumTemperatureValue: Float = 10.0
   
-  var name: String
+  var delegate: ThermostatDelegate?
   weak var correspondingLocation: ThermostatLocation?
-  var currentTemperature: Int?
-  var temperatureSetPoint: Int?
+  
+  var name: String {
+    didSet {
+      delegate?.didUpdateName(toNewValue: name)
+    }
+  }
+  
+  var currentTemperature: Int? {
+    didSet {
+      if let currentTemperature = currentTemperature {
+        delegate?.didUpdateCurrentTemperature(toNewValue: currentTemperature)
+      }
+    }
+  }
+  
+  var temperatureSetPoint: Int? {
+    didSet {
+      if let temperatureSetPoint = temperatureSetPoint {
+        delegate?.didUpdateTemperatureSetpoint(toNewValue: temperatureSetPoint)
+      }
+    }
+  }
+  
   var isInAutoMode: Bool
   var isMarkedAsFavourite: Bool
   
@@ -60,11 +70,12 @@ final class Thermostat: NSObject, NSCoding {
     self.correspondingLocation = correspondingLocation
   }
   
-  convenience init(name: String, currentTemperature: Int?, temperatureSetPoint: Int?, isInAutoMode: Bool, correspondingLocation: ThermostatLocation?) {
+  convenience init(name: String, currentTemperature: Int?, temperatureSetPoint: Int?, isInAutoMode: Bool, isMarkedAsFavourite: Bool, correspondingLocation: ThermostatLocation?) {
     self.init(name: name)
     self.currentTemperature = currentTemperature
     self.temperatureSetPoint = temperatureSetPoint
     self.isInAutoMode = isInAutoMode
+    self.isMarkedAsFavourite = isMarkedAsFavourite
     self.correspondingLocation = correspondingLocation
   }
   
@@ -74,7 +85,7 @@ final class Thermostat: NSObject, NSCoding {
         // todo: fetch corresponding location
     }
     
-    self.init(name: name, currentTemperature: decoder.decodeIntegerForKey("currentTemperature"), temperatureSetPoint: decoder.decodeIntegerForKey("temperatureSetpoint"), isInAutoMode: decoder.decodeBoolForKey("isInAutoMode"), correspondingLocation: nil)
+    self.init(name: name, currentTemperature: decoder.decodeIntegerForKey("currentTemperature"), temperatureSetPoint: decoder.decodeIntegerForKey("temperatureSetpoint"), isInAutoMode: decoder.decodeBoolForKey("isInAutoMode"), isMarkedAsFavourite: decoder.decodeBoolForKey("isMarkedAsFavourite"), correspondingLocation: nil)
   }
   
   func encodeWithCoder(coder: NSCoder) {
@@ -82,6 +93,7 @@ final class Thermostat: NSObject, NSCoding {
     coder.encodeInteger(self.currentTemperature ?? 0, forKey: "currentTemperature")
     coder.encodeInteger(self.temperatureSetPoint ?? 0, forKey: "temperatureSetpoint")
     coder.encodeBool(self.isInAutoMode, forKey: "isInAutoMode")
+    coder.encodeBool(self.isMarkedAsFavourite, forKey: "isMarkedAsFavourite")
   }
 }
 
