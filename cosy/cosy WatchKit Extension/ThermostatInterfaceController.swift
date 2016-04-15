@@ -32,10 +32,8 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
-    if let thermostat = context as? Thermostat {
-      self.thermostat = thermostat
-      self.thermostatManager = watchDelegate.thermostatManager
-    }
+    self.thermostat = context as? Thermostat
+    self.thermostatManager = watchDelegate.thermostatManager
     visualiseForState(lastThermostatState)
   }
   
@@ -46,6 +44,11 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   override func didDeactivate() {
     super.didDeactivate()
+    if let thermostat = thermostat {
+      if thermostat.isMarkedAsFavourite {
+        ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
+      }
+    }
   }
   
   private func reloadDataShownOnView() {
@@ -161,7 +164,9 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   @IBAction func onFavouriteSelected() {
-    // Set thermostat as favourite
+    thermostatManager?.favouriteThermostat = thermostat
+    ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
+    
     WKInterfaceDevice.currentDevice().playHaptic(.Success)
   }
   

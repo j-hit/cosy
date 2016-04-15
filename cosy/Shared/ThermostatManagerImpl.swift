@@ -20,6 +20,15 @@ final class ThermostatManagerImpl: ThermostatManager {
   private var dataAccessor: ThermostatDataAccessor
   private var state: ThermostatManagerState
   
+  var favouriteThermostat: Thermostat? {
+    willSet(newFavourite) {
+      if let previousFavourite = favouriteThermostat {
+        previousFavourite.isMarkedAsFavourite = false
+      }
+      newFavourite?.isMarkedAsFavourite = true
+    }
+  }
+  
   init(dataAccessor: ThermostatDataAccessor) {
     self.thermostatLocations = [ThermostatLocation]()
     self.state = ThermostatManagerState.Ready
@@ -35,8 +44,16 @@ final class ThermostatManagerImpl: ThermostatManager {
     dataAccessor.fetchAvailableLocationsWithThermostatNames()
   }
   
+  func updateData(ofThermostat thermostat: Thermostat) {
+    // TODO: Implement
+  }
+  
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
     print("saved temperature set point of thermostat")
+  }
+  
+  func clearAllData() {
+    thermostatLocations.removeAll()
   }
 }
 

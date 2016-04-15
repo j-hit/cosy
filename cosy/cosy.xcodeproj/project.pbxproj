@@ -15,6 +15,10 @@
 		1A2A9E2E1CA91159009550C1 /* iPhoneWatchConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2A9E2D1CA91159009550C1 /* iPhoneWatchConnectivityHandler.swift */; };
 		1A2A9E311CA91987009550C1 /* WatchAppWatchConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2A9E301CA91987009550C1 /* WatchAppWatchConnectivityHandler.swift */; };
 		1A2A9E331CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2A9E321CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift */; };
+		1A3DD38A1CC033B0001C0BB0 /* ThermostatManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3DD3891CC033B0001C0BB0 /* ThermostatManagerMock.swift */; };
+		1A3DD38B1CC033B8001C0BB0 /* ThermostatManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3DD3891CC033B0001C0BB0 /* ThermostatManagerMock.swift */; };
+		1A473DAF1CC0C1320028CF95 /* ThermostatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */; };
+		1A473DB01CC0C13E0028CF95 /* ThermostatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */; };
 		1A4C487E1CB6AB6900011EB3 /* ThermostatInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */; };
 		1A5AE6E51CB106C5008E4A3B /* ThermostatDataAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AE6E41CB106C5008E4A3B /* ThermostatDataAccessor.swift */; };
 		1A5AE6E61CB106C5008E4A3B /* ThermostatDataAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AE6E41CB106C5008E4A3B /* ThermostatDataAccessor.swift */; };
@@ -134,6 +138,8 @@
 		1A2A9E2D1CA91159009550C1 /* iPhoneWatchConnectivityHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iPhoneWatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		1A2A9E301CA91987009550C1 /* WatchAppWatchConnectivityHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchAppWatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		1A2A9E321CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchAppWatchConnectivityHandlerDelegate.swift; sourceTree = "<group>"; };
+		1A3DD3891CC033B0001C0BB0 /* ThermostatManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatManagerMock.swift; path = Shared/ThermostatManagerMock.swift; sourceTree = "<group>"; };
+		1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatState.swift; sourceTree = "<group>"; };
 		1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatInterfaceController.swift; sourceTree = "<group>"; };
 		1A5AE6E41CB106C5008E4A3B /* ThermostatDataAccessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatDataAccessor.swift; path = Shared/ThermostatDataAccessor.swift; sourceTree = "<group>"; };
 		1A5AE6EA1CB10BA4008E4A3B /* CPSCloudThermostatDataAccessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CPSCloudThermostatDataAccessor.swift; path = Shared/CPSCloudThermostatDataAccessor.swift; sourceTree = "<group>"; };
@@ -409,6 +415,7 @@
 			children = (
 				1A7C04851CAE643D002CDE1A /* ThermostatLocation.swift */,
 				1A7C04871CAE65BB002CDE1A /* Thermostat.swift */,
+				1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -418,6 +425,7 @@
 			children = (
 				1A7C04891CAE6621002CDE1A /* ThermostatManager.swift */,
 				1AEF1CAE1CAEA422008B346D /* ThermostatManagerImpl.swift */,
+				1A3DD3891CC033B0001C0BB0 /* ThermostatManagerMock.swift */,
 				1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */,
 				1A09F38E1CA86CCD00D91E69 /* ApplicationSettingsManager.swift */,
 			);
@@ -749,6 +757,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A65342B1CA743080033DFDB /* ThermostatsTableViewController.swift in Sources */,
+				1A473DAF1CC0C1320028CF95 /* ThermostatState.swift in Sources */,
 				1A5AE6E51CB106C5008E4A3B /* ThermostatDataAccessor.swift in Sources */,
 				1A09F38F1CA86CCD00D91E69 /* ApplicationSettingsManager.swift in Sources */,
 				1A97C94A1C8B626E0089D269 /* LoginViewController.swift in Sources */,
@@ -766,6 +775,7 @@
 				1A954F251CB7A67B00D5C06D /* ThermostatStateVisualiser.swift in Sources */,
 				1A9B73CD1CB10E0000C62F10 /* ThermostatManagerImpl.swift in Sources */,
 				1A954F271CB7A69400D5C06D /* CoolingStateVisualiser.swift in Sources */,
+				1A3DD38A1CC033B0001C0BB0 /* ThermostatManagerMock.swift in Sources */,
 				1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -810,12 +820,14 @@
 				1A97C9831C8B62710089D269 /* ThermostatsTableInterfaceController.swift in Sources */,
 				1A09F3991CA88BEA00D91E69 /* ApplicationSettingsManager.swift in Sources */,
 				1A4C487E1CB6AB6900011EB3 /* ThermostatInterfaceController.swift in Sources */,
+				1A473DB01CC0C13E0028CF95 /* ThermostatState.swift in Sources */,
 				1AEF1CAF1CAEA422008B346D /* ThermostatManagerImpl.swift in Sources */,
 				1A7C04841CAE6120002CDE1A /* ThermostatRowController.swift in Sources */,
 				1A2A9E311CA91987009550C1 /* WatchAppWatchConnectivityHandler.swift in Sources */,
 				1A954F1F1CB79B7E00D5C06D /* HeatingStateVisualiser.swift in Sources */,
 				1A7C04881CAE65BB002CDE1A /* Thermostat.swift in Sources */,
 				1A97C9891C8B62710089D269 /* GlanceController.swift in Sources */,
+				1A3DD38B1CC033B8001C0BB0 /* ThermostatManagerMock.swift in Sources */,
 				1A5AE6E61CB106C5008E4A3B /* ThermostatDataAccessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

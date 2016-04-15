@@ -15,7 +15,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
   let watchConnectivityHandler = WatchAppWatchConnectivityHandler(settingsProvider: settingsProvider)
   lazy var thermostatManager: ThermostatManager = {
     if settingsProvider.mockModeEnabled {
-      return ThermostatManagerMock()
+      return ThermostatManagerMock(settingsProvider: ApplicationSettingsManager.sharedInstance)
     } else {
       return ThermostatManagerImpl(dataAccessor: CPSCloudThermostatDataAccessor(settingsProvider: ApplicationSettingsManager.sharedInstance))
     }

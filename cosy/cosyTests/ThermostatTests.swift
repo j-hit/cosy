@@ -26,8 +26,7 @@ class ThermostatTests: XCTestCase {
   func testThermostatsShouldBeEqual() {
     let location = ThermostatLocation(identifier: "specialIdentifier")
     let thermostat1a = Thermostat(name: "thermostat1", correspondingLocation: location)
-    let thermostat1b = Thermostat(name: "thermostat1", correspondingLocation: location)
-    
+    let thermostat1b = thermostat1a
     location.addThermostat(thermostat1a)
     location.addThermostat(thermostat1b)
     

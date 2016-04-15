@@ -133,7 +133,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
         showLoadingDataMessage()
       }
     } else {
-      // TODO: Clear thermostatmanager cache
+      thermostatManager?.clearAllData() // TODO: Clear thermostatmanager cache
       showAuthenticationRequiredMessage()
     }
   }
