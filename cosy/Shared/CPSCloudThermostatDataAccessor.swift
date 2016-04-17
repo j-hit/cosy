@@ -44,10 +44,12 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   
   private func performRequestToFetchListOfLocations() {
     guard let headersForRequest = headerForFetchingListOfLocations() else {
+      delegate?.thermostatDataAccessorFailedToFetchLocations()
       return
     }
     
     guard let urlForLocations = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth") else {
+      delegate?.thermostatDataAccessorFailedToFetchLocations()
       return
     }
     
@@ -80,10 +82,12 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   
   private func fetchNameForLocation(location: ThermostatLocation) {
     guard let headersForRequest = headerForFetchingListOfLocations() else {
+      delegate?.thermostatDataAccessorFailedToFetchLocations()
       return
     }
     
     guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(location.identifier)") else {
+      delegate?.thermostatDataAccessorFailedToFetchLocations()
       return
     }
     
