@@ -54,7 +54,7 @@
                                 </tableRow>
                             </items>
                         </table>
-                        <label alignment="left" text="-" numberOfLines="0" id="Rmz-bd-CX9"/>
+                        <label alignment="left" hidden="YES" numberOfLines="0" id="Rmz-bd-CX9"/>
                     </items>
                     <connections>
                         <outlet property="informationLabel" destination="Rmz-bd-CX9" id="IY5-A9-D3G"/>
