@@ -10,15 +10,24 @@ import UIKit
 
 class ThermostatsTableViewController: UITableViewController {
   
-  private let thermostatCellIdentifier = "ThermostatTableViewCell"
-  
   private let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
   private let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
+  private let thermostatManager = (UIApplication.sharedApplication().delegate as! AppDelegate).thermostatManager
+  
+  private var thermostatLocations = [ThermostatLocation]() {
+    didSet {
+      tableView.reloadData()
+    }
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    thermostatManager.delegate = self
     authenticator.delegate = self
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    thermostatManager.fetchNewData()
   }
   
   override func didReceiveMemoryWarning() {
@@ -28,32 +37,22 @@ class ThermostatsTableViewController: UITableViewController {
   // MARK: - Table view data source
   
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 3
+    return thermostatLocations.count
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1 // Current limitation of 1 thermostat pro location
+    return thermostatLocations[section].thermostats.count
   }
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(thermostatCellIdentifier, forIndexPath: indexPath)
+    let cell = tableView.dequeueReusableCellWithIdentifier(ThermostatTableViewCell.identifier, forIndexPath: indexPath) as! ThermostatTableViewCell
+    let thermostat = thermostatLocations[indexPath.section].thermostats[indexPath.row]
+    cell.thermostatNameLabel.text = thermostat.name
     return cell
   }
   
   override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    var titleForHeader = ""
-    switch section {
-    case 0:
-      titleForHeader = "Home"
-    case 1:
-      titleForHeader = "Office"
-    case 2:
-      titleForHeader = "Country cottage"
-    default:
-      break
-    }
-    
-    return titleForHeader
+    return thermostatLocations[section].locationName
   }
   
   override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -81,5 +80,12 @@ extension ThermostatsTableViewController: AuthenticatorDelegate {
   func authenticatorDidPerformSignOut() {
     watchConnectivityHandler.transferApplicationSettingsToWatch()
     self.dismissViewControllerAnimated(true, completion: nil)
+  }
+}
+
+extension ThermostatsTableViewController: ThermostatManagerDelegate {
+  func didUpdateListOfThermostats() {
+    thermostatLocations = thermostatManager.thermostatLocations
+    watchConnectivityHandler.transferAppContextToWatch(withDataFromThermsotatManager: thermostatManager)
   }
 }

@@ -39,8 +39,25 @@ final class iPhoneWatchConnectivityHandler: NSObject {
             let applicationSettings = [settingsProvider.key: settingsProvider.exportAsDictionary()]
             try session.updateApplicationContext(applicationSettings)
           } catch {
-            print("ERROR: \(error)")
+            NSLog("ERROR transfering application settings to watch: \(error)")
           }
+        }
+      }
+    }
+  }
+  
+  func transferAppContextToWatch(withDataFromThermsotatManager thermostatManager: ThermostatManager) {
+    if WCSession.isSupported() {
+      let session = WCSession.defaultSession()
+      if session.watchAppInstalled {
+        do {
+          var transferObject: [String: AnyObject] = ["locations": thermostatManager.exportThermostatLocations()]
+          if let settingsProvider = settingsProvider {
+            transferObject[settingsProvider.key] = settingsProvider.exportAsDictionary()
+          }
+          try session.updateApplicationContext(transferObject)
+        } catch {
+          NSLog("ERROR transfering thermostat locations to watch: \(error)")
         }
       }
     }
@@ -48,5 +65,5 @@ final class iPhoneWatchConnectivityHandler: NSObject {
 }
 
 extension iPhoneWatchConnectivityHandler: WCSessionDelegate {
-
+  
 }

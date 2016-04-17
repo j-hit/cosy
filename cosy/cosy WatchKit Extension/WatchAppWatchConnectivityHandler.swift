@@ -8,10 +8,15 @@
 
 import Foundation
 import WatchConnectivity
+import WatchKit
 
 final class WatchAppWatchConnectivityHandler: NSObject {
   var delegate: WatchAppWatchConnectivityHandlerDelegate?
   var settingsProvider: SettingsProvider?
+
+  var thermostatManager = {
+    return (WKExtension.sharedExtension().delegate as? ExtensionDelegate)?.thermostatManager
+  }()
   
   override init() {
     super.init()
@@ -38,6 +43,10 @@ extension WatchAppWatchConnectivityHandler: WCSessionDelegate {
     if let key = settingsProvider?.key, applicationSettings = applicationContext[key] as? [String: AnyObject] {
       settingsProvider?.importFromDictionary(applicationSettings)
       delegate?.didUpdateApplicationSettings()
+    }
+    
+    if let thermostatLocations = applicationContext["locations"] as? [[String: AnyObject]] {
+      thermostatManager?.importThermostatLocations(thermostatLocations)
     }
   }
 }

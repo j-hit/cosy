@@ -66,6 +66,7 @@
 		1ACBA51F1CBF8E4E00814DD9 /* StateVisualiserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBA51E1CBF8E4E00814DD9 /* StateVisualiserTests.swift */; };
 		1ACBA5211CBF96FF00814DD9 /* ThermostatLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBA5201CBF96FF00814DD9 /* ThermostatLocationTests.swift */; };
 		1ACBA5231CBF9FA200814DD9 /* ThermostatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBA5221CBF9FA200814DD9 /* ThermostatTests.swift */; };
+		1AD410261CC1928400722562 /* ThermostatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD410251CC1928400722562 /* ThermostatTableViewCell.swift */; };
 		1AD8673B1CB4D93D00B940DE /* SettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */; };
 		1AD8673C1CB4D94F00B940DE /* SettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */; };
 		1AEF1CAD1CAE98A0008B346D /* InformationRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */; };
@@ -186,6 +187,7 @@
 		1ACBA51E1CBF8E4E00814DD9 /* StateVisualiserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVisualiserTests.swift; sourceTree = "<group>"; };
 		1ACBA5201CBF96FF00814DD9 /* ThermostatLocationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatLocationTests.swift; sourceTree = "<group>"; };
 		1ACBA5221CBF9FA200814DD9 /* ThermostatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatTests.swift; sourceTree = "<group>"; };
+		1AD410251CC1928400722562 /* ThermostatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatTableViewCell.swift; sourceTree = "<group>"; };
 		1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsProvider.swift; path = Shared/SettingsProvider.swift; sourceTree = "<group>"; };
 		1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationRowController.swift; sourceTree = "<group>"; };
 		1AEF1CAE1CAEA422008B346D /* ThermostatManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatManagerImpl.swift; path = Shared/ThermostatManagerImpl.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			children = (
 				1A97C9491C8B626E0089D269 /* LoginViewController.swift */,
 				1A65342A1CA743080033DFDB /* ThermostatsTableViewController.swift */,
+				1AD410251CC1928400722562 /* ThermostatTableViewCell.swift */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				1A09F3981CA87F5800D91E69 /* AuthenticatorMock.swift in Sources */,
 				1A954F281CB7A6A000D5C06D /* IdleStateVisualiser.swift in Sources */,
 				1A2A9E2E1CA91159009550C1 /* iPhoneWatchConnectivityHandler.swift in Sources */,
+				1AD410261CC1928400722562 /* ThermostatTableViewCell.swift in Sources */,
 				1A5AE6EB1CB10BA4008E4A3B /* CPSCloudThermostatDataAccessor.swift in Sources */,
 				1A9B73CF1CB10E0D00C62F10 /* Thermostat.swift in Sources */,
 				1A9B73CC1CB10DFC00C62F10 /* ThermostatManager.swift in Sources */,

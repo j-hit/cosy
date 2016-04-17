@@ -39,21 +39,31 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     thermostatManager = watchDelegate.thermostatManager
     thermostatManager?.delegate = self
     
-    reloadDataShownOnView() // TODO: show row if no data available
+    reloadDataShownOnView()
   }
   
   override func willActivate() {
     super.willActivate()
     tryToFetchNewData()
+    checkIfDataWasRetrievedFromiPhoneInTheBackground()
   }
   
   override func didDeactivate() {
     super.didDeactivate()
   }
   
+  private func checkIfDataWasRetrievedFromiPhoneInTheBackground() {
+    if(userHasBeenAuthenticated && thermostatManager?.thermostatLocations.count > 0) {
+      if let _ = thermostatsTable.rowControllerAtIndex(0) as? InformationRowController {
+        reloadDataShownOnView()
+      }
+    }
+  }
+  
   private func showAllThermostats(fromThermostatManager thermostatManager: ThermostatManager) {
     clearThermostatsTable()
-    for thermostatLocation in thermostatManager.thermostatLocations {
+    let sortedLocations = thermostatManager.thermostatLocations.sort { $0.locationName < $1.locationName }
+    for thermostatLocation in sortedLocations {
       showThermostats(fromThermostatLocation: thermostatLocation)
     }
   }
@@ -117,23 +127,19 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     
     if(userHasBeenAuthenticated) {
       showAllThermostats(fromThermostatManager: thermostatManager)
-      if let sessionID = settingsProvider.sessionID {
-        informationLabel.setText("sessionID = \(sessionID)") // TEST
-      }
     } else {
       showAuthenticationRequiredMessage()
-      informationLabel.setText("no sessionID found")
     }
   }
   
   private func tryToFetchNewData() {
     if(userHasBeenAuthenticated) {
-      thermostatManager?.fetchNewData()
-      if(thermostatsTable.numberOfRows == 0) {
+      if thermostatManager?.thermostatLocations.count == 0 {
         showLoadingDataMessage()
       }
+      thermostatManager?.fetchNewData()
     } else {
-      thermostatManager?.clearAllData() // TODO: Clear thermostatmanager cache
+      thermostatManager?.clearAllData()
       showAuthenticationRequiredMessage()
     }
   }
@@ -141,13 +147,16 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
 
 extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
-    reloadDataShownOnView() // For session ID (remove later)
-    tryToFetchNewData()
+    if watchDelegate.appIsActive {
+      tryToFetchNewData()
+    }
   }
 }
 
 extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
-    reloadDataShownOnView()
+    if watchDelegate.appIsActive {
+      reloadDataShownOnView()
+    }
   }
 }
