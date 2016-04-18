@@ -79,7 +79,6 @@ class LoginViewController: UIViewController {
 extension LoginViewController: AuthenticatorDelegate {
   func authenticator(didRetrieveSessionID sessionID: String) {
     performSegueWithIdentifier(segueIdentifierToShowThermostatsView, sender: nil)
-    watchConnectivityHandler.transferApplicationSettingsToWatch() // TODO: Only send sessionID
   }
   
   func authenticator(didFailToAuthenticateWithError error: String) {

@@ -38,6 +38,7 @@ final class ThermostatManagerImpl: ThermostatManager {
   
   func fetchNewData() {
     guard state == ThermostatManagerState.Ready else {
+      // TODO: start timer to set manager back to ready
       return
     }
     state = .ExpectingNewData
@@ -54,6 +55,46 @@ final class ThermostatManagerImpl: ThermostatManager {
   
   func clearAllData() {
     thermostatLocations.removeAll()
+  }
+  
+  func exportThermostatLocations() -> [[String: AnyObject]] {
+    NSKeyedArchiver.setClassName("Thermostat", forClass: Thermostat.self)
+    // sort before export
+    return thermostatLocations.map { thermostatLocation in
+      [
+        "locationName": thermostatLocation.locationName,
+        "identifier": thermostatLocation.identifier,
+        "isOccupied": thermostatLocation.isOccupied,
+        "thermostats": NSKeyedArchiver.archivedDataWithRootObject(thermostatLocation.thermostats)
+      ]
+    }
+  }
+  
+  func importThermostatLocations(locations: [[String : AnyObject]]) {
+    clearAllData()
+    NSKeyedUnarchiver.setClass(Thermostat.self, forClassName: "Thermostat")
+    
+    for location in locations {
+      if let identifier = location["identifier"] as? String {
+        let thermostatLocation = ThermostatLocation(identifier: identifier)
+        
+        if let locationName = location["locationName"] as? String {
+          thermostatLocation.locationName = locationName
+        }
+        
+        if let isOccupied = location["isOccupied"] as? Bool {
+          thermostatLocation.isOccupied = isOccupied
+        }
+        
+        if let thermostatsEncoded = location["thermostats"] as? NSData {
+          if let thermostatsDecoded = NSKeyedUnarchiver.unarchiveObjectWithData(thermostatsEncoded) as? [Thermostat] {
+            thermostatLocation.thermostats = thermostatsDecoded
+          }
+        }
+        thermostatLocations.append(thermostatLocation)
+      }
+    }
+    delegate?.didUpdateListOfThermostats()
   }
 }
 
