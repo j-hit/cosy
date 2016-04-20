@@ -10,7 +10,7 @@ import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
   
-  private (set) var appIsActive = false
+  var appIsActive = false
   
   static let settingsProvider = ApplicationSettingsManager.sharedInstance
   

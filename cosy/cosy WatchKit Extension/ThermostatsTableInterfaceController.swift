@@ -44,6 +44,9 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   
   override func willActivate() {
     super.willActivate()
+    
+    watchDelegate.appIsActive = true
+    
     tryToFetchNewData()
     checkIfDataWasRetrievedFromiPhoneInTheBackground()
   }

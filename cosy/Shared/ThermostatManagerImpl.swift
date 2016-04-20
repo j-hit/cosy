@@ -59,7 +59,6 @@ final class ThermostatManagerImpl: ThermostatManager {
   
   func exportThermostatLocations() -> [[String: AnyObject]] {
     NSKeyedArchiver.setClassName("Thermostat", forClass: Thermostat.self)
-    // sort before export
     return thermostatLocations.map { thermostatLocation in
       [
         "locationName": thermostatLocation.locationName,
@@ -89,6 +88,9 @@ final class ThermostatManagerImpl: ThermostatManager {
         if let thermostatsEncoded = location["thermostats"] as? NSData {
           if let thermostatsDecoded = NSKeyedUnarchiver.unarchiveObjectWithData(thermostatsEncoded) as? [Thermostat] {
             thermostatLocation.thermostats = thermostatsDecoded
+            for thermostat in thermostatLocation.thermostats {
+              thermostat.correspondingLocation = thermostatLocation
+            }
           }
         }
         thermostatLocations.append(thermostatLocation)

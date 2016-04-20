@@ -33,30 +33,39 @@ final class ThermostatManagerMock: ThermostatManager {
     guard state == ThermostatManagerState.Ready else {
       return
     }
-    state = .ExpectingNewData
     
     let seconds = 2.0
     let delay = seconds * Double(NSEC_PER_SEC)
     let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
     
     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-      self.thermostatLocations = [ThermostatLocation]()
-      let locationCasa = ThermostatLocation(identifier: "1BIE53-5TXOH-DFTHT-2LBT4-11111", locationName: "Casa", isOccupied: true)
-      locationCasa.addThermostat(Thermostat(name: "Living room", correspondingLocation: locationCasa))
-      
-      let locationOffice = ThermostatLocation(identifier: "2BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Office", isOccupied: false)
-      locationOffice.addThermostat(Thermostat(name: "Lobby", correspondingLocation: locationCasa))
-      
-      let locationCountrySide = ThermostatLocation(identifier: "3BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Country side", isOccupied: false)
-      locationCountrySide.addThermostat(Thermostat(name: "Cottage", correspondingLocation: locationCasa))
-      
-      self.thermostatLocations.append(locationCasa)
-      self.thermostatLocations.append(locationOffice)
-      self.thermostatLocations.append(locationCountrySide)
-      
-      self.state = .Ready
-      self.delegate?.didUpdateListOfThermostats()
+      if self.thermostatLocations.count == 0 {
+        self.loadThermostatLocations()
+      } else {
+        self.delegate?.didUpdateListOfThermostats()
+      }
     })
+  }
+  
+  private func loadThermostatLocations() {
+    state = .ExpectingNewData
+    
+    thermostatLocations = [ThermostatLocation]()
+    let locationCasa = ThermostatLocation(identifier: "1BIE53-5TXOH-DFTHT-2LBT4-11111", locationName: "Casa", isOccupied: true)
+    locationCasa.addThermostat(Thermostat(name: "Living room", correspondingLocation: locationCasa))
+    
+    let locationOffice = ThermostatLocation(identifier: "2BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Office", isOccupied: false)
+    locationOffice.addThermostat(Thermostat(name: "Lobby", correspondingLocation: locationCasa))
+    
+    let locationCountrySide = ThermostatLocation(identifier: "3BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Country side", isOccupied: false)
+    locationCountrySide.addThermostat(Thermostat(name: "Cottage", correspondingLocation: locationCasa))
+    
+    thermostatLocations.append(locationCasa)
+    thermostatLocations.append(locationOffice)
+    thermostatLocations.append(locationCountrySide)
+    
+    state = .Ready
+    delegate?.didUpdateListOfThermostats()
   }
   
   func updateData(ofThermostat thermostat: Thermostat) {
@@ -117,6 +126,9 @@ final class ThermostatManagerMock: ThermostatManager {
         if let thermostatsEncoded = location["thermostats"] as? NSData {
           if let thermostatsDecoded = NSKeyedUnarchiver.unarchiveObjectWithData(thermostatsEncoded) as? [Thermostat] {
             thermostatLocation.thermostats = thermostatsDecoded
+            for thermostat in thermostatLocation.thermostats {
+              thermostat.correspondingLocation = thermostatLocation
+            }
           }
         }
         thermostatLocations.append(thermostatLocation)

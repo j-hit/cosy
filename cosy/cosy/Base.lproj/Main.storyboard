@@ -180,4 +180,5 @@
     <resources>
         <image name="Aquarium" width="2208" height="1853"/>
     </resources>
+    <color key="tintColor" red="0.46666666666666667" green="0.30588235294117649" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>
