@@ -25,6 +25,8 @@ class GlanceController: WKInterfaceController {
     }
   }
   
+  // MARK: - Lifecycle methods
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     watchDelegate = WKExtension.sharedExtension().delegate as? ExtensionDelegate
@@ -51,6 +53,8 @@ class GlanceController: WKInterfaceController {
     super.didDeactivate()
   }
   
+  // MARK: - Reloading data on view
+  
   private func showStateImage() {
     if let thermostat = thermostat {
       switch thermostat.state {
@@ -74,6 +78,7 @@ class GlanceController: WKInterfaceController {
   }
 }
 
+// MARK: - ThermostatDelegate
 extension GlanceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
     thermostatNameLabel.setText(newValue)

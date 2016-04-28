@@ -42,6 +42,8 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     }
   }
   
+  // MARK: - Lifecycle methods
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     watchDelegate.watchConnectivityHandler.delegate = self
@@ -63,6 +65,19 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   override func didDeactivate() {
     super.didDeactivate()
   }
+  
+  // MARK: - Table view specific methods
+  
+  override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table: WKInterfaceTable, rowIndex: Int) -> AnyObject? {
+    if segueIdentifier == segueIdentifierToShowThermostat {
+      if let row = table.rowControllerAtIndex(rowIndex) as? ThermostatRowController {
+        return row.thermostat
+      }
+    }
+    return nil
+  }
+  
+  // MARK: - Reloading data on view
   
   private func checkIfDataWasRetrievedFromiPhoneInTheBackground() {
     if(userHasBeenAuthenticated && thermostatManager?.thermostatLocations.count > 0) {
@@ -101,15 +116,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
         row.thermostat = thermostat
       }
     }
-  }
-  
-  override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table: WKInterfaceTable, rowIndex: Int) -> AnyObject? {
-    if segueIdentifier == segueIdentifierToShowThermostat {
-      if let row = table.rowControllerAtIndex(rowIndex) as? ThermostatRowController {
-        return row.thermostat
-      }
-    }
-    return nil
   }
   
   private func showAuthenticationRequiredMessage() {
@@ -170,6 +176,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   }
 }
 
+// MARK: - WatchAppWatchConnectivityHandlerDelegate
 extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
     if watchDelegate.appIsActive {
@@ -178,6 +185,7 @@ extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerD
   }
 }
 
+// MARK: - ThermostatManagerDelegate
 extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
     if watchDelegate.appIsActive {

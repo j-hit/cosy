@@ -125,7 +125,7 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
   }
   
   func thermostatDataAccessor(didFetchThermostat thermostat: Thermostat) {
-    // TODO: Handle and inform ThermostatManagerDelegate
+    // TODO: Handle and inform Thermostat - maybe handled already by thermostatDelegate
   }
   
   func thermostatDataAccessorFailedToFetchThermostat() {

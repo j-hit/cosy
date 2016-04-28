@@ -34,9 +34,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     return settingsProvider.baseURLOfCPSCloud
   }
   
-  func fetchDataOfThermostat(withIdentifier identifier: String) {
-    // TODO: Fetch data from server
-  }
+  // MARK: Fetch locations and thermostat names
   
   func fetchAvailableLocationsWithThermostatNames() {
     performRequestToFetchListOfLocations() // TODO: don't just pass through
@@ -118,5 +116,11 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       "Authorization": "Session \(sessionID)",
       "Content-Type": "application/json"
     ]
+  }
+  
+  // MARK: Fetch thermostat data
+  
+  func fetchDataOfThermostat(withIdentifier identifier: String) {
+    // TODO: Fetch data from server
   }
 }

@@ -17,18 +17,32 @@ class ThermostatInterfaceController: WKInterfaceController {
   @IBOutlet var temperatureSetPointLabel: WKInterfaceLabel!
   @IBOutlet var temperatureSetPointSlider: WKInterfaceSlider!
   @IBOutlet var informationLabel: WKInterfaceLabel!
+  @IBOutlet var errorIndicationImage: WKInterfaceImage!
+  @IBOutlet var topViewSeparator: WKInterfaceSeparator!
   
   private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
   
   private var thermostatManager: ThermostatManager?
-  var thermostat: Thermostat? {
+  private var thermostat: Thermostat? {
     didSet {
       self.setTitle(thermostat?.name)
     }
   }
-  var lastThermostatState = ThermostatState.Idle
+  private var lastThermostatState = ThermostatState.Idle
   
-  var timer: NSTimer?
+  private var timer: NSTimer?
+  
+  private var lastDataFetchWasFaulty = false {
+    didSet {
+      if lastDataFetchWasFaulty == true {
+        showErrorIndication(true)
+      } else if lastDataFetchWasFaulty == false && oldValue == true {
+        showErrorIndication(false)
+      }
+    }
+  }
+  
+  // MARK: Lifecycle methods
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
@@ -50,6 +64,8 @@ class ThermostatInterfaceController: WKInterfaceController {
       }
     }
   }
+  
+  // MARK: Reloading data on view
   
   private func reloadDataShownOnView() {
     if let currentTemperature = thermostat?.currentTemperature {
@@ -190,22 +206,36 @@ class ThermostatInterfaceController: WKInterfaceController {
       thermostatManager?.saveTemperatureSetPointOfThermostat(thermostat)
     }
   }
+  
+  // MARK: Error handling
+  
+  func showErrorIndication(showErrorOnView: Bool) {
+    if showErrorOnView {
+      errorIndicationImage.setHidden(false)
+    } else {
+      errorIndicationImage.setHidden(true)
+    }
+  }
 }
 
+// MARK: - ThermostatDelegate
 extension ThermostatInterfaceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
     // TODO: Update name on view
+    lastDataFetchWasFaulty = false
   }
   
   func didUpdateCurrentTemperature(toNewValue newValue: Int) {
     // TODO: Update current temperature on view
+    lastDataFetchWasFaulty = false
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
     // TODO: Update temperature set point on view
+    lastDataFetchWasFaulty = false
   }
   
   func didFailToRetrieveData(withError error: String) {
-    // TODO: Show error icon
+    lastDataFetchWasFaulty = true
   }
 }

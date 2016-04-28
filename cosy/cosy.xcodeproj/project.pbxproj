@@ -300,8 +300,8 @@
 				1A7C04811CAE6111002CDE1A /* LocationRowController.swift */,
 				1A7C04831CAE6120002CDE1A /* ThermostatRowController.swift */,
 				1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */,
-				1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */,
 				1AD6972D1CD259E100ABE9B8 /* ErrorRowController.swift */,
+				1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */,
 			);
 			name = view;
 			sourceTree = "<group>";
