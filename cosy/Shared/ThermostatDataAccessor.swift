@@ -12,6 +12,7 @@ protocol ThermostatDataAccessorDelegate {
   func thermostatDataAccessor(didFetchLocations locations: [ThermostatLocation])
   func thermostatDataAccessorFailedToFetchLocations()
   func thermostatDataAccessor(didFetchThermostat thermostat: Thermostat)
+  func thermostatDataAccessorFailedToFetchThermostat()
 }
 
 protocol ThermostatDataAccessor {

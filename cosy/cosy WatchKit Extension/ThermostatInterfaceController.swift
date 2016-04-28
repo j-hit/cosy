@@ -191,3 +191,21 @@ class ThermostatInterfaceController: WKInterfaceController {
     }
   }
 }
+
+extension ThermostatInterfaceController: ThermostatDelegate {
+  func didUpdateName(toNewValue newValue: String) {
+    // TODO: Update name on view
+  }
+  
+  func didUpdateCurrentTemperature(toNewValue newValue: Int) {
+    // TODO: Update current temperature on view
+  }
+  
+  func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
+    // TODO: Update temperature set point on view
+  }
+  
+  func didFailToRetrieveData(withError error: String) {
+    // TODO: Show error icon
+  }
+}

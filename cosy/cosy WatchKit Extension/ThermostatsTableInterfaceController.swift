@@ -32,6 +32,16 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     }
   }
   
+  private var lastDataFetchWasFaulty = false {
+    didSet {
+      if lastDataFetchWasFaulty == true {
+        showErrorIndication()
+      } else if lastDataFetchWasFaulty == false && oldValue == true {
+        removeErrorIndication()
+      }
+    }
+  }
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     watchDelegate.watchConnectivityHandler.delegate = self
@@ -46,7 +56,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     super.willActivate()
     
     watchDelegate.appIsActive = true
-    
     tryToFetchNewData()
     checkIfDataWasRetrievedFromiPhoneInTheBackground()
   }
@@ -119,6 +128,19 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     }
   }
   
+  private func showErrorIndication() {
+    guard thermostatsTable.rowControllerAtIndex(0) as? ErrorRowController == nil else {
+      return
+    }
+    thermostatsTable.insertRowsAtIndexes(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowType: ErrorRowController.identifier)
+  }
+  
+  private func removeErrorIndication() {
+    if let _ = thermostatsTable.rowControllerAtIndex(0) as? ErrorRowController {
+      thermostatsTable.removeRowsAtIndexes(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)))
+    }
+  }
+  
   private func clearThermostatsTable() {
     thermostatsTable.removeRowsAtIndexes(NSIndexSet(indexesInRange: NSRange(location: 0, length: thermostatsTable.numberOfRows)))
   }
@@ -161,5 +183,10 @@ extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
     if watchDelegate.appIsActive {
       reloadDataShownOnView()
     }
+    lastDataFetchWasFaulty = false
+  }
+  
+  func didFailToRetrieveData(withError error: String) {
+    lastDataFetchWasFaulty = true
   }
 }

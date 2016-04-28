@@ -67,6 +67,7 @@
 		1ACBA5211CBF96FF00814DD9 /* ThermostatLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBA5201CBF96FF00814DD9 /* ThermostatLocationTests.swift */; };
 		1ACBA5231CBF9FA200814DD9 /* ThermostatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBA5221CBF9FA200814DD9 /* ThermostatTests.swift */; };
 		1AD410261CC1928400722562 /* ThermostatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD410251CC1928400722562 /* ThermostatTableViewCell.swift */; };
+		1AD6972E1CD259E100ABE9B8 /* ErrorRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6972D1CD259E100ABE9B8 /* ErrorRowController.swift */; };
 		1AD8673B1CB4D93D00B940DE /* SettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */; };
 		1AD8673C1CB4D94F00B940DE /* SettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */; };
 		1AEF1CAD1CAE98A0008B346D /* InformationRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */; };
@@ -188,6 +189,7 @@
 		1ACBA5201CBF96FF00814DD9 /* ThermostatLocationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatLocationTests.swift; sourceTree = "<group>"; };
 		1ACBA5221CBF9FA200814DD9 /* ThermostatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatTests.swift; sourceTree = "<group>"; };
 		1AD410251CC1928400722562 /* ThermostatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatTableViewCell.swift; sourceTree = "<group>"; };
+		1AD6972D1CD259E100ABE9B8 /* ErrorRowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorRowController.swift; sourceTree = "<group>"; };
 		1AD8673A1CB4D93D00B940DE /* SettingsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsProvider.swift; path = Shared/SettingsProvider.swift; sourceTree = "<group>"; };
 		1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationRowController.swift; sourceTree = "<group>"; };
 		1AEF1CAE1CAEA422008B346D /* ThermostatManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatManagerImpl.swift; path = Shared/ThermostatManagerImpl.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				1A7C04831CAE6120002CDE1A /* ThermostatRowController.swift */,
 				1AEF1CAC1CAE98A0008B346D /* InformationRowController.swift */,
 				1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */,
+				1AD6972D1CD259E100ABE9B8 /* ErrorRowController.swift */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 				1A97C9891C8B62710089D269 /* GlanceController.swift in Sources */,
 				1A3DD38B1CC033B8001C0BB0 /* ThermostatManagerMock.swift in Sources */,
 				1A5AE6E61CB106C5008E4A3B /* ThermostatDataAccessor.swift in Sources */,
+				1AD6972E1CD259E100ABE9B8 /* ErrorRowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

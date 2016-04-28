@@ -12,6 +12,17 @@
                     <items>
                         <table alignment="left" id="EkT-oj-jEw">
                             <items>
+                                <tableRow identifier="ErrorRow" id="i60-gJ-z7R" customClass="ErrorRowController" customModule="cosy_WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="27I-CE-VwB">
+                                        <items>
+                                            <imageView alignment="center" verticalAlignment="center" image="failed" id="fdH-wF-rKT"/>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="failedImage" destination="fdH-wF-rKT" id="lP6-ds-w1e"/>
+                                    </connections>
+                                </tableRow>
                                 <tableRow identifier="LocationRow" selectable="NO" id="j3F-3u-9l3" customClass="LocationRowController" customModule="cosy_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" id="PKv-P8-I0O">
                                         <items>

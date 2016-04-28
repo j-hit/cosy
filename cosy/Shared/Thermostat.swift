@@ -12,6 +12,7 @@ protocol ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String)
   func didUpdateCurrentTemperature(toNewValue newValue: Int)
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int)
+  func didFailToRetrieveData(withError error: String)
 }
 
 final class Thermostat: NSObject, NSCoding {

@@ -88,4 +88,8 @@ extension ThermostatsTableViewController: ThermostatManagerDelegate {
     thermostatLocations = thermostatManager.thermostatLocations
     watchConnectivityHandler.transferAppContextToWatch(withDataFromThermsotatManager: thermostatManager)
   }
+  
+  func didFailToRetrieveData(withError error: String) {
+    // TODO: Show information
+  }
 }

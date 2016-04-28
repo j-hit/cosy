@@ -19,6 +19,12 @@ class GlanceController: WKInterfaceController {
   private var thermostat: Thermostat?
   private var watchDelegate: ExtensionDelegate?
   
+  private var lastDataFetchWasFaulty = false {
+    didSet {
+      // TODO: Show error icon
+    }
+  }
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     watchDelegate = WKExtension.sharedExtension().delegate as? ExtensionDelegate
@@ -37,6 +43,8 @@ class GlanceController: WKInterfaceController {
       
       watchDelegate?.thermostatManager.updateData(ofThermostat: thermostat)
     }
+    
+    lastDataFetchWasFaulty = false
   }
   
   override func didDeactivate() {
@@ -79,5 +87,9 @@ extension GlanceController: ThermostatDelegate {
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
     showTemperatureSetpoint(newValue)
     showStateImage()
+  }
+  
+  func didFailToRetrieveData(withError error: String) {
+    lastDataFetchWasFaulty = true
   }
 }
