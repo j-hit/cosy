@@ -48,6 +48,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     super.awakeWithContext(context)
     self.thermostat = context as? Thermostat
     self.thermostatManager = watchDelegate.thermostatManager
+    watchDelegate.watchConnectivityHandler.delegate = self
     visualiseForState(lastThermostatState)
   }
   
@@ -238,5 +239,14 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   func didFailToRetrieveData(withError error: String) {
     lastDataFetchWasFaulty = true
     WKInterfaceDevice.currentDevice().playHaptic(.Retry)
+  }
+}
+
+// MARK: - WatchAppWatchConnectivityHandlerDelegate
+extension ThermostatInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
+  func didUpdateApplicationSettings() {
+    if ExtensionDelegate.settingsProvider.sessionID == nil {
+      popController()
+    }
   }
 }
