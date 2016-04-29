@@ -154,13 +154,18 @@
                         </group>
                         <group alignment="left" layout="vertical" id="uCw-4Q-Ouw">
                             <items>
-                                <label alignment="center" verticalAlignment="center" text="23" id="P10-Am-o8c">
-                                    <color key="textColor" red="0.19607843137254902" green="0.62745098039215685" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" weight="ultraLight" pointSize="65"/>
-                                    <variation key="device=watch42mm">
-                                        <fontDescription key="font" type="system" weight="ultraLight" pointSize="75"/>
-                                    </variation>
-                                </label>
+                                <group width="1" alignment="left" id="Xc5-ik-Gum">
+                                    <items>
+                                        <imageView alignment="left" verticalAlignment="center" hidden="YES" image="failed" id="cUg-zy-F08"/>
+                                        <label alignment="center" verticalAlignment="center" text="17" id="P10-Am-o8c">
+                                            <color key="textColor" red="0.19607843137254902" green="0.62745098039215685" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" weight="ultraLight" pointSize="65"/>
+                                            <variation key="device=watch42mm">
+                                                <fontDescription key="font" type="system" weight="ultraLight" pointSize="75"/>
+                                            </variation>
+                                        </label>
+                                    </items>
+                                </group>
                                 <label alignment="center" verticalAlignment="bottom" text="now 18" id="L7U-mP-lUE">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="font" type="system" weight="ultraLight" pointSize="18"/>
@@ -171,6 +176,7 @@
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="L7U-mP-lUE" id="YkB-M1-Hlh"/>
+                        <outlet property="errorIndicationImage" destination="cUg-zy-F08" id="h2u-F5-kTp"/>
                         <outlet property="temperatureSetpointLabel" destination="P10-Am-o8c" id="scc-hw-hjy"/>
                         <outlet property="thermostatNameLabel" destination="3Ah-4c-d1E" id="Pft-Ah-keV"/>
                         <outlet property="thermostatStateImage" destination="gZj-rz-aFf" id="Okg-JQ-Xae"/>

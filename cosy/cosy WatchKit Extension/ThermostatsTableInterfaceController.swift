@@ -196,5 +196,6 @@ extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   
   func didFailToRetrieveData(withError error: String) {
     lastDataFetchWasFaulty = true
+    WKInterfaceDevice.currentDevice().playHaptic(.Retry)
   }
 }

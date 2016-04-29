@@ -15,13 +15,18 @@ class GlanceController: WKInterfaceController {
   @IBOutlet var temperatureSetpointLabel: WKInterfaceLabel!
   @IBOutlet var currentTemperatureLabel: WKInterfaceLabel!
   @IBOutlet var thermostatStateImage: WKInterfaceImage!
+  @IBOutlet var errorIndicationImage: WKInterfaceImage!
   
   private var thermostat: Thermostat?
   private var watchDelegate: ExtensionDelegate?
   
   private var lastDataFetchWasFaulty = false {
     didSet {
-      // TODO: Show error icon
+      if lastDataFetchWasFaulty == true {
+        showErrorIndication(true)
+      } else if lastDataFetchWasFaulty == false && oldValue == true {
+        showErrorIndication(false)
+      }
     }
   }
   
@@ -45,8 +50,6 @@ class GlanceController: WKInterfaceController {
       
       watchDelegate?.thermostatManager.updateData(ofThermostat: thermostat)
     }
-    
-    lastDataFetchWasFaulty = false
   }
   
   override func didDeactivate() {
@@ -76,25 +79,39 @@ class GlanceController: WKInterfaceController {
     temperatureSetpointLabel.setText("\(temperatureSetpoint ?? 0)")
     temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
   }
+  
+  // MARK: Error handling
+  
+  func showErrorIndication(showErrorOnView: Bool) {
+    if showErrorOnView {
+      errorIndicationImage.setHidden(false)
+    } else {
+      errorIndicationImage.setHidden(true)
+    }
+  }
 }
 
 // MARK: - ThermostatDelegate
 extension GlanceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
     thermostatNameLabel.setText(newValue)
+    lastDataFetchWasFaulty = false
   }
   
   func didUpdateCurrentTemperature(toNewValue newValue: Int) {
     showCurrentTemperature(newValue)
     showStateImage()
+    lastDataFetchWasFaulty = false
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
     showTemperatureSetpoint(newValue)
     showStateImage()
+    lastDataFetchWasFaulty = false
   }
   
   func didFailToRetrieveData(withError error: String) {
     lastDataFetchWasFaulty = true
+    WKInterfaceDevice.currentDevice().playHaptic(.Retry)
   }
 }
