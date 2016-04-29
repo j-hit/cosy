@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
   }
 }
 
+// MARK: - AuthenticatorDelegate
 extension LoginViewController: AuthenticatorDelegate {
   func authenticator(didRetrieveSessionID sessionID: String) {
     performSegueWithIdentifier(segueIdentifierToShowThermostatsView, sender: nil)

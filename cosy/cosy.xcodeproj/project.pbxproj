@@ -31,6 +31,7 @@
 		1A7C04861CAE643D002CDE1A /* ThermostatLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C04851CAE643D002CDE1A /* ThermostatLocation.swift */; };
 		1A7C04881CAE65BB002CDE1A /* Thermostat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C04871CAE65BB002CDE1A /* Thermostat.swift */; };
 		1A7C048A1CAE6621002CDE1A /* ThermostatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C04891CAE6621002CDE1A /* ThermostatManager.swift */; };
+		1A92FB661CD37CF1005532DE /* iPhoneWatchConnectivityHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A92FB651CD37CF1005532DE /* iPhoneWatchConnectivityHandlerDelegate.swift */; };
 		1A954F1D1CB79A5300D5C06D /* ThermostatStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F1C1CB79A5300D5C06D /* ThermostatStateVisualiser.swift */; };
 		1A954F1F1CB79B7E00D5C06D /* HeatingStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F1E1CB79B7E00D5C06D /* HeatingStateVisualiser.swift */; };
 		1A954F211CB79CEB00D5C06D /* CoolingStateVisualiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A954F201CB79CEB00D5C06D /* CoolingStateVisualiser.swift */; };
@@ -152,6 +153,7 @@
 		1A7C04851CAE643D002CDE1A /* ThermostatLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatLocation.swift; path = Shared/ThermostatLocation.swift; sourceTree = "<group>"; };
 		1A7C04871CAE65BB002CDE1A /* Thermostat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Thermostat.swift; path = Shared/Thermostat.swift; sourceTree = "<group>"; };
 		1A7C04891CAE6621002CDE1A /* ThermostatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatManager.swift; path = Shared/ThermostatManager.swift; sourceTree = "<group>"; };
+		1A92FB651CD37CF1005532DE /* iPhoneWatchConnectivityHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iPhoneWatchConnectivityHandlerDelegate.swift; sourceTree = "<group>"; };
 		1A954F1C1CB79A5300D5C06D /* ThermostatStateVisualiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatStateVisualiser.swift; path = Shared/ThermostatStateVisualiser.swift; sourceTree = "<group>"; };
 		1A954F1E1CB79B7E00D5C06D /* HeatingStateVisualiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeatingStateVisualiser.swift; path = Shared/HeatingStateVisualiser.swift; sourceTree = "<group>"; };
 		1A954F201CB79CEB00D5C06D /* CoolingStateVisualiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoolingStateVisualiser.swift; path = Shared/CoolingStateVisualiser.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				1A2A9E2D1CA91159009550C1 /* iPhoneWatchConnectivityHandler.swift */,
+				1A92FB651CD37CF1005532DE /* iPhoneWatchConnectivityHandlerDelegate.swift */,
 			);
 			name = service;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 				1A473DAF1CC0C1320028CF95 /* ThermostatState.swift in Sources */,
 				1A5AE6E51CB106C5008E4A3B /* ThermostatDataAccessor.swift in Sources */,
 				1A09F38F1CA86CCD00D91E69 /* ApplicationSettingsManager.swift in Sources */,
+				1A92FB661CD37CF1005532DE /* iPhoneWatchConnectivityHandlerDelegate.swift in Sources */,
 				1A97C94A1C8B626E0089D269 /* LoginViewController.swift in Sources */,
 				1AD8673B1CB4D93D00B940DE /* SettingsProvider.swift in Sources */,
 				1A09F3961CA87DEE00D91E69 /* AuthenticatorImpl.swift in Sources */,

@@ -96,8 +96,12 @@
                         </group>
                         <group width="1" alignment="left" verticalAlignment="center" id="A9W-kW-HVe">
                             <items>
-                                <imageView alignment="left" verticalAlignment="center" hidden="YES" image="failed" id="4n4-u1-7XD"/>
-                                <label alignment="center" verticalAlignment="center" text="--°" id="ygq-QZ-zPd">
+                                <button alignment="left" verticalAlignment="center" backgroundImage="failed" id="Mvi-Uj-l3y">
+                                    <connections>
+                                        <action selector="onErrorIndicationImageTapped" destination="OjV-xj-1aT" id="vdO-nk-Bjq"/>
+                                    </connections>
+                                </button>
+                                <label alignment="center" verticalAlignment="center" text="23°" id="ygq-QZ-zPd">
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="font" type="system" weight="thin" pointSize="75"/>
                                     <variation key="device=watch38mm">
@@ -127,7 +131,7 @@
                     </menu>
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="sYJ-he-f92" id="7eG-Du-MLn"/>
-                        <outlet property="errorIndicationImage" destination="4n4-u1-7XD" id="FWe-NE-rUO"/>
+                        <outlet property="errorIndiciationButton" destination="Mvi-Uj-l3y" id="jjb-Yk-Mw0"/>
                         <outlet property="heatCoolLabel" destination="qBW-eA-vpx" id="rCy-Jb-KMC"/>
                         <outlet property="informationLabel" destination="Pzd-fT-WXV" id="3hP-OT-d2F"/>
                         <outlet property="temperatureSetPointLabel" destination="ygq-QZ-zPd" id="Fz5-t7-PJh"/>

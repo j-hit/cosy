@@ -35,8 +35,21 @@ final class WatchAppWatchConnectivityHandler: NSObject {
       session.activateSession()
     }
   }
+  
+  func transmitErrorToiPhone(error: String) {
+    let session = WCSession.defaultSession()
+    if session.reachable {
+      let message = ["error": error]
+      session.sendMessage(message, replyHandler: nil, errorHandler: { (error: NSError) in
+        print("Error: \(error.localizedDescription)")
+      })
+    } else {
+      print("iPhone is not reachable")
+    }
+  }
 }
 
+// MARK: - WCSessionDelegate
 extension WatchAppWatchConnectivityHandler: WCSessionDelegate {
   func session(session: WCSession, didReceiveApplicationContext applicationContext: [String : AnyObject]) {
     print("Phone->Watch Receiving Context: \(applicationContext)")

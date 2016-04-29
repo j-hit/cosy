@@ -17,8 +17,8 @@ class ThermostatInterfaceController: WKInterfaceController {
   @IBOutlet var temperatureSetPointLabel: WKInterfaceLabel!
   @IBOutlet var temperatureSetPointSlider: WKInterfaceSlider!
   @IBOutlet var informationLabel: WKInterfaceLabel!
-  @IBOutlet var errorIndicationImage: WKInterfaceImage!
   @IBOutlet var topViewSeparator: WKInterfaceSeparator!
+  @IBOutlet var errorIndiciationButton: WKInterfaceButton!
   
   private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
   
@@ -187,6 +187,12 @@ class ThermostatInterfaceController: WKInterfaceController {
     WKInterfaceDevice.currentDevice().playHaptic(.Success)
   }
   
+  @IBAction func onErrorIndicationImageTapped() {
+    let thermostatName = thermostat?.name ?? ""
+    
+    watchDelegate.watchConnectivityHandler.transmitErrorToiPhone("Could not fetch new data of thermostat \(thermostatName)")
+  }
+  
   // MARK: Interface builder actions
   
   @IBAction func onTemperatureSetPointChanged(value: Float) {
@@ -212,9 +218,9 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   func showErrorIndication(showErrorOnView: Bool) {
     if showErrorOnView {
-      errorIndicationImage.setHidden(false)
+      errorIndiciationButton.setHidden(false)
     } else {
-      errorIndicationImage.setHidden(true)
+      errorIndiciationButton.setHidden(true)
     }
   }
 }

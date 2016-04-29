@@ -77,6 +77,12 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     return nil
   }
   
+  override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
+    if let _ = table.rowControllerAtIndex(rowIndex) as? ErrorRowController {
+      watchDelegate.watchConnectivityHandler.transmitErrorToiPhone("Could not fetch new list of thermostats")
+    }
+  }
+  
   // MARK: - Reloading data on view
   
   private func checkIfDataWasRetrievedFromiPhoneInTheBackground() {
