@@ -79,7 +79,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   
   override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
     if let _ = table.rowControllerAtIndex(rowIndex) as? ErrorRowController {
-      watchDelegate.watchConnectivityHandler.transmitErrorToiPhone("Could not fetch new list of thermostats")
+      watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(NSLocalizedString("ErrorFetchingListOfThermostats", comment: "Message shown to the user when an error occurs while fetching the list of thermostats"))
     }
   }
   

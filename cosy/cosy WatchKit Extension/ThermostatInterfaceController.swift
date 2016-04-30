@@ -189,8 +189,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   @IBAction func onErrorIndicationImageTapped() {
     let thermostatName = thermostat?.name ?? ""
-    
-    watchDelegate.watchConnectivityHandler.transmitErrorToiPhone("Could not fetch new data of thermostat \(thermostatName)")
+    watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(String(format: NSLocalizedString("ErrorFetchingThermostatInformation", comment: "Message shown to the user when an error occurs while fetching information of a thermostat"), thermostatName))
   }
   
   // MARK: Interface builder actions
