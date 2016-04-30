@@ -195,7 +195,9 @@ extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerD
 extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
     if watchDelegate.appIsActive {
-      reloadDataShownOnView()
+      dispatch_async(dispatch_get_main_queue()) {
+        self.reloadDataShownOnView()
+      }
     }
     lastDataFetchWasFaulty = false
   }
