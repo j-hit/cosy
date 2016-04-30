@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import Latch
 
 final class ApplicationSettingsManager: SettingsProvider {
   static let sharedInstance = ApplicationSettingsManager()
   var key: String {
     return "applicationSettings"
   }
-
+  
   private struct keys {
     static let lastUsedEmailAddress = "emailAddress"
     static let lastUsedPassword = "password"
@@ -23,6 +24,11 @@ final class ApplicationSettingsManager: SettingsProvider {
   }
   
   private lazy var userDefaults = NSUserDefaults.standardUserDefaults()
+  private let latch: Latch
+  
+  private init() {
+    latch = Latch(service: "com.pentapie.BampoeJ.cosy")
+  }
   
   var favouriteThermostat: Thermostat? {
     get {
@@ -47,33 +53,36 @@ final class ApplicationSettingsManager: SettingsProvider {
       return NSUserDefaults.standardUserDefaults().boolForKey(keys.mockModeEnabled)
     }
     set {
+      if newValue != mockModeEnabled {
+        latch.removeObjectForKey(keys.sessionID)
+      }
       userDefaults.setObject(newValue, forKey: keys.mockModeEnabled)
     }
   }
   
   var lastUsedEmailAddress: String {
     get {
-      if let emailAddress = userDefaults.stringForKey(keys.lastUsedEmailAddress) {
-        return emailAddress
+      if let emailAddressData = latch.dataForKey(keys.lastUsedEmailAddress) {
+        return NSString(data: emailAddressData, encoding: NSUTF8StringEncoding) as? String ?? ""
       } else {
         return ""
       }
     }
     set {
-      userDefaults.setObject(newValue, forKey: keys.lastUsedEmailAddress)
+      latch.setObject(newValue, forKey: keys.lastUsedEmailAddress)
     }
   }
   
   var lastUsedPassword: String {
     get {
-      if let password = userDefaults.stringForKey(keys.lastUsedPassword) {
-        return password
+      if let passwordData = latch.dataForKey(keys.lastUsedPassword) {
+        return NSString(data: passwordData, encoding: NSUTF8StringEncoding) as? String ?? ""
       } else {
         return ""
       }
     }
     set {
-      userDefaults.setObject(newValue, forKey: keys.lastUsedPassword)
+      latch.setObject(newValue, forKey: keys.lastUsedPassword)
     }
   }
   
@@ -92,17 +101,18 @@ final class ApplicationSettingsManager: SettingsProvider {
   
   var sessionID: String? {
     get {
-      if let sessionID = userDefaults.stringForKey(keys.sessionID) {
-        return sessionID
+      if let sessionIDData = latch.dataForKey(keys.sessionID) {
+        return NSString(data: sessionIDData, encoding: NSUTF8StringEncoding) as? String
+        
       } else {
         return nil
       }
     }
     set {
       if let sessionID = newValue {
-        userDefaults.setObject(sessionID, forKey: keys.sessionID)
+        latch.setObject(sessionID, forKey: keys.sessionID)
       } else {
-        userDefaults.removeObjectForKey(keys.sessionID)
+        latch.removeObjectForKey(keys.sessionID)
       }
     }
   }
@@ -131,9 +141,5 @@ final class ApplicationSettingsManager: SettingsProvider {
     if let baseURLOfCPSCloud = dictionary[keys.baseURL] as? String {
       self.baseURLOfCPSCloud = baseURLOfCPSCloud
     }
-  }
-  
-  private init() {
-    
   }
 }
