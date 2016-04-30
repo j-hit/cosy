@@ -96,12 +96,12 @@
                         </group>
                         <group width="1" alignment="left" verticalAlignment="center" id="A9W-kW-HVe">
                             <items>
-                                <button alignment="left" verticalAlignment="center" backgroundImage="failed" id="Mvi-Uj-l3y">
+                                <button alignment="left" verticalAlignment="center" hidden="YES" backgroundImage="failed" id="Mvi-Uj-l3y">
                                     <connections>
                                         <action selector="onErrorIndicationImageTapped" destination="OjV-xj-1aT" id="vdO-nk-Bjq"/>
                                     </connections>
                                 </button>
-                                <label alignment="center" verticalAlignment="center" text="23°" id="ygq-QZ-zPd">
+                                <label alignment="center" verticalAlignment="center" text="--°" id="ygq-QZ-zPd">
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="font" type="system" weight="thin" pointSize="75"/>
                                     <variation key="device=watch38mm">
