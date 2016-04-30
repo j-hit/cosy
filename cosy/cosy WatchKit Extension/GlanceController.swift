@@ -15,9 +15,22 @@ class GlanceController: WKInterfaceController {
   @IBOutlet var temperatureSetpointLabel: WKInterfaceLabel!
   @IBOutlet var currentTemperatureLabel: WKInterfaceLabel!
   @IBOutlet var thermostatStateImage: WKInterfaceImage!
+  @IBOutlet var errorIndicationImage: WKInterfaceImage!
   
   private var thermostat: Thermostat?
   private var watchDelegate: ExtensionDelegate?
+  
+  private var lastDataFetchWasFaulty = false {
+    didSet {
+      if lastDataFetchWasFaulty == true {
+        showErrorIndication(true)
+      } else if lastDataFetchWasFaulty == false && oldValue == true {
+        showErrorIndication(false)
+      }
+    }
+  }
+  
+  // MARK: - Lifecycle methods
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
@@ -43,6 +56,8 @@ class GlanceController: WKInterfaceController {
     super.didDeactivate()
   }
   
+  // MARK: - Reloading data on view
+  
   private func showStateImage() {
     if let thermostat = thermostat {
       switch thermostat.state {
@@ -64,20 +79,39 @@ class GlanceController: WKInterfaceController {
     temperatureSetpointLabel.setText("\(temperatureSetpoint ?? 0)")
     temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
   }
+  
+  // MARK: Error handling
+  
+  func showErrorIndication(showErrorOnView: Bool) {
+    if showErrorOnView {
+      errorIndicationImage.setHidden(false)
+    } else {
+      errorIndicationImage.setHidden(true)
+    }
+  }
 }
 
+// MARK: - ThermostatDelegate
 extension GlanceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
     thermostatNameLabel.setText(newValue)
+    lastDataFetchWasFaulty = false
   }
   
   func didUpdateCurrentTemperature(toNewValue newValue: Int) {
     showCurrentTemperature(newValue)
     showStateImage()
+    lastDataFetchWasFaulty = false
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
     showTemperatureSetpoint(newValue)
     showStateImage()
+    lastDataFetchWasFaulty = false
+  }
+  
+  func didFailToRetrieveData(withError error: String) {
+    lastDataFetchWasFaulty = true
+    WKInterfaceDevice.currentDevice().playHaptic(.Retry)
   }
 }

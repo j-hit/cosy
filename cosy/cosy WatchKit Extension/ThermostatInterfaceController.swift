@@ -17,23 +17,38 @@ class ThermostatInterfaceController: WKInterfaceController {
   @IBOutlet var temperatureSetPointLabel: WKInterfaceLabel!
   @IBOutlet var temperatureSetPointSlider: WKInterfaceSlider!
   @IBOutlet var informationLabel: WKInterfaceLabel!
+  @IBOutlet var topViewSeparator: WKInterfaceSeparator!
+  @IBOutlet var errorIndiciationButton: WKInterfaceButton!
   
   private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
   
   private var thermostatManager: ThermostatManager?
-  var thermostat: Thermostat? {
+  private var thermostat: Thermostat? {
     didSet {
       self.setTitle(thermostat?.name)
     }
   }
-  var lastThermostatState = ThermostatState.Idle
+  private var lastThermostatState = ThermostatState.Idle
   
-  var timer: NSTimer?
+  private var timer: NSTimer?
+  
+  private var lastDataFetchWasFaulty = false {
+    didSet {
+      if lastDataFetchWasFaulty == true {
+        showErrorIndication(true)
+      } else if lastDataFetchWasFaulty == false && oldValue == true {
+        showErrorIndication(false)
+      }
+    }
+  }
+  
+  // MARK: Lifecycle methods
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     self.thermostat = context as? Thermostat
     self.thermostatManager = watchDelegate.thermostatManager
+    watchDelegate.watchConnectivityHandler.delegate = self
     visualiseForState(lastThermostatState)
   }
   
@@ -50,6 +65,8 @@ class ThermostatInterfaceController: WKInterfaceController {
       }
     }
   }
+  
+  // MARK: Reloading data on view
   
   private func reloadDataShownOnView() {
     if let currentTemperature = thermostat?.currentTemperature {
@@ -170,6 +187,11 @@ class ThermostatInterfaceController: WKInterfaceController {
     WKInterfaceDevice.currentDevice().playHaptic(.Success)
   }
   
+  @IBAction func onErrorIndicationImageTapped() {
+    let thermostatName = thermostat?.name ?? ""
+    watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(String(format: NSLocalizedString("ErrorFetchingThermostatInformation", comment: "Message shown to the user when an error occurs while fetching information of a thermostat"), thermostatName))
+  }
+  
   // MARK: Interface builder actions
   
   @IBAction func onTemperatureSetPointChanged(value: Float) {
@@ -188,6 +210,48 @@ class ThermostatInterfaceController: WKInterfaceController {
   func saveTemperatureSetPoint() {
     if let thermostat = thermostat {
       thermostatManager?.saveTemperatureSetPointOfThermostat(thermostat)
+    }
+  }
+  
+  // MARK: Error handling
+  
+  func showErrorIndication(showErrorOnView: Bool) {
+    if showErrorOnView {
+      errorIndiciationButton.setHidden(false)
+    } else {
+      errorIndiciationButton.setHidden(true)
+    }
+  }
+}
+
+// MARK: - ThermostatDelegate
+extension ThermostatInterfaceController: ThermostatDelegate {
+  func didUpdateName(toNewValue newValue: String) {
+    // TODO: Update name on view
+    lastDataFetchWasFaulty = false
+  }
+  
+  func didUpdateCurrentTemperature(toNewValue newValue: Int) {
+    // TODO: Update current temperature on view
+    lastDataFetchWasFaulty = false
+  }
+  
+  func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
+    // TODO: Update temperature set point on view
+    lastDataFetchWasFaulty = false
+  }
+  
+  func didFailToRetrieveData(withError error: String) {
+    lastDataFetchWasFaulty = true
+    WKInterfaceDevice.currentDevice().playHaptic(.Retry)
+  }
+}
+
+// MARK: - WatchAppWatchConnectivityHandlerDelegate
+extension ThermostatInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
+  func didUpdateApplicationSettings() {
+    if ExtensionDelegate.settingsProvider.sessionID == nil {
+      popController()
     }
   }
 }

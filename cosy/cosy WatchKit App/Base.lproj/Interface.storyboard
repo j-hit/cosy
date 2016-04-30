@@ -12,6 +12,17 @@
                     <items>
                         <table alignment="left" id="EkT-oj-jEw">
                             <items>
+                                <tableRow identifier="ErrorRow" id="i60-gJ-z7R" customClass="ErrorRowController" customModule="cosy_WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="27I-CE-VwB">
+                                        <items>
+                                            <imageView alignment="center" verticalAlignment="center" image="failed" id="fdH-wF-rKT"/>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="failedImage" destination="fdH-wF-rKT" id="lP6-ds-w1e"/>
+                                    </connections>
+                                </tableRow>
                                 <tableRow identifier="LocationRow" selectable="NO" id="j3F-3u-9l3" customClass="LocationRowController" customModule="cosy_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" id="PKv-P8-I0O">
                                         <items>
@@ -83,10 +94,22 @@
                                 </label>
                             </items>
                         </group>
-                        <label alignment="center" verticalAlignment="center" text="--°" id="ygq-QZ-zPd">
-                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="font" type="system" weight="thin" pointSize="70"/>
-                        </label>
+                        <group width="1" alignment="left" verticalAlignment="center" id="A9W-kW-HVe">
+                            <items>
+                                <button alignment="left" verticalAlignment="center" backgroundImage="failed" id="Mvi-Uj-l3y">
+                                    <connections>
+                                        <action selector="onErrorIndicationImageTapped" destination="OjV-xj-1aT" id="vdO-nk-Bjq"/>
+                                    </connections>
+                                </button>
+                                <label alignment="center" verticalAlignment="center" text="23°" id="ygq-QZ-zPd">
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="font" type="system" weight="thin" pointSize="75"/>
+                                    <variation key="device=watch38mm">
+                                        <fontDescription key="font" type="system" weight="thin" pointSize="60"/>
+                                    </variation>
+                                </label>
+                            </items>
+                        </group>
                         <slider width="1" alignment="left" verticalAlignment="bottom" continuous="YES" value="18" minimum="10" maximum="40" steps="30" id="KZS-cr-NeH">
                             <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -108,10 +131,12 @@
                     </menu>
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="sYJ-he-f92" id="7eG-Du-MLn"/>
+                        <outlet property="errorIndiciationButton" destination="Mvi-Uj-l3y" id="jjb-Yk-Mw0"/>
                         <outlet property="heatCoolLabel" destination="qBW-eA-vpx" id="rCy-Jb-KMC"/>
                         <outlet property="informationLabel" destination="Pzd-fT-WXV" id="3hP-OT-d2F"/>
                         <outlet property="temperatureSetPointLabel" destination="ygq-QZ-zPd" id="Fz5-t7-PJh"/>
                         <outlet property="temperatureSetPointSlider" destination="KZS-cr-NeH" id="Wvv-AA-oqG"/>
+                        <outlet property="topViewSeparator" destination="fLj-gY-eHK" id="LUh-kJ-nrP"/>
                     </connections>
                 </controller>
             </objects>
@@ -133,13 +158,18 @@
                         </group>
                         <group alignment="left" layout="vertical" id="uCw-4Q-Ouw">
                             <items>
-                                <label alignment="center" verticalAlignment="center" text="23" id="P10-Am-o8c">
-                                    <color key="textColor" red="0.19607843137254902" green="0.62745098039215685" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" weight="ultraLight" pointSize="65"/>
-                                    <variation key="device=watch42mm">
-                                        <fontDescription key="font" type="system" weight="ultraLight" pointSize="75"/>
-                                    </variation>
-                                </label>
+                                <group width="1" alignment="left" id="Xc5-ik-Gum">
+                                    <items>
+                                        <imageView alignment="left" verticalAlignment="center" hidden="YES" image="failed" id="cUg-zy-F08"/>
+                                        <label alignment="center" verticalAlignment="center" text="17" id="P10-Am-o8c">
+                                            <color key="textColor" red="0.19607843137254902" green="0.62745098039215685" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="system" weight="ultraLight" pointSize="65"/>
+                                            <variation key="device=watch42mm">
+                                                <fontDescription key="font" type="system" weight="ultraLight" pointSize="75"/>
+                                            </variation>
+                                        </label>
+                                    </items>
+                                </group>
                                 <label alignment="center" verticalAlignment="bottom" text="now 18" id="L7U-mP-lUE">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="font" type="system" weight="ultraLight" pointSize="18"/>
@@ -150,6 +180,7 @@
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="L7U-mP-lUE" id="YkB-M1-Hlh"/>
+                        <outlet property="errorIndicationImage" destination="cUg-zy-F08" id="h2u-F5-kTp"/>
                         <outlet property="temperatureSetpointLabel" destination="P10-Am-o8c" id="scc-hw-hjy"/>
                         <outlet property="thermostatNameLabel" destination="3Ah-4c-d1E" id="Pft-Ah-keV"/>
                         <outlet property="thermostatStateImage" destination="gZj-rz-aFf" id="Okg-JQ-Xae"/>

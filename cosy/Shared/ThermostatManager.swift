@@ -10,6 +10,7 @@ import Foundation
 
 protocol ThermostatManagerDelegate {
   func didUpdateListOfThermostats()
+  func didFailToRetrieveData(withError error: String)
 }
 
 protocol ThermostatManager: class {

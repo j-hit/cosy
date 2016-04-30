@@ -28,6 +28,7 @@ class ThermostatsTableViewController: UITableViewController {
   
   override func viewWillAppear(animated: Bool) {
     thermostatManager.fetchNewData()
+    watchConnectivityHandler.delegate = self
   }
   
   override func didReceiveMemoryWarning() {
@@ -68,6 +69,7 @@ class ThermostatsTableViewController: UITableViewController {
   }
 }
 
+// MARK: - AuthenticatorDelegate
 extension ThermostatsTableViewController: AuthenticatorDelegate {
   func authenticator(didRetrieveSessionID sessionID: String) {
     // TODO: Reload table
@@ -83,9 +85,24 @@ extension ThermostatsTableViewController: AuthenticatorDelegate {
   }
 }
 
+// MARK: - ThermostatManagerDelegate
 extension ThermostatsTableViewController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
     thermostatLocations = thermostatManager.thermostatLocations
     watchConnectivityHandler.transferAppContextToWatch(withDataFromThermsotatManager: thermostatManager)
+  }
+  
+  func didFailToRetrieveData(withError error: String) {
+    // TODO: Show information
+  }
+}
+
+// MARK: - iPhoneWatchConnectivityHandlerDelegate
+extension ThermostatsTableViewController: iPhoneWatchConnectivityHandlerDelegate {
+  func didReceiveErrorMessageFromWatch(error: String) {
+    let alertController = UIAlertController(title: "Error from watch app", message: error, preferredStyle: .Alert)
+    let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+    alertController.addAction(defaultAction)
+    presentViewController(alertController, animated: true, completion: nil)
   }
 }

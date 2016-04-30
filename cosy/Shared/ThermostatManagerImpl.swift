@@ -121,9 +121,15 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
   
   func thermostatDataAccessorFailedToFetchLocations() {
     state = .Ready
+    delegate?.didFailToRetrieveData(withError: "Could not fetch the list of available thermostats") // TODO: use localised strings
   }
   
   func thermostatDataAccessor(didFetchThermostat thermostat: Thermostat) {
-    // TODO: Handle and inform ThermostatManagerDelegate
+    // TODO: Handle and inform Thermostat - maybe handled already by thermostatDelegate
+  }
+  
+  func thermostatDataAccessorFailedToFetchThermostat() {
+    state = .Ready
+    delegate?.didFailToRetrieveData(withError: "Could not fetch information of the selected thermostat") //TODO: Use localised strings
   }
 }

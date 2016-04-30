@@ -32,6 +32,18 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     }
   }
   
+  private var lastDataFetchWasFaulty = false {
+    didSet {
+      if lastDataFetchWasFaulty == true {
+        showErrorIndication()
+      } else if lastDataFetchWasFaulty == false && oldValue == true {
+        removeErrorIndication()
+      }
+    }
+  }
+  
+  // MARK: - Lifecycle methods
+  
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     watchDelegate.watchConnectivityHandler.delegate = self
@@ -46,7 +58,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     super.willActivate()
     
     watchDelegate.appIsActive = true
-    
     tryToFetchNewData()
     checkIfDataWasRetrievedFromiPhoneInTheBackground()
   }
@@ -54,6 +65,25 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   override func didDeactivate() {
     super.didDeactivate()
   }
+  
+  // MARK: - Table view specific methods
+  
+  override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table: WKInterfaceTable, rowIndex: Int) -> AnyObject? {
+    if segueIdentifier == segueIdentifierToShowThermostat {
+      if let row = table.rowControllerAtIndex(rowIndex) as? ThermostatRowController {
+        return row.thermostat
+      }
+    }
+    return nil
+  }
+  
+  override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
+    if let _ = table.rowControllerAtIndex(rowIndex) as? ErrorRowController {
+      watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(NSLocalizedString("ErrorFetchingListOfThermostats", comment: "Message shown to the user when an error occurs while fetching the list of thermostats"))
+    }
+  }
+  
+  // MARK: - Reloading data on view
   
   private func checkIfDataWasRetrievedFromiPhoneInTheBackground() {
     if(userHasBeenAuthenticated && thermostatManager?.thermostatLocations.count > 0) {
@@ -94,15 +124,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     }
   }
   
-  override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table: WKInterfaceTable, rowIndex: Int) -> AnyObject? {
-    if segueIdentifier == segueIdentifierToShowThermostat {
-      if let row = table.rowControllerAtIndex(rowIndex) as? ThermostatRowController {
-        return row.thermostat
-      }
-    }
-    return nil
-  }
-  
   private func showAuthenticationRequiredMessage() {
     clearThermostatsTable()
     thermostatsTable.setNumberOfRows(1, withRowType: InformationRowController.identifier)
@@ -116,6 +137,19 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     thermostatsTable.setNumberOfRows(1, withRowType: InformationRowController.identifier)
     if let controller = thermostatsTable.rowControllerAtIndex(0) as? InformationRowController {
       controller.informationLabel.setText(NSLocalizedString("LoadingDataInformation", comment: "informs the user data is being loaded"))
+    }
+  }
+  
+  private func showErrorIndication() {
+    guard thermostatsTable.rowControllerAtIndex(0) as? ErrorRowController == nil else {
+      return
+    }
+    thermostatsTable.insertRowsAtIndexes(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)), withRowType: ErrorRowController.identifier)
+  }
+  
+  private func removeErrorIndication() {
+    if let _ = thermostatsTable.rowControllerAtIndex(0) as? ErrorRowController {
+      thermostatsTable.removeRowsAtIndexes(NSIndexSet(indexesInRange: NSRange(location: 0, length: 1)))
     }
   }
   
@@ -148,6 +182,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   }
 }
 
+// MARK: - WatchAppWatchConnectivityHandlerDelegate
 extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
     if watchDelegate.appIsActive {
@@ -156,10 +191,17 @@ extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerD
   }
 }
 
+// MARK: - ThermostatManagerDelegate
 extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
     if watchDelegate.appIsActive {
       reloadDataShownOnView()
     }
+    lastDataFetchWasFaulty = false
+  }
+  
+  func didFailToRetrieveData(withError error: String) {
+    lastDataFetchWasFaulty = true
+    WKInterfaceDevice.currentDevice().playHaptic(.Retry)
   }
 }

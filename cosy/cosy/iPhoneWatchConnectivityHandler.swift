@@ -11,6 +11,7 @@ import WatchConnectivity
 
 final class iPhoneWatchConnectivityHandler: NSObject {
   var settingsProvider: SettingsProvider?
+  var delegate: iPhoneWatchConnectivityHandlerDelegate?
   
   override init() {
     super.init()
@@ -64,6 +65,11 @@ final class iPhoneWatchConnectivityHandler: NSObject {
   }
 }
 
+// MARK: - WCSessionDelegate
 extension iPhoneWatchConnectivityHandler: WCSessionDelegate {
-  
+  func session(session: WCSession, didReceiveMessage message: [String : AnyObject]) {
+    if let error = message["error"] as? String {
+      delegate?.didReceiveErrorMessageFromWatch(error)
+    }
+  }
 }
