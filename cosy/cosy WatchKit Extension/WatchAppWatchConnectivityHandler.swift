@@ -36,16 +36,15 @@ final class WatchAppWatchConnectivityHandler: NSObject {
     }
   }
   
-  func transmitErrorToiPhone(error: String) {
+  func transmitErrorToiPhone(error: String, completionHander: () -> Void) {
     let session = WCSession.defaultSession()
     if session.reachable {
       let message = ["error": error]
       session.sendMessage(message, replyHandler: nil, errorHandler: { (error: NSError) in
         print("Error: \(error.localizedDescription)")
       })
-    } else {
-      print("iPhone is not reachable")
     }
+    completionHander()
   }
 }
 
