@@ -97,7 +97,7 @@
                         </group>
                         <group width="1" alignment="left" verticalAlignment="center" id="A9W-kW-HVe">
                             <items>
-                                <button alignment="left" verticalAlignment="center" backgroundImage="failed" id="Mvi-Uj-l3y">
+                                <button alignment="left" verticalAlignment="center" hidden="YES" backgroundImage="failed" id="Mvi-Uj-l3y">
                                     <connections>
                                         <action selector="onErrorIndicationImageTapped" destination="OjV-xj-1aT" id="vdO-nk-Bjq"/>
                                     </connections>
