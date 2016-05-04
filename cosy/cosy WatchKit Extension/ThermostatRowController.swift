@@ -10,7 +10,16 @@ import WatchKit
 
 class ThermostatRowController: NSObject {
   @IBOutlet var thermostatLabel: WKInterfaceLabel!
+  @IBOutlet var rowGroup: WKInterfaceGroup!
   
   static let identifier = "ThermostatRow"
-  var thermostat: Thermostat?
+  private let colourOfThermostatMarkedAsFavourite = UIColor(red:0.51, green:0.70, blue:0.22, alpha:0.8)
+  
+  var thermostat: Thermostat? {
+    didSet {
+      if let thermostat = thermostat where thermostat.isMarkedAsFavourite {
+        rowGroup.setBackgroundColor(colourOfThermostatMarkedAsFavourite)
+      }
+    }
+  }
 }

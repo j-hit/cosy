@@ -46,6 +46,7 @@
                                         </items>
                                     </group>
                                     <connections>
+                                        <outlet property="rowGroup" destination="8cz-1g-8B7" id="DSn-IJ-tsl"/>
                                         <outlet property="thermostatLabel" destination="2S2-fb-Q7m" id="X4b-Kw-Abw"/>
                                         <segue destination="OjV-xj-1aT" kind="push" identifier="showThermostat" id="Vv9-Le-COz"/>
                                     </connections>
@@ -141,6 +142,23 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="540" y="347"/>
+        </scene>
+        <!--errorInterfaceController-->
+        <scene sceneID="tDm-RV-eP4">
+            <objects>
+                <controller identifier="errorInterfaceController" id="9lE-US-1Yb" customClass="ErrorInterfaceController" customModule="cosy_WatchKit_Extension">
+                    <items>
+                        <imageView alignment="center" alpha="0.69999999999999996" image="failed" id="nhK-52-gWr"/>
+                        <label alignment="center" text="Error" numberOfLines="0" id="1iJ-JF-cgN">
+                            <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="errorMessageLabel" destination="1iJ-JF-cgN" id="44s-CI-BsI"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="830" y="340"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">

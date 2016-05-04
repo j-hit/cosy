@@ -189,7 +189,10 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   @IBAction func onErrorIndicationImageTapped() {
     let thermostatName = thermostat?.name ?? ""
-    watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(String(format: NSLocalizedString("ErrorFetchingThermostatInformation", comment: "Message shown to the user when an error occurs while fetching information of a thermostat"), thermostatName))
+    let errorMessage = String(format: NSLocalizedString("ErrorFetchingThermostatInformation", comment: "Message shown to the user when an error occurs while fetching information of a thermostat"), thermostatName)
+    watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(errorMessage, completionHander: {
+      self.presentControllerWithName(ErrorInterfaceController.identifier, context: errorMessage)
+    })
   }
   
   // MARK: Interface builder actions
