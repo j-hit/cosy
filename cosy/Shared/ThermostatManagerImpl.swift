@@ -46,7 +46,7 @@ final class ThermostatManagerImpl: ThermostatManager {
   }
   
   func updateData(ofThermostat thermostat: Thermostat) {
-    // TODO: Implement
+    dataAccessor.fetchDataOfThermostat(thermostat)
   }
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
@@ -111,6 +111,9 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
       let correspondingNewLocaton = Set<ThermostatLocation>(locations).filter{ $0.identifier == existingLocation.identifier }
       if let newLocationName = correspondingNewLocaton.first?.locationName {
         existingLocation.locationName = newLocationName
+        if existingLocation.thermostats.count != correspondingNewLocaton.first!.thermostats.count {
+          existingLocation.thermostats = correspondingNewLocaton.first!.thermostats
+        }
       }
     }
     
@@ -122,10 +125,6 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
   func thermostatDataAccessorFailedToFetchLocations() {
     state = .Ready
     delegate?.didFailToRetrieveData(withError: "Could not fetch the list of available thermostats") // TODO: use localised strings
-  }
-  
-  func thermostatDataAccessor(didFetchThermostat thermostat: Thermostat) {
-    // TODO: Handle and inform Thermostat - maybe handled already by thermostatDelegate
   }
   
   func thermostatDataAccessorFailedToFetchThermostat() {

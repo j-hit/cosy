@@ -9,7 +9,6 @@
 import WatchKit
 import Foundation
 
-
 class ErrorInterfaceController: WKInterfaceController {
   static let identifier = "errorInterfaceController"
   

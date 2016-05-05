@@ -91,7 +91,7 @@ final class ApplicationSettingsManager: SettingsProvider {
       if let baseURL = userDefaults.stringForKey(keys.baseURL) where !baseURL.isEmpty {
         return baseURL
       } else {
-        return "https://nebula.rdzug.net/ccl"
+        return "https://cosy.rdzug.net/api"
       }
     }
     set {

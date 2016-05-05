@@ -44,6 +44,7 @@ final class Thermostat: NSObject, NSCoding {
     }
   }
   
+  var identifier: String
   var isInAutoMode: Bool
   var isMarkedAsFavourite: Bool
   
@@ -57,22 +58,20 @@ final class Thermostat: NSObject, NSCoding {
     }
   }
   
-  private init(name: String) {
+  private init(identifier: String, name: String) {
     self.name = name
-    // test
-    self.currentTemperature = 18
-    self.temperatureSetPoint = 23
+    self.identifier = identifier
     self.isInAutoMode = true
     self.isMarkedAsFavourite = false
   }
   
-  convenience init(name: String, correspondingLocation: ThermostatLocation) {
-    self.init(name: name)
+  convenience init(identifier: String, name: String, correspondingLocation: ThermostatLocation) {
+    self.init(identifier: identifier, name: name)
     self.correspondingLocation = correspondingLocation
   }
   
-  convenience init(name: String, currentTemperature: Int?, temperatureSetPoint: Int?, isInAutoMode: Bool, isMarkedAsFavourite: Bool, correspondingLocation: ThermostatLocation?) {
-    self.init(name: name)
+  convenience init(identifier: String, name: String, currentTemperature: Int?, temperatureSetPoint: Int?, isInAutoMode: Bool, isMarkedAsFavourite: Bool, correspondingLocation: ThermostatLocation?) {
+    self.init(identifier: identifier, name: name)
     self.currentTemperature = currentTemperature
     self.temperatureSetPoint = temperatureSetPoint
     self.isInAutoMode = isInAutoMode
@@ -86,13 +85,14 @@ final class Thermostat: NSObject, NSCoding {
         // todo: fetch corresponding location
     }
     
-    self.init(name: name, currentTemperature: decoder.decodeIntegerForKey("currentTemperature"), temperatureSetPoint: decoder.decodeIntegerForKey("temperatureSetpoint"), isInAutoMode: decoder.decodeBoolForKey("isInAutoMode"), isMarkedAsFavourite: decoder.decodeBoolForKey("isMarkedAsFavourite"), correspondingLocation: nil)
+    self.init(identifier: decoder.decodeObjectForKey("identifier") as? String ?? "", name: name, currentTemperature: decoder.decodeIntegerForKey("currentTemperature"), temperatureSetPoint: decoder.decodeIntegerForKey("temperatureSetpoint"), isInAutoMode: decoder.decodeBoolForKey("isInAutoMode"), isMarkedAsFavourite: decoder.decodeBoolForKey("isMarkedAsFavourite"), correspondingLocation: nil)
   }
   
   func encodeWithCoder(coder: NSCoder) {
     coder.encodeObject(self.name, forKey: "name")
-    coder.encodeInteger(self.currentTemperature ?? 0, forKey: "currentTemperature")
-    coder.encodeInteger(self.temperatureSetPoint ?? 0, forKey: "temperatureSetpoint")
+    coder.encodeObject(self.identifier, forKey: "identifier")
+    coder.encodeInteger(self.currentTemperature ?? -1, forKey: "currentTemperature")
+    coder.encodeInteger(self.temperatureSetPoint ?? -1, forKey: "temperatureSetpoint")
     coder.encodeBool(self.isInAutoMode, forKey: "isInAutoMode")
     coder.encodeBool(self.isMarkedAsFavourite, forKey: "isMarkedAsFavourite")
   }

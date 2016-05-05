@@ -20,7 +20,7 @@
 			<key>Key</key>
 			<string>baseURLCPSCloud</string>
 			<key>DefaultValue</key>
-			<string>https://nebula.rdzug.net/ccl</string>
+			<string>https://cosy.rdzug.net/api</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>

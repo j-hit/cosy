@@ -9,7 +9,6 @@
 import WatchKit
 import Foundation
 
-
 class ThermostatInterfaceController: WKInterfaceController {
   
   @IBOutlet var heatCoolLabel: WKInterfaceLabel!
@@ -54,6 +53,10 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   override func willActivate() {
     super.willActivate()
+    if let thermostat = thermostat {
+      thermostat.delegate = self
+      thermostatManager?.updateData(ofThermostat: thermostat)
+    }
     reloadDataShownOnView()
   }
   
@@ -69,20 +72,30 @@ class ThermostatInterfaceController: WKInterfaceController {
   // MARK: Reloading data on view
   
   private func reloadDataShownOnView() {
-    if let currentTemperature = thermostat?.currentTemperature {
+    showCurrentTemperature()
+    showTemperatureSetPoint()
+    showThermostatState()
+  }
+  
+  private func showCurrentTemperature() {
+    if let currentTemperature = thermostat?.currentTemperature where currentTemperature > 0 {
       currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature))
     } else {
       currentTemperatureLabel.setText("--")
     }
-    
-    if let temperatureSetPoint = thermostat?.temperatureSetPoint {
+  }
+  
+  private func showTemperatureSetPoint() {
+    if let temperatureSetPoint = thermostat?.temperatureSetPoint where temperatureSetPoint > 0 {
       temperatureSetPointLabel.setText(String(format: NSLocalizedString("TemperatureSetpointDescription", comment: "describes the temperature set-point of a thermostat"), temperatureSetPoint))
       temperatureSetPointSlider.setValue(Float(temperatureSetPoint))
     } else {
       temperatureSetPointLabel.setText("--")
       temperatureSetPointSlider.setValue(0)
     }
-    
+  }
+  
+  private func showThermostatState() {
     if thermostat?.correspondingLocation?.isOccupied == true {
       if thermostat?.isInAutoMode == true {
         onAutoSelected()
@@ -93,7 +106,6 @@ class ThermostatInterfaceController: WKInterfaceController {
     else {
       onAwaySelected()
     }
-    
     visualiseStateOfThermostat()
   }
   
@@ -230,17 +242,22 @@ class ThermostatInterfaceController: WKInterfaceController {
 // MARK: - ThermostatDelegate
 extension ThermostatInterfaceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
-    // TODO: Update name on view
+    self.setTitle(thermostat?.name)
+    
     lastDataFetchWasFaulty = false
   }
   
   func didUpdateCurrentTemperature(toNewValue newValue: Int) {
-    // TODO: Update current temperature on view
+    showCurrentTemperature()
+    showThermostatState()
+    
     lastDataFetchWasFaulty = false
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
-    // TODO: Update temperature set point on view
+    showTemperatureSetPoint()
+    showThermostatState()
+    
     lastDataFetchWasFaulty = false
   }
   
