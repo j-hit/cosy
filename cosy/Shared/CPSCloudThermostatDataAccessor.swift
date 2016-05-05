@@ -155,12 +155,12 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   
   private func fetchPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, successHandler: (presentValue: AnyObject) -> Void) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToFetchThermostat()
+      thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the header required for authorzied access") // TODO: use localised string
       return
     }
     
     guard let urlForPresentValueOfPoint = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/automation-device/R(1)/FvrBscOp/\(point)/@present-value") else {
-      delegate?.thermostatDataAccessorFailedToFetchThermostat()
+      thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the url for fetching the present value of point \(point)") // TODO: Use localised string
       return
     }
     
@@ -171,11 +171,11 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           if let presentValueOfPoint = response.result.value
           {
             successHandler(presentValue: presentValueOfPoint)
-            NSLog("present value of \(point) = \(presentValueOfPoint)")
+            NSLog("present value of \(point) = \(presentValueOfPoint)") // TODO: remove
           }
         case .Failure(let error):
           NSLog("Error fetching occupation mode: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
+          thermostat.delegate?.didFailToRetrieveData(withError: "Error retrieving present value of point \(point). Detailed error = \(error.localizedDescription)") // TODO: use localised string
         }
     }
   }
@@ -202,5 +202,53 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
         thermostat.temperatureSetPoint = temperatureSetPoint
       }
     }
+  }
+  
+  // MARK: - Change thermostat data
+  
+  func setTemperatureSetPoint(ofThermostat thermostat: Thermostat) {
+    guard let temperatureSetPoint = thermostat.temperatureSetPoint else {
+      thermostat.delegate?.didFailToRetrieveData(withError: "Thermostat \(thermostat.name) has an invalid temperature set point") // TODO: Use localised string
+      return
+    }
+    
+    guard let url = URLRequestForChangingTemperatureSetPointOfThermostat(withIdentifier: thermostat.identifier),
+      urlRequest = URLRequestForChangingPresentValueOfTemperatureSetPoint(withURL: url, toValue: temperatureSetPoint) else {
+      thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the url for changing the temperature set point") // TODO: Use localised string
+      return
+    }
+    
+    Alamofire.request(urlRequest)
+      .validate()
+      .responseString { response in
+        switch response.result {
+        case .Success:
+          NSLog("changed temperature set point of thermostat \(thermostat.name) to \(thermostat.temperatureSetPoint)") // TODO: remove
+        case .Failure(let error):
+          NSLog("Error changing temperature set point of thermostat \(thermostat.identifier). Details = \(error.localizedDescription)")
+          thermostat.delegate?.didFailToRetrieveData(withError: "Error changing temperature set point of thermostat \(thermostat.name). Detailed error = \(error.localizedDescription)") // TODO: use localised string
+        }
+    }
+  }
+  
+  private func URLRequestForChangingTemperatureSetPointOfThermostat(withIdentifier identifier: String) -> NSURL?{
+    return NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(identifier)/automation-device/R(1)/FvrBscOp/SpTR")
+  }
+  
+  private func URLRequestForChangingPresentValueOfTemperatureSetPoint(withURL url: NSURL, toValue value: Int) -> NSURLRequest?{
+    guard let sessionID = settingsProvider.sessionID else {
+      return nil
+    }
+    
+    let bodyForChangingPresentValue = [
+      "present-value" : value
+    ]
+    
+    let request = NSMutableURLRequest(URL: url)
+    request.HTTPMethod = "PUT"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("Session \(sessionID)", forHTTPHeaderField: "Authorization")
+    request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(bodyForChangingPresentValue, options: [])
+    return request
   }
 }

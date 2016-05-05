@@ -54,6 +54,7 @@ class GlanceController: WKInterfaceController {
   
   override func didDeactivate() {
     super.didDeactivate()
+    ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
   }
   
   // MARK: - Reloading data on view

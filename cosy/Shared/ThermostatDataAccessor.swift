@@ -18,4 +18,5 @@ protocol ThermostatDataAccessor {
   var delegate: ThermostatDataAccessorDelegate? { get set }
   func fetchAvailableLocationsWithThermostatNames()
   func fetchDataOfThermostat(thermostat: Thermostat)
+  func setTemperatureSetPoint(ofThermostat thermostat: Thermostat)
 }

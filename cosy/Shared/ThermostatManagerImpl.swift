@@ -50,6 +50,7 @@ final class ThermostatManagerImpl: ThermostatManager {
   }
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
+    dataAccessor.setTemperatureSetPoint(ofThermostat: thermostat)
     print("saved temperature set point of thermostat")
   }
   
