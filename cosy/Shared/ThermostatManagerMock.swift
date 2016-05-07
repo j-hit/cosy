@@ -91,6 +91,9 @@ final class ThermostatManagerMock: ThermostatManager {
     print("saved temperature set point of thermostat")
   }
   
+  func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode) {
+  }
+  
   func clearAllData() {
     thermostatLocations.removeAll()
   }

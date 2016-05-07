@@ -38,7 +38,6 @@ final class ThermostatManagerImpl: ThermostatManager {
   
   func fetchNewData() {
     guard state == ThermostatManagerState.Ready else {
-      // TODO: start timer to set manager back to ready
       return
     }
     state = .ExpectingNewData
@@ -50,8 +49,22 @@ final class ThermostatManagerImpl: ThermostatManager {
   }
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
-    dataAccessor.setTemperatureSetPoint(ofThermostat: thermostat)
-    print("saved temperature set point of thermostat")
+    if let temperatureSetPoint = thermostat.temperatureSetPoint {
+      dataAccessor.setPresentValueOfPoint("SpTR", forThermostat: thermostat, toValue: temperatureSetPoint)
+    }
+  }
+  
+  func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode) {
+    switch mode {
+    case .Auto:
+      dataAccessor.setPresentValueOfPoint("CmfBtn", forThermostat: thermostat, toValue: false)
+    case .Manual:
+      dataAccessor.setPresentValueOfPoint("CmfBtn", forThermostat: thermostat, toValue: true)
+    case .Home:
+      dataAccessor.setPresentValueOfPoint("OccMod", forThermostat: thermostat, toValue: "Present")
+    case .Away:
+      dataAccessor.setPresentValueOfPoint("OccMod", forThermostat: thermostat, toValue: "Absent")
+    }
   }
   
   func clearAllData() {
@@ -126,10 +139,5 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
   func thermostatDataAccessorFailedToFetchLocations() {
     state = .Ready
     delegate?.didFailToRetrieveData(withError: "Could not fetch the list of available thermostats") // TODO: use localised strings
-  }
-  
-  func thermostatDataAccessorFailedToFetchThermostat() {
-    state = .Ready
-    delegate?.didFailToRetrieveData(withError: "Could not fetch information of the selected thermostat") //TODO: Use localised strings
   }
 }

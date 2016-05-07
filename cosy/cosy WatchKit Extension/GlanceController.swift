@@ -115,4 +115,8 @@ extension GlanceController: ThermostatDelegate {
     lastDataFetchWasFaulty = true
     WKInterfaceDevice.currentDevice().playHaptic(.Retry)
   }
+  
+  func didFailToChangeData(withError error: String) {
+    NSLog("Glance can only read data, this method should never be called")
+  }
 }

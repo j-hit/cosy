@@ -11,12 +11,11 @@ import Foundation
 protocol ThermostatDataAccessorDelegate {
   func thermostatDataAccessor(didFetchLocations locations: [ThermostatLocation])
   func thermostatDataAccessorFailedToFetchLocations()
-  func thermostatDataAccessorFailedToFetchThermostat()
 }
 
 protocol ThermostatDataAccessor {
   var delegate: ThermostatDataAccessorDelegate? { get set }
   func fetchAvailableLocationsWithThermostatNames()
   func fetchDataOfThermostat(thermostat: Thermostat)
-  func setTemperatureSetPoint(ofThermostat thermostat: Thermostat)
+  func setPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, toValue value: AnyObject)
 }

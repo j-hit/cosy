@@ -31,11 +31,11 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   private var timer: NSTimer?
   
-  private var lastDataFetchWasFaulty = false {
+  private var lastDataFetchOrChangeWasFaulty = false {
     didSet {
-      if lastDataFetchWasFaulty == true {
+      if lastDataFetchOrChangeWasFaulty == true {
         showErrorIndication(true)
-      } else if lastDataFetchWasFaulty == false && oldValue == true {
+      } else if lastDataFetchOrChangeWasFaulty == false && oldValue == true {
         showErrorIndication(false)
       }
     }
@@ -98,13 +98,13 @@ class ThermostatInterfaceController: WKInterfaceController {
   private func showThermostatState() {
     if thermostat?.correspondingLocation?.isOccupied == true {
       if thermostat?.isInAutoMode == true {
-        onAutoSelected()
+        configureForModeAuto()
       } else {
-        onManualSelected()
+        configureForModeManual()
       }
     }
     else {
-      onAwaySelected()
+      configureForModeAway()
     }
     visualiseStateOfThermostat()
   }
@@ -126,9 +126,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     heatCoolLabel.setText(stateVisualiser.description)
   }
   
-  // MARK: Menu Items and Actions
-  
-  func onAwaySelected() {
+  func configureForModeAway() {
     if let thermostat = thermostat {
       thermostat.correspondingLocation?.isOccupied = false
       temperatureSetPointSlider.setHidden(true)
@@ -140,18 +138,18 @@ class ThermostatInterfaceController: WKInterfaceController {
     }
   }
   
-  func onHomeSelected() {
+  func configureForModeHome() {
     if let thermostat = thermostat {
       thermostat.correspondingLocation?.isOccupied = true
       if thermostat.isInAutoMode == true {
-        onAutoSelected()
+        configureForModeAuto()
       } else {
-        onManualSelected()
+        configureForModeManual()
       }
     }
   }
   
-  func onAutoSelected() {
+  func configureForModeAuto() {
     if let thermostat = thermostat {
       thermostat.isInAutoMode = true
       temperatureSetPointSlider.setHidden(true)
@@ -164,7 +162,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     }
   }
   
-  func onManualSelected() {
+  func configureForModeManual() {
     if let thermostat = thermostat {
       thermostat.isInAutoMode = false
       temperatureSetPointSlider.setHidden(false)
@@ -173,6 +171,36 @@ class ThermostatInterfaceController: WKInterfaceController {
       clearAllMenuItems()
       addAutoMenuItem()
       addAwayMenuItem()
+    }
+  }
+  
+  // MARK: Menu Items and Actions
+  
+  func onAwaySelected() {
+    configureForModeAway()
+    if let thermostat = thermostat {
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Away)
+    }
+  }
+  
+  func onHomeSelected() {
+    configureForModeHome()
+    if let thermostat = thermostat {
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Home)
+    }
+  }
+  
+  func onAutoSelected() {
+    configureForModeAuto()
+    if let thermostat = thermostat {
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Auto)
+    }
+  }
+  
+  func onManualSelected() {
+    configureForModeManual()
+    if let thermostat = thermostat {
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Manual)
     }
   }
   
@@ -244,25 +272,30 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
     self.setTitle(thermostat?.name)
     
-    lastDataFetchWasFaulty = false
+    lastDataFetchOrChangeWasFaulty = false
   }
   
   func didUpdateCurrentTemperature(toNewValue newValue: Int) {
     showCurrentTemperature()
-    showThermostatState()
+    visualiseStateOfThermostat()
     
-    lastDataFetchWasFaulty = false
+    lastDataFetchOrChangeWasFaulty = false
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
     showTemperatureSetPoint()
-    showThermostatState()
+    visualiseStateOfThermostat()
     
-    lastDataFetchWasFaulty = false
+    lastDataFetchOrChangeWasFaulty = false
   }
   
   func didFailToRetrieveData(withError error: String) {
-    lastDataFetchWasFaulty = true
+    lastDataFetchOrChangeWasFaulty = true
+    WKInterfaceDevice.currentDevice().playHaptic(.Retry)
+  }
+  
+  func didFailToChangeData(withError error: String) {
+    lastDataFetchOrChangeWasFaulty = true
     WKInterfaceDevice.currentDevice().playHaptic(.Retry)
   }
 }

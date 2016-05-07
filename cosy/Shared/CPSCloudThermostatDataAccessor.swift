@@ -155,7 +155,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   
   private func fetchPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, successHandler: (presentValue: AnyObject) -> Void) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the header required for authorzied access") // TODO: use localised string
+      thermostat.delegate?.didFailToChangeData(withError: "Could not construct the header required for authorzied access") // TODO: use localised string
       return
     }
     
@@ -206,16 +206,11 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   
   // MARK: - Change thermostat data
   
-  func setTemperatureSetPoint(ofThermostat thermostat: Thermostat) {
-    guard let temperatureSetPoint = thermostat.temperatureSetPoint else {
-      thermostat.delegate?.didFailToRetrieveData(withError: "Thermostat \(thermostat.name) has an invalid temperature set point") // TODO: Use localised string
-      return
-    }
-    
-    guard let url = URLRequestForChangingTemperatureSetPointOfThermostat(withIdentifier: thermostat.identifier),
-      urlRequest = URLRequestForChangingPresentValueOfTemperatureSetPoint(withURL: url, toValue: temperatureSetPoint) else {
-      thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the url for changing the temperature set point") // TODO: Use localised string
-      return
+  func setPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, toValue value: AnyObject) {
+    guard let url = URLForChangingPresentValue(ofPoint: point, forThermostat: thermostat),
+      urlRequest = URLRequestForChangingPresentValueOfPoint(withURL: url, toValue: value) else {
+        thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the url for changing the temperature set point") // TODO: Use localised string
+        return
     }
     
     Alamofire.request(urlRequest)
@@ -223,19 +218,19 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       .responseString { response in
         switch response.result {
         case .Success:
-          NSLog("changed temperature set point of thermostat \(thermostat.name) to \(thermostat.temperatureSetPoint)") // TODO: remove
+          NSLog("Changed point \(point) of thermostat \(thermostat.name) to \(value)")
         case .Failure(let error):
-          NSLog("Error changing temperature set point of thermostat \(thermostat.identifier). Details = \(error.localizedDescription)")
-          thermostat.delegate?.didFailToRetrieveData(withError: "Error changing temperature set point of thermostat \(thermostat.name). Detailed error = \(error.localizedDescription)") // TODO: use localised string
+          NSLog("Error changing point \(point) of thermostat \(thermostat.identifier). Details = \(error.localizedDescription)")
+          thermostat.delegate?.didFailToChangeData(withError: "Error changing temperature set point of thermostat \(thermostat.name). Detailed error = \(error.localizedDescription)") // TODO: use localised string
         }
     }
   }
   
-  private func URLRequestForChangingTemperatureSetPointOfThermostat(withIdentifier identifier: String) -> NSURL?{
-    return NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(identifier)/automation-device/R(1)/FvrBscOp/SpTR")
+  private func URLForChangingPresentValue(ofPoint point: String, forThermostat thermostat: Thermostat) -> NSURL?{
+    return NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/automation-device/R(1)/FvrBscOp/\(point)")
   }
   
-  private func URLRequestForChangingPresentValueOfTemperatureSetPoint(withURL url: NSURL, toValue value: Int) -> NSURLRequest?{
+  private func URLRequestForChangingPresentValueOfPoint(withURL url: NSURL, toValue value: AnyObject) -> NSURLRequest?{
     guard let sessionID = settingsProvider.sessionID else {
       return nil
     }
