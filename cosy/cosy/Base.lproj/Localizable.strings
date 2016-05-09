@@ -25,3 +25,18 @@
 
 /* Informs the user that the thermostat is in idle state */
 "IdleStateDescription" = "idle";
+
+/* Error: Failed to construct header for authorized access */
+"FetchPresentValueHeaderFailure" = "Could not construct the header required for authorzied access";
+
+/* Error: Failed to construct URL for fetching present value */
+"FetchPresentValueURLFailure" = "Could not construct the url for fetching the present value of point %@";
+
+/* Error retrieving present value */
+"FetchPresentValueFailure" = "Error retrieving present value of point %@. Detailed error = %@";
+
+/* Error constructing url for changing the temperature set point */
+"SetPresentValueURLFailure" = "Could not construct the url for changing the temperature set point";
+
+/* Error changing the temperature set point */
+"SetPresentValueFailure" = "Error changing temperature set point of thermostat %@. Detailed error = %@";

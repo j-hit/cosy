@@ -155,12 +155,12 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   
   private func fetchPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, successHandler: (presentValue: AnyObject) -> Void) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      thermostat.delegate?.didFailToChangeData(withError: "Could not construct the header required for authorzied access") // TODO: use localised string
+      thermostat.delegate?.didFailToChangeData(withError: NSLocalizedString("FetchPresentValueHeaderFailure", comment: "Error: Failed to construct header for authorized access"))
       return
     }
     
     guard let urlForPresentValueOfPoint = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/automation-device/R(1)/FvrBscOp/\(point)/@present-value") else {
-      thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the url for fetching the present value of point \(point)") // TODO: Use localised string
+      thermostat.delegate?.didFailToRetrieveData(withError: String(format: NSLocalizedString("FetchPresentValueURLFailure", comment: "Error: Failed to construct URL for fetching present value"), point))
       return
     }
     
@@ -175,7 +175,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           }
         case .Failure(let error):
           NSLog("Error fetching occupation mode: \(error.localizedDescription)")
-          thermostat.delegate?.didFailToRetrieveData(withError: "Error retrieving present value of point \(point). Detailed error = \(error.localizedDescription)") // TODO: use localised string
+          thermostat.delegate?.didFailToRetrieveData(withError: String(format: NSLocalizedString("FetchPresentValueFailure", comment: "Error retrieving present value"), point, error.localizedDescription))
         }
     }
   }
@@ -209,7 +209,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   func setPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, toValue value: AnyObject) {
     guard let url = URLForChangingPresentValue(ofPoint: point, forThermostat: thermostat),
       urlRequest = URLRequestForChangingPresentValueOfPoint(withURL: url, toValue: value) else {
-        thermostat.delegate?.didFailToRetrieveData(withError: "Could not construct the url for changing the temperature set point") // TODO: Use localised string
+        thermostat.delegate?.didFailToRetrieveData(withError: NSLocalizedString("SetPresentValueURLFailure", comment: "Error constructing url for changing the temperature set point"))
         return
     }
     
@@ -221,7 +221,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           NSLog("Changed point \(point) of thermostat \(thermostat.name) to \(value)")
         case .Failure(let error):
           NSLog("Error changing point \(point) of thermostat \(thermostat.identifier). Details = \(error.localizedDescription)")
-          thermostat.delegate?.didFailToChangeData(withError: "Error changing temperature set point of thermostat \(thermostat.name). Detailed error = \(error.localizedDescription)") // TODO: use localised string
+          thermostat.delegate?.didFailToChangeData(withError: String(format: NSLocalizedString("SetPresentValueFailure", comment: "Error changing the temperature set point"), thermostat.name, error.localizedDescription))
         }
     }
   }
