@@ -111,6 +111,14 @@ extension GlanceController: ThermostatDelegate {
     lastDataFetchWasFaulty = false
   }
   
+  func didUpdateOccupationMode(toPresent: Bool) {
+    // Nothing to do here
+  }
+  
+  func didUpdateAutoMode(toOn on: Bool) {
+    // Nothing to do here
+  }
+  
   func didFailToRetrieveData(withError error: String) {
     lastDataFetchWasFaulty = true
     WKInterfaceDevice.currentDevice().playHaptic(.Retry)

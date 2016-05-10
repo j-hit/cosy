@@ -181,6 +181,12 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   }
   
   func fetchDataOfThermostat(thermostat: Thermostat) {
+    fetchPresentValueOfPoint("OccMod", forThermostat: thermostat) { (presentValue) in
+      if let occupationModeString = presentValue as? String {
+        thermostat.correspondingLocation?.isOccupied = occupationModeString == "Present" ? true : false
+      }
+    }
+    
     fetchPresentValueOfPoint("CmfBtn", forThermostat: thermostat) { (presentValue) in
       if let thermostatIsInComfortMode = presentValue as? Bool {
         if thermostatIsInComfortMode == false {

@@ -125,6 +125,7 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
       let correspondingNewLocaton = Set<ThermostatLocation>(locations).filter{ $0.identifier == existingLocation.identifier }
       if let newLocationName = correspondingNewLocaton.first?.locationName {
         existingLocation.locationName = newLocationName
+        existingLocation.isOccupied = correspondingNewLocaton.first!.isOccupied
         if existingLocation.thermostats.count != correspondingNewLocaton.first!.thermostats.count {
           existingLocation.thermostats = correspondingNewLocaton.first!.thermostats
         }

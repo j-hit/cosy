@@ -47,7 +47,6 @@ class ThermostatInterfaceController: WKInterfaceController {
     super.awakeWithContext(context)
     self.thermostat = context as? Thermostat
     self.thermostatManager = watchDelegate.thermostatManager
-    watchDelegate.watchConnectivityHandler.delegate = self
     visualiseForState(lastThermostatState)
   }
   
@@ -57,6 +56,7 @@ class ThermostatInterfaceController: WKInterfaceController {
       thermostat.delegate = self
       thermostatManager?.updateData(ofThermostat: thermostat)
     }
+    watchDelegate.watchConnectivityHandler.delegate = self
     reloadDataShownOnView()
   }
   
@@ -127,20 +127,16 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   func configureForModeAway() {
-    if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = false
-      temperatureSetPointSlider.setHidden(true)
-      informationLabel.setText(NSLocalizedString("LocationNotOccupiedDescription", comment: "describes that a location is not occupied"))
-      informationLabel.setHidden(false)
-      
-      clearAllMenuItems()
-      addHomeMenuItem()
-    }
+    temperatureSetPointSlider.setHidden(true)
+    informationLabel.setText(NSLocalizedString("LocationNotOccupiedDescription", comment: "describes that a location is not occupied"))
+    informationLabel.setHidden(false)
+    
+    clearAllMenuItems()
+    addHomeMenuItem()
   }
   
   func configureForModeHome() {
     if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = true
       if thermostat.isInAutoMode == true {
         configureForModeAuto()
       } else {
@@ -150,28 +146,22 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   func configureForModeAuto() {
-    if let thermostat = thermostat {
-      thermostat.isInAutoMode = true
-      temperatureSetPointSlider.setHidden(true)
-      informationLabel.setText(NSLocalizedString("ThermostatInAutoModeDescription", comment: "describes that a thermostat is in auto mode"))
-      informationLabel.setHidden(false)
-      
-      clearAllMenuItems()
-      addManualMenuItem()
-      addAwayMenuItem()
-    }
+    temperatureSetPointSlider.setHidden(true)
+    informationLabel.setText(NSLocalizedString("ThermostatInAutoModeDescription", comment: "describes that a thermostat is in auto mode"))
+    informationLabel.setHidden(false)
+    
+    clearAllMenuItems()
+    addManualMenuItem()
+    addAwayMenuItem()
   }
   
   func configureForModeManual() {
-    if let thermostat = thermostat {
-      thermostat.isInAutoMode = false
-      temperatureSetPointSlider.setHidden(false)
-      informationLabel.setHidden(true)
-      
-      clearAllMenuItems()
-      addAutoMenuItem()
-      addAwayMenuItem()
-    }
+    temperatureSetPointSlider.setHidden(false)
+    informationLabel.setHidden(true)
+    
+    clearAllMenuItems()
+    addAutoMenuItem()
+    addAwayMenuItem()
   }
   
   // MARK: Menu Items and Actions
@@ -179,6 +169,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onAwaySelected() {
     configureForModeAway()
     if let thermostat = thermostat {
+      thermostat.correspondingLocation?.isOccupied = false
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Away)
     }
   }
@@ -186,6 +177,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onHomeSelected() {
     configureForModeHome()
     if let thermostat = thermostat {
+      thermostat.correspondingLocation?.isOccupied = true
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Home)
     }
   }
@@ -193,6 +185,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onAutoSelected() {
     configureForModeAuto()
     if let thermostat = thermostat {
+      thermostat.isInAutoMode = true
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Auto)
     }
   }
@@ -200,6 +193,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onManualSelected() {
     configureForModeManual()
     if let thermostat = thermostat {
+      thermostat.isInAutoMode = false
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Manual)
     }
   }
@@ -287,6 +281,21 @@ extension ThermostatInterfaceController: ThermostatDelegate {
     visualiseStateOfThermostat()
     
     lastDataFetchOrChangeWasFaulty = false
+  }
+  
+  func didUpdateAutoMode(toOn on: Bool) {
+    if thermostat?.correspondingLocation?.isOccupied == true {
+      if on {
+        configureForModeAuto()
+      } else {
+        configureForModeManual()
+      }
+    }
+    lastDataFetchOrChangeWasFaulty = false
+  }
+  
+  func didUpdateOccupationMode(toPresent: Bool) {
+    // TODO: Handle code
   }
   
   func didFailToRetrieveData(withError error: String) {

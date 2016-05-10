@@ -12,6 +12,8 @@ protocol ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String)
   func didUpdateCurrentTemperature(toNewValue newValue: Int)
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int)
+  func didUpdateAutoMode(toOn on: Bool)
+  func didUpdateOccupationMode(toPresent: Bool)
   func didFailToRetrieveData(withError error: String)
   func didFailToChangeData(withError error: String)
 }
@@ -45,8 +47,13 @@ final class Thermostat: NSObject, NSCoding {
     }
   }
   
+  var isInAutoMode: Bool {
+    didSet {
+      delegate?.didUpdateAutoMode(toOn: isInAutoMode)
+    }
+  }
+  
   var identifier: String
-  var isInAutoMode: Bool
   var isMarkedAsFavourite: Bool
   
   var state: ThermostatState {
