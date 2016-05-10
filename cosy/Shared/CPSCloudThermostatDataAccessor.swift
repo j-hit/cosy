@@ -171,7 +171,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           if let presentValueOfPoint = response.result.value
           {
             successHandler(presentValue: presentValueOfPoint)
-            NSLog("present value of \(point) = \(presentValueOfPoint)") // TODO: remove
+            NSLog("present value of \(point) = \(presentValueOfPoint)")
           }
         case .Failure(let error):
           NSLog("Error fetching occupation mode: \(error.localizedDescription)")

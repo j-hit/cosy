@@ -27,7 +27,7 @@ class ThermostatsTableViewController: UITableViewController {
   }
   
   override func viewWillAppear(animated: Bool) {
-    thermostatManager.fetchNewData()
+    thermostatManager.fetchNewListOfThermostats()
     watchConnectivityHandler.delegate = self
   }
   

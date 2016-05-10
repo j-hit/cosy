@@ -295,7 +295,7 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   }
   
   func didUpdateOccupationMode(toPresent: Bool) {
-    // TODO: Handle code
+    // JAMES: Handle code
   }
   
   func didFailToRetrieveData(withError error: String) {

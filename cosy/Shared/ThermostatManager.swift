@@ -17,7 +17,7 @@ protocol ThermostatManager: class {
   var delegate: ThermostatManagerDelegate? { get set }
   var thermostatLocations: [ThermostatLocation] { get set }
   var favouriteThermostat: Thermostat? { get set }
-  func fetchNewData() // TODO: Rename to fetchNewListOfThermostats
+  func fetchNewListOfThermostats()
   func updateData(ofThermostat thermostat: Thermostat)
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat)
   func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode)

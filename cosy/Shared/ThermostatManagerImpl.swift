@@ -36,7 +36,7 @@ final class ThermostatManagerImpl: ThermostatManager {
     self.dataAccessor.delegate = self
   }
   
-  func fetchNewData() {
+  func fetchNewListOfThermostats() {
     guard state == ThermostatManagerState.Ready else {
       return
     }

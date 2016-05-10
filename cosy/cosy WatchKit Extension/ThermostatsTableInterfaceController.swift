@@ -177,7 +177,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
       if thermostatManager?.thermostatLocations.count == 0 {
         showLoadingDataMessage()
       }
-      thermostatManager?.fetchNewData()
+      thermostatManager?.fetchNewListOfThermostats()
     } else {
       thermostatManager?.clearAllData()
       showAuthenticationRequiredMessage()

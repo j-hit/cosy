@@ -26,10 +26,10 @@ final class ThermostatManagerMock: ThermostatManager {
     self.state = ThermostatManagerState.Ready
     self.settingsProvider = settingsProvider
     self.thermostatLocations = [ThermostatLocation]()
-    fetchNewData()
+    fetchNewListOfThermostats()
   }
   
-  func fetchNewData() {
+  func fetchNewListOfThermostats() {
     guard state == ThermostatManagerState.Ready else {
       return
     }
