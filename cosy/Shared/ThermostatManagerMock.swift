@@ -26,10 +26,10 @@ final class ThermostatManagerMock: ThermostatManager {
     self.state = ThermostatManagerState.Ready
     self.settingsProvider = settingsProvider
     self.thermostatLocations = [ThermostatLocation]()
-    fetchNewData()
+    fetchNewListOfThermostats()
   }
   
-  func fetchNewData() {
+  func fetchNewListOfThermostats() {
     guard state == ThermostatManagerState.Ready else {
       return
     }
@@ -51,14 +51,14 @@ final class ThermostatManagerMock: ThermostatManager {
     state = .ExpectingNewData
     
     thermostatLocations = [ThermostatLocation]()
-    let locationCasa = ThermostatLocation(identifier: "1BIE53-5TXOH-DFTHT-2LBT4-11111", locationName: "Casa", isOccupied: true)
-    locationCasa.addThermostat(Thermostat(name: "Living room", correspondingLocation: locationCasa))
+    let locationCasa = ThermostatLocation(identifier: "000000-00000-00000-00000-00000", locationName: "Casa", isOccupied: true)
+    locationCasa.addThermostat(Thermostat(identifier: "000000-00000-00000-00000-00000", name: "Living room", correspondingLocation: locationCasa))
     
-    let locationOffice = ThermostatLocation(identifier: "2BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Office", isOccupied: false)
-    locationOffice.addThermostat(Thermostat(name: "Lobby", correspondingLocation: locationCasa))
+    let locationOffice = ThermostatLocation(identifier: "000000-00000-00000-00000-00001", locationName: "Office", isOccupied: false)
+    locationOffice.addThermostat(Thermostat(identifier: "000000-00000-00000-00000-00001", name: "Lobby", correspondingLocation: locationCasa))
     
-    let locationCountrySide = ThermostatLocation(identifier: "3BIE53-5TXOH-DFTHT-2LBT4-22222", locationName: "Country side", isOccupied: false)
-    locationCountrySide.addThermostat(Thermostat(name: "Cottage", correspondingLocation: locationCasa))
+    let locationCountrySide = ThermostatLocation(identifier: "000000-00000-00000-00000-00002", locationName: "Country side", isOccupied: false)
+    locationCountrySide.addThermostat(Thermostat(identifier: "000000-00000-00000-00000-00002", name: "Cottage", correspondingLocation: locationCasa))
     
     thermostatLocations.append(locationCasa)
     thermostatLocations.append(locationOffice)
@@ -89,6 +89,9 @@ final class ThermostatManagerMock: ThermostatManager {
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
     print("saved temperature set point of thermostat")
+  }
+  
+  func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode) {
   }
   
   func clearAllData() {

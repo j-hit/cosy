@@ -46,7 +46,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
-    watchDelegate.watchConnectivityHandler.delegate = self
     
     thermostatManager = watchDelegate.thermostatManager
     thermostatManager?.delegate = self
@@ -57,6 +56,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   override func willActivate() {
     super.willActivate()
     
+    watchDelegate.watchConnectivityHandler.delegate = self
     watchDelegate.appIsActive = true
     tryToFetchNewData()
     checkIfDataWasRetrievedFromiPhoneInTheBackground()
@@ -177,7 +177,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
       if thermostatManager?.thermostatLocations.count == 0 {
         showLoadingDataMessage()
       }
-      thermostatManager?.fetchNewData()
+      thermostatManager?.fetchNewListOfThermostats()
     } else {
       thermostatManager?.clearAllData()
       showAuthenticationRequiredMessage()

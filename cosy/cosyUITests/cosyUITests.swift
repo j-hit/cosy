@@ -6,7 +6,7 @@
 //  Copyright © 2016 Pentapie. All rights reserved.
 //
 
-import XCTest
+/*import XCTest
 
 class cosyUITests: XCTestCase {
         
@@ -33,4 +33,4 @@ class cosyUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
-}
+}*/

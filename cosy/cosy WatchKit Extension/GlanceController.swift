@@ -54,6 +54,7 @@ class GlanceController: WKInterfaceController {
   
   override func didDeactivate() {
     super.didDeactivate()
+    ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
   }
   
   // MARK: - Reloading data on view
@@ -110,8 +111,20 @@ extension GlanceController: ThermostatDelegate {
     lastDataFetchWasFaulty = false
   }
   
+  func didUpdateOccupationMode(toPresent: Bool) {
+    // Nothing to do here
+  }
+  
+  func didUpdateAutoMode(toOn on: Bool) {
+    // Nothing to do here
+  }
+  
   func didFailToRetrieveData(withError error: String) {
     lastDataFetchWasFaulty = true
     WKInterfaceDevice.currentDevice().playHaptic(.Retry)
+  }
+  
+  func didFailToChangeData(withError error: String) {
+    NSLog("Glance can only read data, this method should never be called")
   }
 }

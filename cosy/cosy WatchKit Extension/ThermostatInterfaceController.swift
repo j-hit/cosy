@@ -9,7 +9,6 @@
 import WatchKit
 import Foundation
 
-
 class ThermostatInterfaceController: WKInterfaceController {
   
   @IBOutlet var heatCoolLabel: WKInterfaceLabel!
@@ -32,11 +31,11 @@ class ThermostatInterfaceController: WKInterfaceController {
   
   private var timer: NSTimer?
   
-  private var lastDataFetchWasFaulty = false {
+  private var lastDataFetchOrChangeWasFaulty = false {
     didSet {
-      if lastDataFetchWasFaulty == true {
+      if lastDataFetchOrChangeWasFaulty == true {
         showErrorIndication(true)
-      } else if lastDataFetchWasFaulty == false && oldValue == true {
+      } else if lastDataFetchOrChangeWasFaulty == false && oldValue == true {
         showErrorIndication(false)
       }
     }
@@ -48,12 +47,16 @@ class ThermostatInterfaceController: WKInterfaceController {
     super.awakeWithContext(context)
     self.thermostat = context as? Thermostat
     self.thermostatManager = watchDelegate.thermostatManager
-    watchDelegate.watchConnectivityHandler.delegate = self
     visualiseForState(lastThermostatState)
   }
   
   override func willActivate() {
     super.willActivate()
+    if let thermostat = thermostat {
+      thermostat.delegate = self
+      thermostatManager?.updateData(ofThermostat: thermostat)
+    }
+    watchDelegate.watchConnectivityHandler.delegate = self
     reloadDataShownOnView()
   }
   
@@ -69,31 +72,40 @@ class ThermostatInterfaceController: WKInterfaceController {
   // MARK: Reloading data on view
   
   private func reloadDataShownOnView() {
-    if let currentTemperature = thermostat?.currentTemperature {
+    showCurrentTemperature()
+    showTemperatureSetPoint()
+    showThermostatState()
+  }
+  
+  private func showCurrentTemperature() {
+    if let currentTemperature = thermostat?.currentTemperature where currentTemperature > 0 {
       currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature))
     } else {
       currentTemperatureLabel.setText("--")
     }
-    
-    if let temperatureSetPoint = thermostat?.temperatureSetPoint {
+  }
+  
+  private func showTemperatureSetPoint() {
+    if let temperatureSetPoint = thermostat?.temperatureSetPoint where temperatureSetPoint > 0 {
       temperatureSetPointLabel.setText(String(format: NSLocalizedString("TemperatureSetpointDescription", comment: "describes the temperature set-point of a thermostat"), temperatureSetPoint))
       temperatureSetPointSlider.setValue(Float(temperatureSetPoint))
     } else {
       temperatureSetPointLabel.setText("--")
       temperatureSetPointSlider.setValue(0)
     }
-    
+  }
+  
+  private func showThermostatState() {
     if thermostat?.correspondingLocation?.isOccupied == true {
       if thermostat?.isInAutoMode == true {
-        onAutoSelected()
+        configureForModeAuto()
       } else {
-        onManualSelected()
+        configureForModeManual()
       }
     }
     else {
-      onAwaySelected()
+      configureForModeAway()
     }
-    
     visualiseStateOfThermostat()
   }
   
@@ -114,53 +126,75 @@ class ThermostatInterfaceController: WKInterfaceController {
     heatCoolLabel.setText(stateVisualiser.description)
   }
   
-  // MARK: Menu Items and Actions
-  
-  func onAwaySelected() {
-    if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = false
-      temperatureSetPointSlider.setHidden(true)
-      informationLabel.setText(NSLocalizedString("LocationNotOccupiedDescription", comment: "describes that a location is not occupied"))
-      informationLabel.setHidden(false)
-      
-      clearAllMenuItems()
-      addHomeMenuItem()
-    }
+  func configureForModeAway() {
+    temperatureSetPointSlider.setHidden(true)
+    informationLabel.setText(NSLocalizedString("LocationNotOccupiedDescription", comment: "describes that a location is not occupied"))
+    informationLabel.setHidden(false)
+    
+    clearAllMenuItems()
+    addHomeMenuItem()
   }
   
-  func onHomeSelected() {
+  func configureForModeHome() {
     if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = true
       if thermostat.isInAutoMode == true {
-        onAutoSelected()
+        configureForModeAuto()
       } else {
-        onManualSelected()
+        configureForModeManual()
       }
     }
   }
   
+  func configureForModeAuto() {
+    temperatureSetPointSlider.setHidden(true)
+    informationLabel.setText(NSLocalizedString("ThermostatInAutoModeDescription", comment: "describes that a thermostat is in auto mode"))
+    informationLabel.setHidden(false)
+    
+    clearAllMenuItems()
+    addManualMenuItem()
+    addAwayMenuItem()
+  }
+  
+  func configureForModeManual() {
+    temperatureSetPointSlider.setHidden(false)
+    informationLabel.setHidden(true)
+    
+    clearAllMenuItems()
+    addAutoMenuItem()
+    addAwayMenuItem()
+  }
+  
+  // MARK: Menu Items and Actions
+  
+  func onAwaySelected() {
+    configureForModeAway()
+    if let thermostat = thermostat {
+      thermostat.correspondingLocation?.isOccupied = false
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Away)
+    }
+  }
+  
+  func onHomeSelected() {
+    configureForModeHome()
+    if let thermostat = thermostat {
+      thermostat.correspondingLocation?.isOccupied = true
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Home)
+    }
+  }
+  
   func onAutoSelected() {
+    configureForModeAuto()
     if let thermostat = thermostat {
       thermostat.isInAutoMode = true
-      temperatureSetPointSlider.setHidden(true)
-      informationLabel.setText(NSLocalizedString("ThermostatInAutoModeDescription", comment: "describes that a thermostat is in auto mode"))
-      informationLabel.setHidden(false)
-      
-      clearAllMenuItems()
-      addManualMenuItem()
-      addAwayMenuItem()
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Auto)
     }
   }
   
   func onManualSelected() {
+    configureForModeManual()
     if let thermostat = thermostat {
       thermostat.isInAutoMode = false
-      temperatureSetPointSlider.setHidden(false)
-      informationLabel.setHidden(true)
-      
-      clearAllMenuItems()
-      addAutoMenuItem()
-      addAwayMenuItem()
+      thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Manual)
     }
   }
   
@@ -230,22 +264,47 @@ class ThermostatInterfaceController: WKInterfaceController {
 // MARK: - ThermostatDelegate
 extension ThermostatInterfaceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
-    // TODO: Update name on view
-    lastDataFetchWasFaulty = false
+    self.setTitle(thermostat?.name)
+    
+    lastDataFetchOrChangeWasFaulty = false
   }
   
   func didUpdateCurrentTemperature(toNewValue newValue: Int) {
-    // TODO: Update current temperature on view
-    lastDataFetchWasFaulty = false
+    showCurrentTemperature()
+    visualiseStateOfThermostat()
+    
+    lastDataFetchOrChangeWasFaulty = false
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
-    // TODO: Update temperature set point on view
-    lastDataFetchWasFaulty = false
+    showTemperatureSetPoint()
+    visualiseStateOfThermostat()
+    
+    lastDataFetchOrChangeWasFaulty = false
+  }
+  
+  func didUpdateAutoMode(toOn on: Bool) {
+    if thermostat?.correspondingLocation?.isOccupied == true {
+      if on {
+        configureForModeAuto()
+      } else {
+        configureForModeManual()
+      }
+    }
+    lastDataFetchOrChangeWasFaulty = false
+  }
+  
+  func didUpdateOccupationMode(toPresent: Bool) {
+    // JAMES: Handle code
   }
   
   func didFailToRetrieveData(withError error: String) {
-    lastDataFetchWasFaulty = true
+    lastDataFetchOrChangeWasFaulty = true
+    WKInterfaceDevice.currentDevice().playHaptic(.Retry)
+  }
+  
+  func didFailToChangeData(withError error: String) {
+    lastDataFetchOrChangeWasFaulty = true
     WKInterfaceDevice.currentDevice().playHaptic(.Retry)
   }
 }

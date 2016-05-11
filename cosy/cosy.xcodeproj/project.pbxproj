@@ -17,6 +17,8 @@
 		1A2A9E331CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2A9E321CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift */; };
 		1A3DD38A1CC033B0001C0BB0 /* ThermostatManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3DD3891CC033B0001C0BB0 /* ThermostatManagerMock.swift */; };
 		1A3DD38B1CC033B8001C0BB0 /* ThermostatManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3DD3891CC033B0001C0BB0 /* ThermostatManagerMock.swift */; };
+		1A427BA11CDCF53000279B2F /* ThermostatMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A427BA01CDCF53000279B2F /* ThermostatMode.swift */; };
+		1A427BA21CDCF5DD00279B2F /* ThermostatMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A427BA01CDCF53000279B2F /* ThermostatMode.swift */; };
 		1A473DAF1CC0C1320028CF95 /* ThermostatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */; };
 		1A473DB01CC0C13E0028CF95 /* ThermostatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */; };
 		1A4C487E1CB6AB6900011EB3 /* ThermostatInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */; };
@@ -143,6 +145,7 @@
 		1A2A9E301CA91987009550C1 /* WatchAppWatchConnectivityHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchAppWatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		1A2A9E321CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchAppWatchConnectivityHandlerDelegate.swift; sourceTree = "<group>"; };
 		1A3DD3891CC033B0001C0BB0 /* ThermostatManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatManagerMock.swift; path = Shared/ThermostatManagerMock.swift; sourceTree = "<group>"; };
+		1A427BA01CDCF53000279B2F /* ThermostatMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatMode.swift; path = Shared/ThermostatMode.swift; sourceTree = "<group>"; };
 		1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatState.swift; sourceTree = "<group>"; };
 		1A4C487D1CB6AB6900011EB3 /* ThermostatInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatInterfaceController.swift; sourceTree = "<group>"; };
 		1A5AE6E41CB106C5008E4A3B /* ThermostatDataAccessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThermostatDataAccessor.swift; path = Shared/ThermostatDataAccessor.swift; sourceTree = "<group>"; };
@@ -428,6 +431,7 @@
 				1A7C04851CAE643D002CDE1A /* ThermostatLocation.swift */,
 				1A7C04871CAE65BB002CDE1A /* Thermostat.swift */,
 				1A473DAE1CC0C1320028CF95 /* ThermostatState.swift */,
+				1A427BA01CDCF53000279B2F /* ThermostatMode.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -791,6 +795,7 @@
 				1A954F271CB7A69400D5C06D /* CoolingStateVisualiser.swift in Sources */,
 				1A3DD38A1CC033B0001C0BB0 /* ThermostatManagerMock.swift in Sources */,
 				1A6534271CA70C1C0033DFDB /* Authenticator.swift in Sources */,
+				1A427BA11CDCF53000279B2F /* ThermostatMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +826,7 @@
 				1A954F231CB79DA200D5C06D /* IdleStateVisualiser.swift in Sources */,
 				1A954F211CB79CEB00D5C06D /* CoolingStateVisualiser.swift in Sources */,
 				1A2A9E331CA94CE2009550C1 /* WatchAppWatchConnectivityHandlerDelegate.swift in Sources */,
+				1A427BA21CDCF5DD00279B2F /* ThermostatMode.swift in Sources */,
 				1A954F1D1CB79A5300D5C06D /* ThermostatStateVisualiser.swift in Sources */,
 				1AA28E7A1CD7D03C0047D3AD /* ErrorInterfaceController.swift in Sources */,
 				1A97C9871C8B62710089D269 /* NotificationController.swift in Sources */,

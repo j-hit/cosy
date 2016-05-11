@@ -48,7 +48,7 @@ class ThermostatLocationTests: XCTestCase {
   
   func testAddingThermostatToLocation() {
     let location = ThermostatLocation(identifier: "specialIdentifier")
-    let thermostat = Thermostat(name: "newThermostat", correspondingLocation: location)
+    let thermostat = Thermostat(identifier: "specialIdentifier", name: "newThermostat", correspondingLocation: location)
     location.addThermostat(thermostat)
     XCTAssertTrue(location.thermostats.contains(thermostat), "the array of thermostats should contain the added thermostat")
   }
