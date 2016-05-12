@@ -181,6 +181,18 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   }
   
   func fetchDataOfThermostat(thermostat: Thermostat) {
+    fetchPresentValueOfPoint("RTemp", forThermostat: thermostat) { (presentValue) in
+      if let currentTemperature = presentValue as? Int {
+        thermostat.currentTemperature = currentTemperature
+      }
+    }
+    
+    fetchPresentValueOfPoint("SpTR", forThermostat: thermostat) { (presentValue) in
+      if let temperatureSetPoint = presentValue as? Int {
+        thermostat.temperatureSetPoint = temperatureSetPoint
+      }
+    }
+    
     fetchPresentValueOfPoint("OccMod", forThermostat: thermostat) { (presentValue) in
       if let occupationModeString = presentValue as? String {
         thermostat.correspondingLocation?.isOccupied = occupationModeString == "Present" ? true : false
@@ -196,18 +208,6 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
         }
       }
     }
-    
-    fetchPresentValueOfPoint("RTemp", forThermostat: thermostat) { (presentValue) in
-      if let currentTemperature = presentValue as? Int {
-        thermostat.currentTemperature = currentTemperature
-      }
-    }
-    
-    fetchPresentValueOfPoint("SpTR", forThermostat: thermostat) { (presentValue) in
-      if let temperatureSetPoint = presentValue as? Int {
-        thermostat.temperatureSetPoint = temperatureSetPoint
-      }
-    }
   }
   
   // MARK: - Change thermostat data
@@ -219,6 +219,8 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
         return
     }
     
+    thermostat.savingData = true
+    
     Alamofire.request(urlRequest)
       .validate()
       .responseString { response in
@@ -229,6 +231,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           NSLog("Error changing point \(point) of thermostat \(thermostat.identifier). Details = \(error.localizedDescription)")
           thermostat.delegate?.didFailToChangeData(withError: String(format: NSLocalizedString("SetPresentValueFailure", comment: "Error changing the temperature set point"), thermostat.name, error.localizedDescription))
         }
+        thermostat.savingData = false
     }
   }
   

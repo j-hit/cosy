@@ -33,7 +33,7 @@ final class Thermostat: NSObject, NSCoding {
   
   var currentTemperature: Int? {
     didSet {
-      if let currentTemperature = currentTemperature {
+      if let currentTemperature = currentTemperature where currentTemperature != oldValue {
         delegate?.didUpdateCurrentTemperature(toNewValue: currentTemperature)
       }
     }
@@ -41,7 +41,7 @@ final class Thermostat: NSObject, NSCoding {
   
   var temperatureSetPoint: Int? {
     didSet {
-      if let temperatureSetPoint = temperatureSetPoint {
+      if let temperatureSetPoint = temperatureSetPoint where temperatureSetPoint != oldValue {
         delegate?.didUpdateTemperatureSetpoint(toNewValue: temperatureSetPoint)
       }
     }
@@ -49,12 +49,18 @@ final class Thermostat: NSObject, NSCoding {
   
   var isInAutoMode: Bool {
     didSet {
-      delegate?.didUpdateAutoMode(toOn: isInAutoMode)
+      if savingData {
+        isInAutoMode = oldValue
+      } else if isInAutoMode != oldValue {
+        delegate?.didUpdateAutoMode(toOn: isInAutoMode)
+      }
     }
   }
   
   var identifier: String
   var isMarkedAsFavourite: Bool
+  
+  var savingData = false
   
   var state: ThermostatState {
     if (temperatureSetPoint > currentTemperature) {
