@@ -16,7 +16,7 @@ enum ThermostatManagerState{
 
 final class ThermostatManagerImpl: ThermostatManager {
   var delegate: ThermostatManagerDelegate? // consider declaring delegate as weak
-  var thermostatLocations: [ThermostatLocation]
+  var thermostats: [Thermostat]
   private var dataAccessor: ThermostatDataAccessor
   private var state: ThermostatManagerState
   
@@ -30,7 +30,7 @@ final class ThermostatManagerImpl: ThermostatManager {
   }
   
   init(dataAccessor: ThermostatDataAccessor) {
-    self.thermostatLocations = [ThermostatLocation]()
+    self.thermostats = [Thermostat]()
     self.state = ThermostatManagerState.Ready
     self.dataAccessor = dataAccessor
     self.dataAccessor.delegate = self
@@ -41,7 +41,7 @@ final class ThermostatManagerImpl: ThermostatManager {
       return
     }
     state = .ExpectingNewData
-    dataAccessor.fetchAvailableLocationsWithThermostatNames()
+    dataAccessor.fetchListOfThermostats()
   }
   
   func updateData(ofThermostat thermostat: Thermostat) {
@@ -68,46 +68,20 @@ final class ThermostatManagerImpl: ThermostatManager {
   }
   
   func clearAllData() {
-    thermostatLocations.removeAll()
+    thermostats.removeAll()
   }
   
-  func exportThermostatLocations() -> [[String: AnyObject]] {
+  func exportThermostatsAsNSData() -> NSData {
     NSKeyedArchiver.setClassName("Thermostat", forClass: Thermostat.self)
-    return thermostatLocations.map { thermostatLocation in
-      [
-        "locationName": thermostatLocation.locationName,
-        "identifier": thermostatLocation.identifier,
-        "isOccupied": thermostatLocation.isOccupied,
-        "thermostats": NSKeyedArchiver.archivedDataWithRootObject(thermostatLocation.thermostats)
-      ]
-    }
+    return NSKeyedArchiver.archivedDataWithRootObject(thermostats)
   }
   
-  func importThermostatLocations(locations: [[String : AnyObject]]) {
+  func importThermostats(fromNSDataObject thermostatsAsNSData: NSData?) {
     clearAllData()
     NSKeyedUnarchiver.setClass(Thermostat.self, forClassName: "Thermostat")
-    
-    for location in locations {
-      if let identifier = location["identifier"] as? String {
-        let thermostatLocation = ThermostatLocation(identifier: identifier)
-        
-        if let locationName = location["locationName"] as? String {
-          thermostatLocation.locationName = locationName
-        }
-        
-        if let isOccupied = location["isOccupied"] as? Bool {
-          thermostatLocation.isOccupied = isOccupied
-        }
-        
-        if let thermostatsEncoded = location["thermostats"] as? NSData {
-          if let thermostatsDecoded = NSKeyedUnarchiver.unarchiveObjectWithData(thermostatsEncoded) as? [Thermostat] {
-            thermostatLocation.thermostats = thermostatsDecoded
-            for thermostat in thermostatLocation.thermostats {
-              thermostat.correspondingLocation = thermostatLocation
-            }
-          }
-        }
-        thermostatLocations.append(thermostatLocation)
+    if let thermostatsEncoded = thermostatsAsNSData {
+      if let thermostatsDecoded = NSKeyedUnarchiver.unarchiveObjectWithData(thermostatsEncoded) as? [Thermostat] {
+        thermostats = thermostatsDecoded
       }
     }
     delegate?.didUpdateListOfThermostats()
@@ -115,30 +89,26 @@ final class ThermostatManagerImpl: ThermostatManager {
 }
 
 extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
-  func thermostatDataAccessor(didFetchLocations locations: [ThermostatLocation]) {
-    //let removedLocations = Set<ThermostatLocation>(thermostatLocations).subtract(locations)
-    
-    let newFoundLocations = Set<ThermostatLocation>(locations).subtract(thermostatLocations)
-    
-    let alreadyExistingLocations = Set<ThermostatLocation>(thermostatLocations).intersect(locations)
-    for existingLocation in alreadyExistingLocations {
-      let correspondingNewLocaton = Set<ThermostatLocation>(locations).filter{ $0.identifier == existingLocation.identifier }
-      if let newLocationName = correspondingNewLocaton.first?.locationName {
-        existingLocation.locationName = newLocationName
-        existingLocation.isOccupied = correspondingNewLocaton.first!.isOccupied
-        if existingLocation.thermostats.count != correspondingNewLocaton.first!.thermostats.count {
-          existingLocation.thermostats = correspondingNewLocaton.first!.thermostats
-        }
+  func thermostatDataAccessor(didFetchThermostats fetchedThermostats: [Thermostat]) {
+    var newListOfThermostats = [Thermostat]()
+    for fetchedThermostat in fetchedThermostats {
+      let filterForThermostat = thermostats.filter{ (thermostat) in thermostat.identifier == fetchedThermostat.identifier}
+      if let existingThermostat = filterForThermostat.first {
+        existingThermostat.name = fetchedThermostat.name
+        existingThermostat.isOccupied = fetchedThermostat.isOccupied
+        newListOfThermostats.append(existingThermostat)
+      } else {
+        newListOfThermostats.append(fetchedThermostat)
       }
     }
     
-    thermostatLocations = Array(newFoundLocations.union(alreadyExistingLocations))
+    self.thermostats = newListOfThermostats
     state = .Ready
     delegate?.didUpdateListOfThermostats()
   }
   
-  func thermostatDataAccessorFailedToFetchLocations() {
+  func thermostatDataAccessorFailedToListOfThermostats() {
     state = .Ready
-    delegate?.didFailToRetrieveData(withError: "Could not fetch the list of available thermostats") // TODO: use localised strings
+    delegate?.didFailToRetrieveData(withError: NSLocalizedString("ErrorFetchingListOfThermostats", comment: "Message shown to the user when an error occurs while fetching the list of thermostats"))
   }
 }

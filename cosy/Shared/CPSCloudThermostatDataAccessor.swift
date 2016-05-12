@@ -12,17 +12,17 @@ import Alamofire
 final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   var delegate: ThermostatDataAccessorDelegate?
   var settingsProvider: SettingsProvider
-  var lastFetchedLocations: [ThermostatLocation]
+  var lastFetchedThermostats: [Thermostat]
   
   init(settingsProvider: SettingsProvider) {
     self.settingsProvider = settingsProvider
-    self.lastFetchedLocations = [ThermostatLocation]()
+    self.lastFetchedThermostats = [Thermostat]()
   }
   
   var outstandingRequestsForLocationFetchToFinish: Int = 0 {
     didSet {
       if outstandingRequestsForLocationFetchToFinish == 0 {
-        delegate?.thermostatDataAccessor(didFetchLocations: lastFetchedLocations)
+        delegate?.thermostatDataAccessor(didFetchThermostats: lastFetchedThermostats)
       } else if outstandingRequestsForLocationFetchToFinish < 0 {
         NSLog("ERROR: outstandingRequestsForLocationFetchToFinish should not have minus value")
         outstandingRequestsForLocationFetchToFinish = 0
@@ -48,19 +48,15 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   }
   
   // MARK: - Fetch locations and thermostat names
-  
-  func fetchAvailableLocationsWithThermostatNames() {
-    performRequestToFetchListOfLocations() // TODO: don't just pass through
-  }
-  
-  private func performRequestToFetchListOfLocations() {
+    
+  func fetchListOfThermostats() {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToListOfThermostats()
       return
     }
     
     guard let urlForLocations = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth") else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToListOfThermostats()
       return
     }
     
@@ -70,17 +66,17 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
         case .Success:
           if let locations = response.result.value as? [[String: String]]
           {
-            self.lastFetchedLocations.removeAll()
+            self.lastFetchedThermostats.removeAll()
             self.outstandingRequestsForLocationFetchToFinish = locations.count * 2
             
             for location in locations {
-              if let locationIdentifier = location["activation-key"] {
-                let fetchedLocation = ThermostatLocation(identifier: locationIdentifier)
-                self.lastFetchedLocations.append(fetchedLocation)
+              if let identifier = location["activation-key"] {
+                let fetchedThermostat = Thermostat(identifier: identifier)
+                self.lastFetchedThermostats.append(fetchedThermostat)
                 
-                self.fetchNameForLocation(fetchedLocation)
-                self.fetchOccupationModeForLocation(fetchedLocation)
-                NSLog("location key: \(locationIdentifier)")
+                self.fetchNameForThermostat(fetchedThermostat)
+                self.fetchOccupationModeForThermostat(fetchedThermostat)
+                NSLog("thermostat key: \(identifier)")
               } else {
                 self.outstandingRequestsForLocationFetchToFinish -= 1
               }
@@ -88,19 +84,19 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           }
         case .Failure(let error):
           NSLog("Error fetching locations: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
+          self.delegate?.thermostatDataAccessorFailedToListOfThermostats()
         }
     }
   }
   
-  private func fetchNameForLocation(location: ThermostatLocation) {
+  private func fetchNameForThermostat(thermostat: Thermostat) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToListOfThermostats()
       return
     }
     
-    guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(location.identifier)/@location") else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+    guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/@location") else {
+      delegate?.thermostatDataAccessorFailedToListOfThermostats()
       return
     }
     
@@ -108,29 +104,28 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       .responseString { response in
         switch response.result {
         case .Success:
-          print("location name fetch response: \(response.result.value)")
-          if let locationName = response.result.value
+          print("thermostat name fetch response: \(response.result.value)")
+          if let thermostatName = response.result.value
           {
-            location.locationName = locationName
-            location.addThermostat(Thermostat(identifier: location.identifier, name: locationName, correspondingLocation: location))
-            NSLog("location name: \(locationName) - thermostat name: \(locationName)")
+            thermostat.name = thermostatName
+            NSLog("thermostat name: \(thermostatName)")
           }
         case .Failure(let error):
           NSLog("Error fetching location name: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
+          self.delegate?.thermostatDataAccessorFailedToListOfThermostats()
         }
         self.outstandingRequestsForLocationFetchToFinish -= 1
     }
   }
   
-  private func fetchOccupationModeForLocation(location: ThermostatLocation) {
+  private func fetchOccupationModeForThermostat(location: Thermostat) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToListOfThermostats()
       return
     }
     
     guard let urlForOccupationMode = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(location.identifier)/automation-device/R(1)/FvrBscOp/OccMod/@present-value") else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToListOfThermostats()
       return
     }
     
@@ -145,7 +140,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           }
         case .Failure(let error):
           NSLog("Error fetching occupation mode: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
+          self.delegate?.thermostatDataAccessorFailedToListOfThermostats()
         }
         self.outstandingRequestsForLocationFetchToFinish -= 1
     }
@@ -195,7 +190,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     
     fetchPresentValueOfPoint("OccMod", forThermostat: thermostat) { (presentValue) in
       if let occupationModeString = presentValue as? String {
-        thermostat.correspondingLocation?.isOccupied = occupationModeString == "Present" ? true : false
+        thermostat.isOccupied = occupationModeString == "Present" ? true : false
       }
     }
     

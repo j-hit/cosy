@@ -96,7 +96,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   private func showThermostatState() {
-    if thermostat?.correspondingLocation?.isOccupied == true {
+    if thermostat?.isOccupied == true {
       if thermostat?.isInAutoMode == true {
         configureForModeAuto()
       } else {
@@ -169,7 +169,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onAwaySelected() {
     configureForModeAway()
     if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = false
+      thermostat.isOccupied = false
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Away)
     }
   }
@@ -177,7 +177,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onHomeSelected() {
     configureForModeHome()
     if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = true
+      thermostat.isOccupied = true
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Home)
     }
   }
@@ -284,7 +284,7 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   }
   
   func didUpdateAutoMode(toOn on: Bool) {
-    if thermostat?.correspondingLocation?.isOccupied == true {
+    if thermostat?.isOccupied == true {
       if on {
         configureForModeAuto()
       } else {

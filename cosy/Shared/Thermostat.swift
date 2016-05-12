@@ -23,7 +23,10 @@ final class Thermostat: NSObject, NSCoding {
   static let minimumTemperatureValue: Float = 10.0
   
   var delegate: ThermostatDelegate?
-  weak var correspondingLocation: ThermostatLocation?
+  var identifier: String
+  var isOccupied: Bool
+  var isMarkedAsFavourite: Bool
+  var savingData = false
   
   var name: String {
     didSet {
@@ -57,11 +60,6 @@ final class Thermostat: NSObject, NSCoding {
     }
   }
   
-  var identifier: String
-  var isMarkedAsFavourite: Bool
-  
-  var savingData = false
-  
   var state: ThermostatState {
     if (temperatureSetPoint > currentTemperature) {
       return .Heating
@@ -72,34 +70,43 @@ final class Thermostat: NSObject, NSCoding {
     }
   }
   
-  private init(identifier: String, name: String) {
-    self.name = name
+  var occupationModeimageName: String {
+    if isOccupied {
+      return "occupied"
+    } else {
+      return "unoccupied"
+    }
+  }
+  
+  init(identifier: String) {
     self.identifier = identifier
+    self.name = "Thermostat"
     self.isInAutoMode = true
     self.isMarkedAsFavourite = false
+    self.isOccupied = false
   }
   
-  convenience init(identifier: String, name: String, correspondingLocation: ThermostatLocation) {
-    self.init(identifier: identifier, name: name)
-    self.correspondingLocation = correspondingLocation
+  convenience init(identifier: String, name: String) {
+    self.init(identifier: identifier)
+    self.name = name
   }
   
-  convenience init(identifier: String, name: String, currentTemperature: Int?, temperatureSetPoint: Int?, isInAutoMode: Bool, isMarkedAsFavourite: Bool, correspondingLocation: ThermostatLocation?) {
+  convenience init(identifier: String, name: String, currentTemperature: Int?, temperatureSetPoint: Int?, isInAutoMode: Bool, isMarkedAsFavourite: Bool) {
     self.init(identifier: identifier, name: name)
     self.currentTemperature = currentTemperature
     self.temperatureSetPoint = temperatureSetPoint
     self.isInAutoMode = isInAutoMode
     self.isMarkedAsFavourite = isMarkedAsFavourite
-    self.correspondingLocation = correspondingLocation
   }
   
   convenience init?(coder decoder: NSCoder) {
     guard let name = decoder.decodeObjectForKey("name") as? String else {
         return nil
-        // todo: fetch corresponding location
     }
     
-    self.init(identifier: decoder.decodeObjectForKey("identifier") as? String ?? "", name: name, currentTemperature: decoder.decodeIntegerForKey("currentTemperature"), temperatureSetPoint: decoder.decodeIntegerForKey("temperatureSetpoint"), isInAutoMode: decoder.decodeBoolForKey("isInAutoMode"), isMarkedAsFavourite: decoder.decodeBoolForKey("isMarkedAsFavourite"), correspondingLocation: nil)
+    self.init(identifier: decoder.decodeObjectForKey("identifier") as? String ?? "", name: name, currentTemperature: decoder.decodeIntegerForKey("currentTemperature"), temperatureSetPoint: decoder.decodeIntegerForKey("temperatureSetpoint"), isInAutoMode: decoder.decodeBoolForKey("isInAutoMode"), isMarkedAsFavourite: decoder.decodeBoolForKey("isMarkedAsFavourite"))
+    
+    self.isOccupied = decoder.decodeBoolForKey("isOccupied")
   }
   
   func encodeWithCoder(coder: NSCoder) {
@@ -109,6 +116,7 @@ final class Thermostat: NSObject, NSCoding {
     coder.encodeInteger(self.temperatureSetPoint ?? -1, forKey: "temperatureSetpoint")
     coder.encodeBool(self.isInAutoMode, forKey: "isInAutoMode")
     coder.encodeBool(self.isMarkedAsFavourite, forKey: "isMarkedAsFavourite")
+    coder.encodeBool(self.isOccupied, forKey: "isOccupied")
   }
 }
 

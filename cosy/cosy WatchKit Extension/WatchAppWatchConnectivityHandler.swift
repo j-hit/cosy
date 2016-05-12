@@ -57,8 +57,8 @@ extension WatchAppWatchConnectivityHandler: WCSessionDelegate {
       delegate?.didUpdateApplicationSettings()
     }
     
-    if let thermostatLocations = applicationContext["locations"] as? [[String: AnyObject]] {
-      thermostatManager?.importThermostatLocations(thermostatLocations)
+    if let thermostats = applicationContext["thermostats"] as? NSData {
+      thermostatManager?.importThermostats(fromNSDataObject: thermostats)
     }
   }
 }

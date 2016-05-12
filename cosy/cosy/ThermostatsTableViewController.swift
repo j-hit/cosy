@@ -14,7 +14,7 @@ class ThermostatsTableViewController: UITableViewController {
   private let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
   private let thermostatManager = (UIApplication.sharedApplication().delegate as! AppDelegate).thermostatManager
   
-  private var thermostatLocations = [ThermostatLocation]() {
+  private var thermostats = [Thermostat]() {
     didSet {
       tableView.reloadData()
     }
@@ -38,22 +38,18 @@ class ThermostatsTableViewController: UITableViewController {
   // MARK: - Table view data source
   
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return thermostatLocations.count
+    return 1
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return thermostatLocations[section].thermostats.count
+    return thermostats.count
   }
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier(ThermostatTableViewCell.identifier, forIndexPath: indexPath) as! ThermostatTableViewCell
-    let thermostat = thermostatLocations[indexPath.section].thermostats[indexPath.row]
+    let thermostat = thermostats[indexPath.row]
     cell.thermostatNameLabel.text = thermostat.name
     return cell
-  }
-  
-  override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return thermostatLocations[section].locationName
   }
   
   override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -88,7 +84,7 @@ extension ThermostatsTableViewController: AuthenticatorDelegate {
 // MARK: - ThermostatManagerDelegate
 extension ThermostatsTableViewController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
-    thermostatLocations = thermostatManager.thermostatLocations
+    thermostats = thermostatManager.thermostats
     watchConnectivityHandler.transferAppContextToWatch(withDataFromThermsotatManager: thermostatManager)
   }
   

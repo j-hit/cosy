@@ -89,7 +89,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   // MARK: - Reloading data on view
   
   private func checkIfDataWasRetrievedFromiPhoneInTheBackground() {
-    if(userHasBeenAuthenticated && thermostatManager?.thermostatLocations.count > 0) {
+    if(userHasBeenAuthenticated && thermostatManager?.thermostats.count > 0) {
       if let _ = thermostatsTable.rowControllerAtIndex(0) as? InformationRowController {
         reloadDataShownOnView()
       }
@@ -98,30 +98,19 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   
   private func showAllThermostats(fromThermostatManager thermostatManager: ThermostatManager) {
     clearThermostatsTable()
-    let sortedLocations = thermostatManager.thermostatLocations.sort { $0.locationName < $1.locationName }
-    for thermostatLocation in sortedLocations {
-      showThermostats(fromThermostatLocation: thermostatLocation)
-    }
-  }
-  
-  private func showThermostats(fromThermostatLocation thermostatLocation: ThermostatLocation) {
-    let thermostatsOfSpecifiedLocation = thermostatLocation.thermostats
-    let rows = thermostatsTable.numberOfRows
-    let headerIndex = NSIndexSet(index: rows)
-    thermostatsTable.insertRowsAtIndexes(headerIndex, withRowType: LocationRowController.identifier)
+    let sortedThermostats = thermostatManager.thermostats.sort { $0.name < $1.name }
     
-    let thermostatRows = NSIndexSet(indexesInRange: NSRange(location: rows + 1, length: thermostatsOfSpecifiedLocation.count))
+    let rows = thermostatsTable.numberOfRows
+    let thermostatRows = NSIndexSet(indexesInRange: NSRange(location: rows, length: sortedThermostats.count))
     thermostatsTable.insertRowsAtIndexes(thermostatRows, withRowType: ThermostatRowController.identifier)
     
     for rowIndex in rows..<thermostatsTable.numberOfRows {
       let row = thermostatsTable.rowControllerAtIndex(rowIndex)
       
-      if let row = row as? LocationRowController {
-        row.locationLabel.setText(thermostatLocation.locationName)
-        row.locationStateImage.setImageNamed(thermostatLocation.imageName)
-      } else if let row = row as? ThermostatRowController {
-        let thermostat = thermostatsOfSpecifiedLocation[rowIndex - rows - 1]
+      if let row = row as? ThermostatRowController {
+        let thermostat = sortedThermostats[rowIndex]
         row.thermostatLabel.setText(thermostat.name)
+        row.occupationModeImage.setImageNamed(thermostat.occupationModeimageName)
         row.thermostat = thermostat
       }
     }
@@ -174,7 +163,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   
   private func tryToFetchNewData() {
     if(userHasBeenAuthenticated) {
-      if thermostatManager?.thermostatLocations.count == 0 {
+      if thermostatManager?.thermostats.count == 0 {
         showLoadingDataMessage()
       }
       thermostatManager?.fetchNewListOfThermostats()
