@@ -29,6 +29,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   private var lastThermostatState = ThermostatState.Idle
   
+  private var changingTemperatureSetpoint = false
   private var timer: NSTimer?
   
   private var lastDataFetchOrChangeWasFaulty = false {
@@ -247,6 +248,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func saveTemperatureSetPoint() {
     if let thermostat = thermostat {
       thermostatManager?.saveTemperatureSetPointOfThermostat(thermostat)
+      changingTemperatureSetpoint = false
     }
   }
   
@@ -277,8 +279,10 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
-    showTemperatureSetPoint()
-    visualiseStateOfThermostat()
+    if !changingTemperatureSetpoint {
+      showTemperatureSetPoint()
+      visualiseStateOfThermostat()
+    }
     
     lastDataFetchOrChangeWasFaulty = false
   }
@@ -294,8 +298,12 @@ extension ThermostatInterfaceController: ThermostatDelegate {
     lastDataFetchOrChangeWasFaulty = false
   }
   
-  func didUpdateOccupationMode(toPresent: Bool) {
-    // JAMES: Handle code
+  func didUpdateOccupationMode(toNewValue toPresent: Bool) {
+    if toPresent {
+      configureForModeHome()
+    } else {
+      configureForModeAway()
+    }
   }
   
   func didFailToRetrieveData(withError error: String) {

@@ -16,4 +16,7 @@ struct HeatingStateVisualiser: ThermostatStateVisualiser {
   var description: String {
     return NSLocalizedString("HeatingStateDescription", comment: "Informs the user that the thermostat is in heating state")
   }
+  var circularImageName: String {
+    return "heating-thermostat-list"
+  }
 }

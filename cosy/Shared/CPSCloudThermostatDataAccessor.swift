@@ -19,13 +19,13 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     self.lastFetchedThermostats = [Thermostat]()
   }
   
-  var outstandingRequestsForLocationFetchToFinish: Int = 0 {
+  var outstandingRequestsForThermostatListFetchToFinish: Int = 0 {
     didSet {
-      if outstandingRequestsForLocationFetchToFinish == 0 {
+      if outstandingRequestsForThermostatListFetchToFinish == 0 {
         delegate?.thermostatDataAccessor(didFetchThermostats: lastFetchedThermostats)
-      } else if outstandingRequestsForLocationFetchToFinish < 0 {
+      } else if outstandingRequestsForThermostatListFetchToFinish < 0 {
         NSLog("ERROR: outstandingRequestsForLocationFetchToFinish should not have minus value")
-        outstandingRequestsForLocationFetchToFinish = 0
+        outstandingRequestsForThermostatListFetchToFinish = 0
       }
     }
   }
@@ -67,18 +67,26 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           if let locations = response.result.value as? [[String: String]]
           {
             self.lastFetchedThermostats.removeAll()
-            self.outstandingRequestsForLocationFetchToFinish = locations.count * 2
+            self.outstandingRequestsForThermostatListFetchToFinish = locations.count * 4
             
             for location in locations {
               if let identifier = location["activation-key"] {
                 let fetchedThermostat = Thermostat(identifier: identifier)
                 self.lastFetchedThermostats.append(fetchedThermostat)
                 
-                self.fetchNameForThermostat(fetchedThermostat)
-                self.fetchOccupationModeForThermostat(fetchedThermostat)
+                self.fetchNameOfThermostat(fetchedThermostat)
+                self.fetchOccupationModeOfThermostat(fetchedThermostat, completionHandler: { 
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
+                self.fetchTemperatureSetpointOfThermostat(fetchedThermostat, completionHandler: { 
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
+                self.fetchCurrentTemperatureOfThermostat(fetchedThermostat, completionHandler: { 
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
                 NSLog("thermostat key: \(identifier)")
               } else {
-                self.outstandingRequestsForLocationFetchToFinish -= 1
+                self.outstandingRequestsForThermostatListFetchToFinish -= 1
               }
             }
           }
@@ -89,7 +97,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     }
   }
   
-  private func fetchNameForThermostat(thermostat: Thermostat) {
+  private func fetchNameOfThermostat(thermostat: Thermostat) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
       delegate?.thermostatDataAccessorFailedToListOfThermostats()
       return
@@ -114,41 +122,13 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           NSLog("Error fetching location name: \(error.localizedDescription)")
           self.delegate?.thermostatDataAccessorFailedToListOfThermostats()
         }
-        self.outstandingRequestsForLocationFetchToFinish -= 1
-    }
-  }
-  
-  private func fetchOccupationModeForThermostat(location: Thermostat) {
-    guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToListOfThermostats()
-      return
-    }
-    
-    guard let urlForOccupationMode = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(location.identifier)/automation-device/R(1)/FvrBscOp/OccMod/@present-value") else {
-      delegate?.thermostatDataAccessorFailedToListOfThermostats()
-      return
-    }
-    
-    Alamofire.request(.GET, urlForOccupationMode, headers: headersForRequest)
-      .responseJSON { response in
-        switch response.result {
-        case .Success:
-          if let occupationModeString = response.result.value as? String
-          {
-            location.isOccupied = occupationModeString == "Present" ? true : false
-            NSLog("location name: \(location.identifier) - isOccupied = \(location.isOccupied)")
-          }
-        case .Failure(let error):
-          NSLog("Error fetching occupation mode: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToListOfThermostats()
-        }
-        self.outstandingRequestsForLocationFetchToFinish -= 1
+        self.outstandingRequestsForThermostatListFetchToFinish -= 1
     }
   }
   
   // MARK: - Fetch thermostat data
   
-  private func fetchPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, successHandler: (presentValue: AnyObject) -> Void) {
+  private func fetchPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, successHandler: (presentValue: AnyObject) -> Void, errorHandler: ((error: NSError) -> Void)? = nil) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
       thermostat.delegate?.didFailToChangeData(withError: NSLocalizedString("FetchPresentValueHeaderFailure", comment: "Error: Failed to construct header for authorized access"))
       return
@@ -169,32 +149,54 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
             NSLog("present value of \(point) = \(presentValueOfPoint)")
           }
         case .Failure(let error):
+          errorHandler?(error: error)
           NSLog("Error fetching occupation mode: \(error.localizedDescription)")
           thermostat.delegate?.didFailToRetrieveData(withError: String(format: NSLocalizedString("FetchPresentValueFailure", comment: "Error retrieving present value"), point, error.localizedDescription))
         }
     }
   }
   
-  func fetchDataOfThermostat(thermostat: Thermostat) {
-    fetchPresentValueOfPoint("RTemp", forThermostat: thermostat) { (presentValue) in
+  private func fetchCurrentTemperatureOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
+    fetchPresentValueOfPoint("RTemp", forThermostat: thermostat, successHandler: { (presentValue) in
       if let currentTemperature = presentValue as? Int {
         thermostat.currentTemperature = currentTemperature
       }
-    }
-    
-    fetchPresentValueOfPoint("SpTR", forThermostat: thermostat) { (presentValue) in
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
+    })
+  }
+  
+  private func fetchTemperatureSetpointOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
+    fetchPresentValueOfPoint("SpTR", forThermostat: thermostat, successHandler: { (presentValue) in
       if let temperatureSetPoint = presentValue as? Int {
         thermostat.temperatureSetPoint = temperatureSetPoint
       }
-    }
-    
-    fetchPresentValueOfPoint("OccMod", forThermostat: thermostat) { (presentValue) in
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
+    })
+  }
+  
+  private func fetchOccupationModeOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
+    fetchPresentValueOfPoint("OccMod", forThermostat: thermostat, successHandler: { (presentValue) in
       if let occupationModeString = presentValue as? String {
         thermostat.isOccupied = occupationModeString == "Present" ? true : false
       }
-    }
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
+    })
+  }
+  
+  func fetchDataOfThermostat(thermostat: Thermostat) {
+    fetchCurrentTemperatureOfThermostat(thermostat)
     
-    fetchPresentValueOfPoint("CmfBtn", forThermostat: thermostat) { (presentValue) in
+    fetchTemperatureSetpointOfThermostat(thermostat)
+    
+    fetchOccupationModeOfThermostat(thermostat)
+    
+    fetchPresentValueOfPoint("CmfBtn", forThermostat: thermostat, successHandler: { (presentValue) in
       if let thermostatIsInComfortMode = presentValue as? Bool {
         if thermostatIsInComfortMode == false {
           thermostat.isInAutoMode = true
@@ -202,7 +204,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           thermostat.isInAutoMode = false
         }
       }
-    }
+    })
   }
   
   // MARK: - Change thermostat data

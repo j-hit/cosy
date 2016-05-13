@@ -16,4 +16,7 @@ struct CoolingStateVisualiser: ThermostatStateVisualiser {
   var description: String { 
     return NSLocalizedString("CoolingStateDescription", comment: "Informs the user that the thermostat is in cooling state")
   }
+  var circularImageName: String {
+    return "cooling-thermostat-list"
+  }
 }

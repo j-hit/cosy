@@ -13,7 +13,7 @@ protocol ThermostatDelegate {
   func didUpdateCurrentTemperature(toNewValue newValue: Int)
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int)
   func didUpdateAutoMode(toOn on: Bool)
-  func didUpdateOccupationMode(toPresent: Bool)
+  func didUpdateOccupationMode(toNewValue toPresent: Bool)
   func didFailToRetrieveData(withError error: String)
   func didFailToChangeData(withError error: String)
 }
@@ -24,13 +24,20 @@ final class Thermostat: NSObject, NSCoding {
   
   var delegate: ThermostatDelegate?
   var identifier: String
-  var isOccupied: Bool
   var isMarkedAsFavourite: Bool
   var savingData = false
   
   var name: String {
     didSet {
       delegate?.didUpdateName(toNewValue: name)
+    }
+  }
+  
+  var isOccupied: Bool {
+    didSet {
+      if isOccupied != oldValue {
+        delegate?.didUpdateOccupationMode(toNewValue: isOccupied)
+      }
     }
   }
   
@@ -67,14 +74,6 @@ final class Thermostat: NSObject, NSCoding {
       return .Cooling
     } else {
       return .Idle
-    }
-  }
-  
-  var occupationModeimageName: String {
-    if isOccupied {
-      return "occupied"
-    } else {
-      return "unoccupied"
     }
   }
   

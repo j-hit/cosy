@@ -50,7 +50,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     thermostatManager = watchDelegate.thermostatManager
     thermostatManager?.delegate = self
     
-    reloadDataShownOnView()
+    self.setTitle(NSLocalizedString("TitleThermostatTableView", comment: "Title: Thermostat table view"))
   }
   
   override func willActivate() {
@@ -58,6 +58,8 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     
     watchDelegate.watchConnectivityHandler.delegate = self
     watchDelegate.appIsActive = true
+    
+    reloadDataShownOnView()
     tryToFetchNewData()
     checkIfDataWasRetrievedFromiPhoneInTheBackground()
   }
@@ -97,20 +99,19 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   }
   
   private func showAllThermostats(fromThermostatManager thermostatManager: ThermostatManager) {
-    clearThermostatsTable()
     let sortedThermostats = thermostatManager.thermostats.sort { $0.name < $1.name }
     
-    let rows = thermostatsTable.numberOfRows
-    let thermostatRows = NSIndexSet(indexesInRange: NSRange(location: rows, length: sortedThermostats.count))
-    thermostatsTable.insertRowsAtIndexes(thermostatRows, withRowType: ThermostatRowController.identifier)
+    thermostatsTable.setNumberOfRows(sortedThermostats.count, withRowType: ThermostatRowController.identifier)
     
-    for rowIndex in rows..<thermostatsTable.numberOfRows {
+    for rowIndex in 0..<thermostatsTable.numberOfRows {
       let row = thermostatsTable.rowControllerAtIndex(rowIndex)
       
       if let row = row as? ThermostatRowController {
         let thermostat = sortedThermostats[rowIndex]
         row.thermostatLabel.setText(thermostat.name)
         row.occupationModeImage.setImageNamed(thermostat.occupationModeimageName)
+        row.temperatureSetpointLabel.setText("\(thermostat.temperatureSetPoint ?? 0)°")
+        row.innerRowGroup.setBackgroundImageNamed(thermostat.rowBackgroundImageName)
         row.thermostat = thermostat
       }
     }
@@ -197,5 +198,20 @@ extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   func didFailToRetrieveData(withError error: String) {
     lastDataFetchWasFaulty = true
     WKInterfaceDevice.currentDevice().playHaptic(.Retry)
+  }
+}
+
+// MARK: - Thermostat
+extension Thermostat {
+  var occupationModeimageName: String {
+    if isOccupied {
+      return "occupied"
+    } else {
+      return "unoccupied"
+    }
+  }
+  
+  var rowBackgroundImageName: String {
+    return state.visualiser().circularImageName
   }
 }

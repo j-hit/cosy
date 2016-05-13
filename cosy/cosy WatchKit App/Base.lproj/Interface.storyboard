@@ -10,7 +10,7 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="ThermostatsTableInterfaceController" customModule="cosy_WatchKit_Extension">
                     <items>
-                        <table alignment="left" id="EkT-oj-jEw">
+                        <table alignment="left" spacing="20" id="EkT-oj-jEw">
                             <items>
                                 <tableRow identifier="ErrorRow" id="i60-gJ-z7R" customClass="ErrorRowController" customModule="cosy_WatchKit_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="27I-CE-VwB">
@@ -24,15 +24,27 @@
                                     </connections>
                                 </tableRow>
                                 <tableRow identifier="ThermostatRow" id="1ER-ep-8Zx" customClass="ThermostatRowController" customModule="cosy_WatchKit_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="8cz-1g-8B7">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="8cz-1g-8B7">
                                         <items>
-                                            <label alignment="left" verticalAlignment="center" text="Thermostat" id="2S2-fb-Q7m"/>
-                                            <imageView alignment="right" verticalAlignment="center" image="occupied" id="Ghk-tF-BFJ"/>
+                                            <group width="1" height="100" alignment="left" backgroundImage="cooling-thermostat-list" contentMode="scaleAspectFit" layout="vertical" id="LgX-7n-ZBb">
+                                                <items>
+                                                    <label alignment="center" verticalAlignment="center" text="22°" id="Mxe-Ek-Qdt">
+                                                        <fontDescription key="font" type="system" weight="thin" pointSize="40"/>
+                                                    </label>
+                                                    <imageView alignment="center" verticalAlignment="center" image="occupied" id="Ghk-tF-BFJ"/>
+                                                </items>
+                                            </group>
+                                            <label alignment="center" text="Thermostat" numberOfLines="0" id="2S2-fb-Q7m">
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </label>
                                         </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </group>
                                     <connections>
+                                        <outlet property="innerRowGroup" destination="LgX-7n-ZBb" id="gJU-uh-382"/>
                                         <outlet property="occupationModeImage" destination="Ghk-tF-BFJ" id="sVl-6Q-v4w"/>
                                         <outlet property="rowGroup" destination="8cz-1g-8B7" id="DSn-IJ-tsl"/>
+                                        <outlet property="temperatureSetpointLabel" destination="Mxe-Ek-Qdt" id="8t7-lJ-mHt"/>
                                         <outlet property="thermostatLabel" destination="2S2-fb-Q7m" id="X4b-Kw-Abw"/>
                                         <segue destination="OjV-xj-1aT" kind="push" identifier="showThermostat" id="Vv9-Le-COz"/>
                                     </connections>
