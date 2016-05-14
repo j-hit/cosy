@@ -15,7 +15,7 @@ protocol ThermostatManagerDelegate {
 
 protocol ThermostatManager: class {
   var delegate: ThermostatManagerDelegate? { get set }
-  var thermostatLocations: [ThermostatLocation] { get set }
+  var thermostats: [Thermostat] { get set }
   var favouriteThermostat: Thermostat? { get set }
   func fetchNewListOfThermostats()
   func updateData(ofThermostat thermostat: Thermostat)
@@ -23,6 +23,6 @@ protocol ThermostatManager: class {
   func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode)
   func clearAllData()
   // TODO: Consider using separate class for import export
-  func exportThermostatLocations() -> [[String: AnyObject]]
-  func importThermostatLocations(locations: [[String : AnyObject]])
+  func exportThermostatsAsNSData() -> NSData
+  func importThermostats(fromNSDataObject thermostatsAsNSData: NSData?)
 }

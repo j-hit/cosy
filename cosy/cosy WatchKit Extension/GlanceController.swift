@@ -111,7 +111,7 @@ extension GlanceController: ThermostatDelegate {
     lastDataFetchWasFaulty = false
   }
   
-  func didUpdateOccupationMode(toPresent: Bool) {
+  func didUpdateOccupationMode(toNewValue toPresent: Bool) {
     // Nothing to do here
   }
   

@@ -59,16 +59,4 @@ class applicationSettingsManagerTests: XCTestCase {
     applicationSettingsManager.sessionID = nil
     XCTAssertEqual(applicationSettingsManager.sessionID, nil)
   }
-  
-  func testPerformanceFetchingSessionID() {
-    self.measureBlock {
-      _ = self.applicationSettingsManager.sessionID
-    }
-  }
-  
-  func testPerformanceFetchingBaseURL() {
-    self.measureBlock {
-      _ = self.applicationSettingsManager.baseURLOfCPSCloud
-    }
-  }
 }

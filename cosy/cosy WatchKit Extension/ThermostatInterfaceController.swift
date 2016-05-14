@@ -11,12 +11,10 @@ import Foundation
 
 class ThermostatInterfaceController: WKInterfaceController {
   
-  @IBOutlet var heatCoolLabel: WKInterfaceLabel!
   @IBOutlet var currentTemperatureLabel: WKInterfaceLabel!
   @IBOutlet var temperatureSetPointLabel: WKInterfaceLabel!
   @IBOutlet var temperatureSetPointSlider: WKInterfaceSlider!
   @IBOutlet var informationLabel: WKInterfaceLabel!
-  @IBOutlet var topViewSeparator: WKInterfaceSeparator!
   @IBOutlet var errorIndiciationButton: WKInterfaceButton!
   
   private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
@@ -29,6 +27,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   private var lastThermostatState = ThermostatState.Idle
   
+  private var changingTemperatureSetpoint = false
   private var timer: NSTimer?
   
   private var lastDataFetchOrChangeWasFaulty = false {
@@ -96,7 +95,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   private func showThermostatState() {
-    if thermostat?.correspondingLocation?.isOccupied == true {
+    if thermostat?.isOccupied == true {
       if thermostat?.isInAutoMode == true {
         configureForModeAuto()
       } else {
@@ -121,9 +120,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   private func visualiseForState(state: ThermostatState) {
     let stateVisualiser = state.visualiser()
     temperatureSetPointSlider.setColor(stateVisualiser.color)
-    heatCoolLabel.setTextColor(stateVisualiser.color)
     temperatureSetPointLabel.setTextColor(stateVisualiser.color)
-    heatCoolLabel.setText(stateVisualiser.description)
   }
   
   func configureForModeAway() {
@@ -169,7 +166,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onAwaySelected() {
     configureForModeAway()
     if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = false
+      thermostat.isOccupied = false
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Away)
     }
   }
@@ -177,7 +174,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func onHomeSelected() {
     configureForModeHome()
     if let thermostat = thermostat {
-      thermostat.correspondingLocation?.isOccupied = true
+      thermostat.isOccupied = true
       thermostatManager?.saveMode(ofThermostat: thermostat, toMode: .Home)
     }
   }
@@ -247,6 +244,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   func saveTemperatureSetPoint() {
     if let thermostat = thermostat {
       thermostatManager?.saveTemperatureSetPointOfThermostat(thermostat)
+      changingTemperatureSetpoint = false
     }
   }
   
@@ -262,6 +260,7 @@ class ThermostatInterfaceController: WKInterfaceController {
 }
 
 // MARK: - ThermostatDelegate
+
 extension ThermostatInterfaceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
     self.setTitle(thermostat?.name)
@@ -277,14 +276,16 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
-    showTemperatureSetPoint()
-    visualiseStateOfThermostat()
+    if !changingTemperatureSetpoint {
+      showTemperatureSetPoint()
+      visualiseStateOfThermostat()
+    }
     
     lastDataFetchOrChangeWasFaulty = false
   }
   
   func didUpdateAutoMode(toOn on: Bool) {
-    if thermostat?.correspondingLocation?.isOccupied == true {
+    if thermostat?.isOccupied == true {
       if on {
         configureForModeAuto()
       } else {
@@ -294,8 +295,12 @@ extension ThermostatInterfaceController: ThermostatDelegate {
     lastDataFetchOrChangeWasFaulty = false
   }
   
-  func didUpdateOccupationMode(toPresent: Bool) {
-    // JAMES: Handle code
+  func didUpdateOccupationMode(toNewValue toPresent: Bool) {
+    if toPresent {
+      configureForModeHome()
+    } else {
+      configureForModeAway()
+    }
   }
   
   func didFailToRetrieveData(withError error: String) {
@@ -310,6 +315,7 @@ extension ThermostatInterfaceController: ThermostatDelegate {
 }
 
 // MARK: - WatchAppWatchConnectivityHandlerDelegate
+
 extension ThermostatInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
     if ExtensionDelegate.settingsProvider.sessionID == nil {

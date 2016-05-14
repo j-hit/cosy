@@ -12,20 +12,20 @@ import Alamofire
 final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   var delegate: ThermostatDataAccessorDelegate?
   var settingsProvider: SettingsProvider
-  var lastFetchedLocations: [ThermostatLocation]
+  var lastFetchedThermostats: [Thermostat]
   
   init(settingsProvider: SettingsProvider) {
     self.settingsProvider = settingsProvider
-    self.lastFetchedLocations = [ThermostatLocation]()
+    self.lastFetchedThermostats = [Thermostat]()
   }
   
-  var outstandingRequestsForLocationFetchToFinish: Int = 0 {
+  var outstandingRequestsForThermostatListFetchToFinish: Int = 0 {
     didSet {
-      if outstandingRequestsForLocationFetchToFinish == 0 {
-        delegate?.thermostatDataAccessor(didFetchLocations: lastFetchedLocations)
-      } else if outstandingRequestsForLocationFetchToFinish < 0 {
+      if outstandingRequestsForThermostatListFetchToFinish == 0 {
+        delegate?.thermostatDataAccessor(didFetchThermostats: lastFetchedThermostats)
+      } else if outstandingRequestsForThermostatListFetchToFinish < 0 {
         NSLog("ERROR: outstandingRequestsForLocationFetchToFinish should not have minus value")
-        outstandingRequestsForLocationFetchToFinish = 0
+        outstandingRequestsForThermostatListFetchToFinish = 0
       }
     }
   }
@@ -48,19 +48,15 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   }
   
   // MARK: - Fetch locations and thermostat names
-  
-  func fetchAvailableLocationsWithThermostatNames() {
-    performRequestToFetchListOfLocations() // TODO: don't just pass through
-  }
-  
-  private func performRequestToFetchListOfLocations() {
+    
+  func fetchListOfThermostats() {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
     guard let urlForLocations = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth") else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
@@ -68,39 +64,50 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       .responseJSON { response in
         switch response.result {
         case .Success:
-          if let locations = response.result.value as? [[String: String]]
+          if let availableThermostats = response.result.value as? [[String: String]]
           {
-            self.lastFetchedLocations.removeAll()
-            self.outstandingRequestsForLocationFetchToFinish = locations.count * 2
+            self.lastFetchedThermostats.removeAll()
+            self.outstandingRequestsForThermostatListFetchToFinish = availableThermostats.count * 5
             
-            for location in locations {
-              if let locationIdentifier = location["activation-key"] {
-                let fetchedLocation = ThermostatLocation(identifier: locationIdentifier)
-                self.lastFetchedLocations.append(fetchedLocation)
+            for availableThermostat in availableThermostats {
+              if let identifier = availableThermostat["activation-key"] {
+                let fetchedThermostat = Thermostat(identifier: identifier)
+                self.lastFetchedThermostats.append(fetchedThermostat)
                 
-                self.fetchNameForLocation(fetchedLocation)
-                self.fetchOccupationModeForLocation(fetchedLocation)
-                NSLog("location key: \(locationIdentifier)")
+                self.fetchNameOfThermostat(fetchedThermostat)
+                self.fetchOccupationModeOfThermostat(fetchedThermostat, completionHandler: { 
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
+                self.fetchTemperatureSetpointOfThermostat(fetchedThermostat, completionHandler: { 
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
+                self.fetchCurrentTemperatureOfThermostat(fetchedThermostat, completionHandler: { 
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
+                self.fetchComfortModeOfThermostat(fetchedThermostat, completionHandler: {
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
+                NSLog("thermostat key: \(identifier)")
               } else {
-                self.outstandingRequestsForLocationFetchToFinish -= 1
+                self.outstandingRequestsForThermostatListFetchToFinish -= 1
               }
             }
           }
         case .Failure(let error):
           NSLog("Error fetching locations: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
+          self.delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
         }
     }
   }
   
-  private func fetchNameForLocation(location: ThermostatLocation) {
+  private func fetchNameOfThermostat(thermostat: Thermostat) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
-    guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(location.identifier)/@location") else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
+    guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/@location") else {
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
@@ -108,59 +115,32 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       .responseString { response in
         switch response.result {
         case .Success:
-          print("location name fetch response: \(response.result.value)")
-          if let locationName = response.result.value
+          print("thermostat name fetch response: \(response.result.value)")
+          if let thermostatName = response.result.value
           {
-            location.locationName = locationName
-            location.addThermostat(Thermostat(identifier: location.identifier, name: locationName, correspondingLocation: location))
-            NSLog("location name: \(locationName) - thermostat name: \(locationName)")
+            thermostat.name = thermostatName
+            NSLog("thermostat name: \(thermostatName)")
           }
         case .Failure(let error):
           NSLog("Error fetching location name: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
+          self.delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
         }
-        self.outstandingRequestsForLocationFetchToFinish -= 1
-    }
-  }
-  
-  private func fetchOccupationModeForLocation(location: ThermostatLocation) {
-    guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
-      return
-    }
-    
-    guard let urlForOccupationMode = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(location.identifier)/automation-device/R(1)/FvrBscOp/OccMod/@present-value") else {
-      delegate?.thermostatDataAccessorFailedToFetchLocations()
-      return
-    }
-    
-    Alamofire.request(.GET, urlForOccupationMode, headers: headersForRequest)
-      .responseJSON { response in
-        switch response.result {
-        case .Success:
-          if let occupationModeString = response.result.value as? String
-          {
-            location.isOccupied = occupationModeString == "Present" ? true : false
-            NSLog("location name: \(location.identifier) - isOccupied = \(location.isOccupied)")
-          }
-        case .Failure(let error):
-          NSLog("Error fetching occupation mode: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToFetchLocations()
-        }
-        self.outstandingRequestsForLocationFetchToFinish -= 1
+        self.outstandingRequestsForThermostatListFetchToFinish -= 1
     }
   }
   
   // MARK: - Fetch thermostat data
   
-  private func fetchPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, successHandler: (presentValue: AnyObject) -> Void) {
+  private func fetchPresentValueOfPoint(point: AccessibleThermostatDataPoint, forThermostat thermostat: Thermostat, successHandler: (presentValue: AnyObject) -> Void, errorHandler: ((error: NSError) -> Void)? = nil) {
+    let pointName = point.stringRepresentation
+    
     guard let headersForRequest = headerForAuthorizedAccess() else {
       thermostat.delegate?.didFailToChangeData(withError: NSLocalizedString("FetchPresentValueHeaderFailure", comment: "Error: Failed to construct header for authorized access"))
       return
     }
     
-    guard let urlForPresentValueOfPoint = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/automation-device/R(1)/FvrBscOp/\(point)/@present-value") else {
-      thermostat.delegate?.didFailToRetrieveData(withError: String(format: NSLocalizedString("FetchPresentValueURLFailure", comment: "Error: Failed to construct URL for fetching present value"), point))
+    guard let urlForPresentValueOfPoint = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/automation-device/R(1)/FvrBscOp/\(pointName)/@present-value") else {
+      thermostat.delegate?.didFailToRetrieveData(withError: String(format: NSLocalizedString("FetchPresentValueURLFailure", comment: "Error: Failed to construct URL for fetching present value"), pointName))
       return
     }
     
@@ -174,20 +154,48 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
             NSLog("present value of \(point) = \(presentValueOfPoint)")
           }
         case .Failure(let error):
+          errorHandler?(error: error)
           NSLog("Error fetching occupation mode: \(error.localizedDescription)")
-          thermostat.delegate?.didFailToRetrieveData(withError: String(format: NSLocalizedString("FetchPresentValueFailure", comment: "Error retrieving present value"), point, error.localizedDescription))
+          thermostat.delegate?.didFailToRetrieveData(withError: String(format: NSLocalizedString("FetchPresentValueFailure", comment: "Error retrieving present value"), pointName, error.localizedDescription))
         }
     }
   }
   
-  func fetchDataOfThermostat(thermostat: Thermostat) {
-    fetchPresentValueOfPoint("OccMod", forThermostat: thermostat) { (presentValue) in
-      if let occupationModeString = presentValue as? String {
-        thermostat.correspondingLocation?.isOccupied = occupationModeString == "Present" ? true : false
+  private func fetchCurrentTemperatureOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
+    fetchPresentValueOfPoint(.roomTemperature, forThermostat: thermostat, successHandler: { (presentValue) in
+      if let currentTemperature = presentValue as? Int {
+        thermostat.currentTemperature = currentTemperature
       }
-    }
-    
-    fetchPresentValueOfPoint("CmfBtn", forThermostat: thermostat) { (presentValue) in
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
+    })
+  }
+  
+  private func fetchTemperatureSetpointOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
+    fetchPresentValueOfPoint(.temperatureSetPoint, forThermostat: thermostat, successHandler: { (presentValue) in
+      if let temperatureSetPoint = presentValue as? Int {
+        thermostat.temperatureSetPoint = temperatureSetPoint
+      }
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
+    })
+  }
+  
+  private func fetchOccupationModeOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
+    fetchPresentValueOfPoint(.occupationMode, forThermostat: thermostat, successHandler: { (presentValue) in
+      if let occupationModeString = presentValue as? String {
+        thermostat.isOccupied = occupationModeString == "Present" ? true : false
+      }
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
+    })
+  }
+  
+  private func fetchComfortModeOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
+    fetchPresentValueOfPoint(.comfortMode, forThermostat: thermostat, successHandler: { (presentValue) in
       if let thermostatIsInComfortMode = presentValue as? Bool {
         if thermostatIsInComfortMode == false {
           thermostat.isInAutoMode = true
@@ -195,29 +203,30 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           thermostat.isInAutoMode = false
         }
       }
-    }
-    
-    fetchPresentValueOfPoint("RTemp", forThermostat: thermostat) { (presentValue) in
-      if let currentTemperature = presentValue as? Int {
-        thermostat.currentTemperature = currentTemperature
-      }
-    }
-    
-    fetchPresentValueOfPoint("SpTR", forThermostat: thermostat) { (presentValue) in
-      if let temperatureSetPoint = presentValue as? Int {
-        thermostat.temperatureSetPoint = temperatureSetPoint
-      }
-    }
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
+    })
+  }
+  
+  func fetchDataOfThermostat(thermostat: Thermostat) {
+    fetchOccupationModeOfThermostat(thermostat)
+    fetchComfortModeOfThermostat(thermostat)
+    fetchCurrentTemperatureOfThermostat(thermostat)
+    fetchTemperatureSetpointOfThermostat(thermostat)
   }
   
   // MARK: - Change thermostat data
   
-  func setPresentValueOfPoint(point: String, forThermostat thermostat: Thermostat, toValue value: AnyObject) {
-    guard let url = URLForChangingPresentValue(ofPoint: point, forThermostat: thermostat),
+  func setPresentValueOfPoint(point: AccessibleThermostatDataPoint, forThermostat thermostat: Thermostat, toValue value: AnyObject) {
+    let pointName = point.stringRepresentation
+    guard let url = URLForChangingPresentValue(ofPoint: pointName, forThermostat: thermostat),
       urlRequest = URLRequestForChangingPresentValueOfPoint(withURL: url, toValue: value) else {
         thermostat.delegate?.didFailToRetrieveData(withError: NSLocalizedString("SetPresentValueURLFailure", comment: "Error constructing url for changing the temperature set point"))
         return
     }
+    
+    thermostat.savingData = true
     
     Alamofire.request(urlRequest)
       .validate()
@@ -229,6 +238,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           NSLog("Error changing point \(point) of thermostat \(thermostat.identifier). Details = \(error.localizedDescription)")
           thermostat.delegate?.didFailToChangeData(withError: String(format: NSLocalizedString("SetPresentValueFailure", comment: "Error changing the temperature set point"), thermostat.name, error.localizedDescription))
         }
+        thermostat.savingData = false
     }
   }
   

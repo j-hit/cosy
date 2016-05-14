@@ -24,24 +24,15 @@ class ThermostatTests: XCTestCase {
   }
   
   func testThermostatsShouldBeEqual() {
-    let location = ThermostatLocation(identifier: "specialIdentifier")
-    let thermostat1a = Thermostat(identifier: "specialIdentifier", name: "thermostat1", correspondingLocation: location)
+    let thermostat1a = Thermostat(identifier: "specialIdentifier", name: "thermostat1")
     let thermostat1b = thermostat1a
-    location.addThermostat(thermostat1a)
-    location.addThermostat(thermostat1b)
     
     XCTAssertEqual(thermostat1a, thermostat1b)
   }
   
   func testThermostatsShouldNotBeEqual() {
-    let location1 = ThermostatLocation(identifier: "specialIdentifier1")
-    let thermostat1 = Thermostat(identifier: "specialIdentifier1", name: "thermostat", correspondingLocation: location1)
-    
-    let location2 = ThermostatLocation(identifier: "specialIdentifier2")
-    let thermostat2 = Thermostat(identifier: "specialIdentifier2", name: "thermostat", correspondingLocation: location2)
-    
-    location1.addThermostat(thermostat1)
-    location2.addThermostat(thermostat2)
+    let thermostat1 = Thermostat(identifier: "specialIdentifier1", name: "thermostat")
+    let thermostat2 = Thermostat(identifier: "specialIdentifier2", name: "thermostat")
     
     XCTAssertNotEqual(thermostat1, thermostat2)
   }
@@ -49,9 +40,7 @@ class ThermostatTests: XCTestCase {
   func testThermostatConstructor() {
     let thermostatName = "living room"
     
-    let location = ThermostatLocation(identifier: "specialIdentifier")
-    let thermostat = Thermostat(identifier: "specialIdentifier", name: thermostatName, correspondingLocation: location)
-    location.addThermostat(thermostat)
+    let thermostat = Thermostat(identifier: "specialIdentifier", name: thermostatName)
     
     XCTAssertEqual(thermostat.name, thermostatName)
   }

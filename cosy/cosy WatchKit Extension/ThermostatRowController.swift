@@ -11,6 +11,9 @@ import WatchKit
 class ThermostatRowController: NSObject {
   @IBOutlet var thermostatLabel: WKInterfaceLabel!
   @IBOutlet var rowGroup: WKInterfaceGroup!
+  @IBOutlet var occupationModeImage: WKInterfaceImage!
+  @IBOutlet var innerRowGroup: WKInterfaceGroup!
+  @IBOutlet var temperatureSetpointLabel: WKInterfaceLabel!
   
   static let identifier = "ThermostatRow"
   private let colourOfThermostatMarkedAsFavourite = UIColor(red:0.51, green:0.70, blue:0.22, alpha:0.8)
@@ -18,7 +21,7 @@ class ThermostatRowController: NSObject {
   var thermostat: Thermostat? {
     didSet {
       if let thermostat = thermostat where thermostat.isMarkedAsFavourite {
-        rowGroup.setBackgroundColor(colourOfThermostatMarkedAsFavourite)
+        thermostatLabel.setTextColor(colourOfThermostatMarkedAsFavourite)
       }
     }
   }

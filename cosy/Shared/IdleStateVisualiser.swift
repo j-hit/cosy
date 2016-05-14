@@ -13,7 +13,7 @@ struct IdleStateVisualiser: ThermostatStateVisualiser {
   var color: UIColor {
     return UIColor.lightGrayColor()
   }
-  var description: String {
-    return NSLocalizedString("IdleStateDescription", comment: "Informs the user that the thermostat is in idle state")
+  var circularImageName: String {
+    return "idle-thermostat-list"
   }
 }

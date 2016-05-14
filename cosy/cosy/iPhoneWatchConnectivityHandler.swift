@@ -52,7 +52,7 @@ final class iPhoneWatchConnectivityHandler: NSObject {
       let session = WCSession.defaultSession()
       if session.watchAppInstalled {
         do {
-          var transferObject: [String: AnyObject] = ["locations": thermostatManager.exportThermostatLocations()]
+          var transferObject: [String: AnyObject] = ["thermostats": thermostatManager.exportThermostatsAsNSData()]
           if let settingsProvider = settingsProvider {
             transferObject[settingsProvider.key] = settingsProvider.exportAsDictionary()
           }

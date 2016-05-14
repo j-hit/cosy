@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="10032"/>
@@ -10,7 +10,7 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="ThermostatsTableInterfaceController" customModule="cosy_WatchKit_Extension">
                     <items>
-                        <table alignment="left" id="EkT-oj-jEw">
+                        <table alignment="left" spacing="20" id="EkT-oj-jEw">
                             <items>
                                 <tableRow identifier="ErrorRow" id="i60-gJ-z7R" customClass="ErrorRowController" customModule="cosy_WatchKit_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="27I-CE-VwB">
@@ -23,30 +23,28 @@
                                         <outlet property="failedImage" destination="fdH-wF-rKT" id="lP6-ds-w1e"/>
                                     </connections>
                                 </tableRow>
-                                <tableRow identifier="LocationRow" selectable="NO" id="j3F-3u-9l3" customClass="LocationRowController" customModule="cosy_WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="PKv-P8-I0O">
+                                <tableRow identifier="ThermostatRow" id="1ER-ep-8Zx" customClass="ThermostatRowController" customModule="cosy_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" contentMode="scaleAspectFit" layout="vertical" id="8cz-1g-8B7">
                                         <items>
-                                            <label width="0.75" alignment="left" verticalAlignment="center" text="Location" numberOfLines="0" id="rmj-zE-XYr">
-                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                            <group width="1" height="100" alignment="left" backgroundImage="cooling-thermostat-list" contentMode="scaleAspectFit" layout="vertical" id="LgX-7n-ZBb">
+                                                <items>
+                                                    <label alignment="center" verticalAlignment="center" text="22°" id="Mxe-Ek-Qdt">
+                                                        <fontDescription key="font" type="system" weight="thin" pointSize="40"/>
+                                                    </label>
+                                                    <imageView alignment="center" verticalAlignment="center" image="occupied" id="Ghk-tF-BFJ"/>
+                                                </items>
+                                            </group>
+                                            <label alignment="center" text="Thermostat" numberOfLines="0" id="2S2-fb-Q7m">
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
-                                            <imageView alignment="right" verticalAlignment="center" image="occupied" id="HW9-6F-C0U"/>
                                         </items>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </group>
                                     <connections>
-                                        <outlet property="locationLabel" destination="rmj-zE-XYr" id="S5O-ep-AIg"/>
-                                        <outlet property="locationStateImage" destination="HW9-6F-C0U" id="zKC-56-XXK"/>
-                                    </connections>
-                                </tableRow>
-                                <tableRow identifier="ThermostatRow" id="1ER-ep-8Zx" customClass="ThermostatRowController" customModule="cosy_WatchKit_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="8cz-1g-8B7">
-                                        <items>
-                                            <label alignment="left" verticalAlignment="center" text="Thermostat" id="2S2-fb-Q7m"/>
-                                        </items>
-                                    </group>
-                                    <connections>
+                                        <outlet property="innerRowGroup" destination="LgX-7n-ZBb" id="gJU-uh-382"/>
+                                        <outlet property="occupationModeImage" destination="Ghk-tF-BFJ" id="sVl-6Q-v4w"/>
                                         <outlet property="rowGroup" destination="8cz-1g-8B7" id="DSn-IJ-tsl"/>
+                                        <outlet property="temperatureSetpointLabel" destination="Mxe-Ek-Qdt" id="8t7-lJ-mHt"/>
                                         <outlet property="thermostatLabel" destination="2S2-fb-Q7m" id="X4b-Kw-Abw"/>
                                         <segue destination="OjV-xj-1aT" kind="push" identifier="showThermostat" id="Vv9-Le-COz"/>
                                     </connections>
@@ -81,15 +79,13 @@
             <objects>
                 <controller id="OjV-xj-1aT" customClass="ThermostatInterfaceController" customModule="cosy_WatchKit_Extension">
                     <items>
-                        <group width="1" alignment="left" id="fuQ-qA-Qps">
+                        <group width="1" height="20" alignment="left" id="fuQ-qA-Qps">
                             <items>
-                                <label width="0.45000000000000001" alignment="left" text="--" textAlignment="center" id="qBW-eA-vpx">
-                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
-                                </label>
-                                <separator alignment="left" id="fLj-gY-eHK">
-                                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                </separator>
+                                <group width="0.5" alignment="left" id="JuZ-fm-dKs">
+                                    <items>
+                                        <imageView alignment="center" image="green-leaf" id="xuR-uU-Hn7"/>
+                                    </items>
+                                </group>
                                 <label width="0.5" alignment="right" text="now --°" textAlignment="center" id="sYJ-he-f92">
                                     <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                 </label>
@@ -133,15 +129,13 @@
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="sYJ-he-f92" id="7eG-Du-MLn"/>
                         <outlet property="errorIndiciationButton" destination="Mvi-Uj-l3y" id="jjb-Yk-Mw0"/>
-                        <outlet property="heatCoolLabel" destination="qBW-eA-vpx" id="rCy-Jb-KMC"/>
                         <outlet property="informationLabel" destination="Pzd-fT-WXV" id="3hP-OT-d2F"/>
                         <outlet property="temperatureSetPointLabel" destination="ygq-QZ-zPd" id="Fz5-t7-PJh"/>
                         <outlet property="temperatureSetPointSlider" destination="KZS-cr-NeH" id="Wvv-AA-oqG"/>
-                        <outlet property="topViewSeparator" destination="fLj-gY-eHK" id="LUh-kJ-nrP"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="540" y="347"/>
+            <point key="canvasLocation" x="540" y="349"/>
         </scene>
         <!--errorInterfaceController-->
         <scene sceneID="tDm-RV-eP4">

@@ -12,7 +12,7 @@ final class ThermostatManagerMock: ThermostatManager {
   private var state: ThermostatManagerState
   var settingsProvider: SettingsProvider
   var delegate: ThermostatManagerDelegate?
-  var thermostatLocations: [ThermostatLocation]
+  var thermostats: [Thermostat]
   var favouriteThermostat: Thermostat? {
     willSet(newFavourite) {
       if let previousFavourite = favouriteThermostat {
@@ -25,7 +25,7 @@ final class ThermostatManagerMock: ThermostatManager {
   init(settingsProvider: SettingsProvider) {
     self.state = ThermostatManagerState.Ready
     self.settingsProvider = settingsProvider
-    self.thermostatLocations = [ThermostatLocation]()
+    self.thermostats = [Thermostat]()
     fetchNewListOfThermostats()
   }
   
@@ -39,7 +39,7 @@ final class ThermostatManagerMock: ThermostatManager {
     let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
     
     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-      if self.thermostatLocations.count == 0 {
+      if self.thermostats.count == 0 {
         self.loadThermostatLocations()
       } else {
         self.delegate?.didUpdateListOfThermostats()
@@ -50,19 +50,10 @@ final class ThermostatManagerMock: ThermostatManager {
   private func loadThermostatLocations() {
     state = .ExpectingNewData
     
-    thermostatLocations = [ThermostatLocation]()
-    let locationCasa = ThermostatLocation(identifier: "000000-00000-00000-00000-00000", locationName: "Casa", isOccupied: true)
-    locationCasa.addThermostat(Thermostat(identifier: "000000-00000-00000-00000-00000", name: "Living room", correspondingLocation: locationCasa))
-    
-    let locationOffice = ThermostatLocation(identifier: "000000-00000-00000-00000-00001", locationName: "Office", isOccupied: false)
-    locationOffice.addThermostat(Thermostat(identifier: "000000-00000-00000-00000-00001", name: "Lobby", correspondingLocation: locationCasa))
-    
-    let locationCountrySide = ThermostatLocation(identifier: "000000-00000-00000-00000-00002", locationName: "Country side", isOccupied: false)
-    locationCountrySide.addThermostat(Thermostat(identifier: "000000-00000-00000-00000-00002", name: "Cottage", correspondingLocation: locationCasa))
-    
-    thermostatLocations.append(locationCasa)
-    thermostatLocations.append(locationOffice)
-    thermostatLocations.append(locationCountrySide)
+    thermostats = [Thermostat]()
+    thermostats.append(Thermostat(identifier: "000000-00000-00000-00000-00000", name: "Living room"))
+    thermostats.append(Thermostat(identifier: "000000-00000-00000-00000-00001", name: "Lobby"))
+    thermostats.append(Thermostat(identifier: "000000-00000-00000-00000-00002", name: "Cottage"))
     
     state = .Ready
     delegate?.didUpdateListOfThermostats()
@@ -95,46 +86,20 @@ final class ThermostatManagerMock: ThermostatManager {
   }
   
   func clearAllData() {
-    thermostatLocations.removeAll()
+    thermostats.removeAll()
   }
   
-  func exportThermostatLocations() -> [[String: AnyObject]] {
+  func exportThermostatsAsNSData() -> NSData {
     NSKeyedArchiver.setClassName("Thermostat", forClass: Thermostat.self)
-    return thermostatLocations.map { thermostatLocation in
-      [
-        "locationName": thermostatLocation.locationName,
-        "identifier": thermostatLocation.identifier,
-        "isOccupied": thermostatLocation.isOccupied,
-        "thermostats": NSKeyedArchiver.archivedDataWithRootObject(thermostatLocation.thermostats)
-      ]
-    }
+    return NSKeyedArchiver.archivedDataWithRootObject(thermostats)
   }
   
-  func importThermostatLocations(locations: [[String : AnyObject]]) {
+  func importThermostats(fromNSDataObject thermostatsAsNSData: NSData?) {
     clearAllData()
     NSKeyedUnarchiver.setClass(Thermostat.self, forClassName: "Thermostat")
-    
-    for location in locations {
-      if let identifier = location["identifier"] as? String {
-        let thermostatLocation = ThermostatLocation(identifier: identifier)
-        
-        if let locationName = location["locationName"] as? String {
-          thermostatLocation.locationName = locationName
-        }
-        
-        if let isOccupied = location["isOccupied"] as? Bool {
-          thermostatLocation.isOccupied = isOccupied
-        }
-        
-        if let thermostatsEncoded = location["thermostats"] as? NSData {
-          if let thermostatsDecoded = NSKeyedUnarchiver.unarchiveObjectWithData(thermostatsEncoded) as? [Thermostat] {
-            thermostatLocation.thermostats = thermostatsDecoded
-            for thermostat in thermostatLocation.thermostats {
-              thermostat.correspondingLocation = thermostatLocation
-            }
-          }
-        }
-        thermostatLocations.append(thermostatLocation)
+    if let thermostatsEncoded = thermostatsAsNSData {
+      if let thermostatsDecoded = NSKeyedUnarchiver.unarchiveObjectWithData(thermostatsEncoded) as? [Thermostat] {
+        thermostats = thermostatsDecoded
       }
     }
     delegate?.didUpdateListOfThermostats()
