@@ -10,7 +10,7 @@ import Foundation
 
 protocol ThermostatDataAccessorDelegate {
   func thermostatDataAccessor(didFetchThermostats fetchedThermostats: [Thermostat])
-  func thermostatDataAccessorFailedToListOfThermostats()
+  func thermostatDataAccessorFailedToFetchListOfThermostats()
 }
 
 enum AccessibleThermostatDataPoint {

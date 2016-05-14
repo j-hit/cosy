@@ -110,7 +110,7 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
     delegate?.didUpdateListOfThermostats()
   }
   
-  func thermostatDataAccessorFailedToListOfThermostats() {
+  func thermostatDataAccessorFailedToFetchListOfThermostats() {
     state = .Ready
     delegate?.didFailToRetrieveData(withError: NSLocalizedString("ErrorFetchingListOfThermostats", comment: "Message shown to the user when an error occurs while fetching the list of thermostats"))
   }

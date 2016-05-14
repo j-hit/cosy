@@ -51,12 +51,12 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     
   func fetchListOfThermostats() {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToListOfThermostats()
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
     guard let urlForLocations = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth") else {
-      delegate?.thermostatDataAccessorFailedToListOfThermostats()
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
@@ -95,19 +95,19 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           }
         case .Failure(let error):
           NSLog("Error fetching locations: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToListOfThermostats()
+          self.delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
         }
     }
   }
   
   private func fetchNameOfThermostat(thermostat: Thermostat) {
     guard let headersForRequest = headerForAuthorizedAccess() else {
-      delegate?.thermostatDataAccessorFailedToListOfThermostats()
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
     guard let urlForLocationName = NSURL(string: "\(baseURL)")?.URLByAppendingPathComponent("/home/sth/\(thermostat.identifier)/@location") else {
-      delegate?.thermostatDataAccessorFailedToListOfThermostats()
+      delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
       return
     }
     
@@ -123,7 +123,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           }
         case .Failure(let error):
           NSLog("Error fetching location name: \(error.localizedDescription)")
-          self.delegate?.thermostatDataAccessorFailedToListOfThermostats()
+          self.delegate?.thermostatDataAccessorFailedToFetchListOfThermostats()
         }
         self.outstandingRequestsForThermostatListFetchToFinish -= 1
     }
