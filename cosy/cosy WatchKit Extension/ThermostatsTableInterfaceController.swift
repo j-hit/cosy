@@ -97,7 +97,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   }
   
   private func showAllThermostats(fromThermostatManager thermostatManager: ThermostatManager) {
-    let sortedThermostats = thermostatManager.thermostats.sort { $0.name < $1.name }
+    let sortedThermostats = thermostatManager.thermostats.sort { $0.isMarkedAsFavourite == $1.isMarkedAsFavourite ? $0.name < $1.name : $0.isMarkedAsFavourite && !$1.isMarkedAsFavourite }
     
     thermostatsTable.setNumberOfRows(sortedThermostats.count, withRowType: ThermostatRowController.identifier)
     
