@@ -64,13 +64,13 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       .responseJSON { response in
         switch response.result {
         case .Success:
-          if let locations = response.result.value as? [[String: String]]
+          if let availableThermostats = response.result.value as? [[String: String]]
           {
             self.lastFetchedThermostats.removeAll()
-            self.outstandingRequestsForThermostatListFetchToFinish = locations.count * 5
+            self.outstandingRequestsForThermostatListFetchToFinish = availableThermostats.count * 5
             
-            for location in locations {
-              if let identifier = location["activation-key"] {
+            for availableThermostat in availableThermostats {
+              if let identifier = availableThermostat["activation-key"] {
                 let fetchedThermostat = Thermostat(identifier: identifier)
                 self.lastFetchedThermostats.append(fetchedThermostat)
                 
