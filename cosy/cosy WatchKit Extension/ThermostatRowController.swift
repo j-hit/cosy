@@ -21,7 +21,7 @@ class ThermostatRowController: NSObject {
   var thermostat: Thermostat? {
     didSet {
       if let thermostat = thermostat where thermostat.isMarkedAsFavourite {
-        rowGroup.setBackgroundColor(colourOfThermostatMarkedAsFavourite)
+        thermostatLabel.setTextColor(colourOfThermostatMarkedAsFavourite)
       }
     }
   }

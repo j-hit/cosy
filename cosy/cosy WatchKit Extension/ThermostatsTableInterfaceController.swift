@@ -97,6 +97,10 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   }
   
   private func showAllThermostats(fromThermostatManager thermostatManager: ThermostatManager) {
+    if let thermostatToBeSetAsFavourite = thermostatManager.thermostats.filter({ $0.identifier == ExtensionDelegate.settingsProvider.favouriteThermostat?.identifier }).first {
+      thermostatManager.favouriteThermostat = thermostatToBeSetAsFavourite
+    }
+    
     let sortedThermostats = thermostatManager.thermostats.sort { $0.isMarkedAsFavourite == $1.isMarkedAsFavourite ? $0.name < $1.name : $0.isMarkedAsFavourite && !$1.isMarkedAsFavourite }
     
     thermostatsTable.setNumberOfRows(sortedThermostats.count, withRowType: ThermostatRowController.identifier)
@@ -110,6 +114,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
         row.occupationModeImage.setImageNamed(thermostat.occupationModeimageName)
         row.temperatureSetpointLabel.setText("\(thermostat.temperatureSetPoint ?? 0)°")
         row.innerRowGroup.setBackgroundImageNamed(thermostat.rowBackgroundImageName)
+        
         row.thermostat = thermostat
       }
     }
