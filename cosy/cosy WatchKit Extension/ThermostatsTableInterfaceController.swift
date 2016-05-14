@@ -49,8 +49,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     
     thermostatManager = watchDelegate.thermostatManager
     thermostatManager?.delegate = self
-    
-    self.setTitle(NSLocalizedString("TitleThermostatTableView", comment: "Title: Thermostat table view"))
   }
   
   override func willActivate() {
@@ -202,6 +200,7 @@ extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
 }
 
 // MARK: - Thermostat
+
 extension Thermostat {
   var occupationModeimageName: String {
     if isOccupied {

@@ -96,6 +96,7 @@ extension ThermostatManagerImpl: ThermostatDataAccessorDelegate {
       if let existingThermostat = filterForThermostat.first {
         existingThermostat.name = fetchedThermostat.name
         existingThermostat.isOccupied = fetchedThermostat.isOccupied
+        existingThermostat.isInAutoMode = fetchedThermostat.isInAutoMode
         existingThermostat.currentTemperature = fetchedThermostat.currentTemperature
         existingThermostat.temperatureSetPoint = fetchedThermostat.temperatureSetPoint
         newListOfThermostats.append(existingThermostat)

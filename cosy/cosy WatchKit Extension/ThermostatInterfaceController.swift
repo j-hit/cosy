@@ -11,12 +11,10 @@ import Foundation
 
 class ThermostatInterfaceController: WKInterfaceController {
   
-  @IBOutlet var heatCoolLabel: WKInterfaceLabel!
   @IBOutlet var currentTemperatureLabel: WKInterfaceLabel!
   @IBOutlet var temperatureSetPointLabel: WKInterfaceLabel!
   @IBOutlet var temperatureSetPointSlider: WKInterfaceSlider!
   @IBOutlet var informationLabel: WKInterfaceLabel!
-  @IBOutlet var topViewSeparator: WKInterfaceSeparator!
   @IBOutlet var errorIndiciationButton: WKInterfaceButton!
   
   private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
@@ -122,9 +120,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   private func visualiseForState(state: ThermostatState) {
     let stateVisualiser = state.visualiser()
     temperatureSetPointSlider.setColor(stateVisualiser.color)
-    heatCoolLabel.setTextColor(stateVisualiser.color)
     temperatureSetPointLabel.setTextColor(stateVisualiser.color)
-    heatCoolLabel.setText(stateVisualiser.description)
   }
   
   func configureForModeAway() {
@@ -264,6 +260,7 @@ class ThermostatInterfaceController: WKInterfaceController {
 }
 
 // MARK: - ThermostatDelegate
+
 extension ThermostatInterfaceController: ThermostatDelegate {
   func didUpdateName(toNewValue newValue: String) {
     self.setTitle(thermostat?.name)
@@ -318,6 +315,7 @@ extension ThermostatInterfaceController: ThermostatDelegate {
 }
 
 // MARK: - WatchAppWatchConnectivityHandlerDelegate
+
 extension ThermostatInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
     if ExtensionDelegate.settingsProvider.sessionID == nil {

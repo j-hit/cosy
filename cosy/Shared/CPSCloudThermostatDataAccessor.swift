@@ -67,7 +67,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           if let locations = response.result.value as? [[String: String]]
           {
             self.lastFetchedThermostats.removeAll()
-            self.outstandingRequestsForThermostatListFetchToFinish = locations.count * 4
+            self.outstandingRequestsForThermostatListFetchToFinish = locations.count * 5
             
             for location in locations {
               if let identifier = location["activation-key"] {
@@ -82,6 +82,9 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
                   self.outstandingRequestsForThermostatListFetchToFinish -= 1
                 })
                 self.fetchCurrentTemperatureOfThermostat(fetchedThermostat, completionHandler: { 
+                  self.outstandingRequestsForThermostatListFetchToFinish -= 1
+                })
+                self.fetchComfortModeOfThermostat(fetchedThermostat, completionHandler: {
                   self.outstandingRequestsForThermostatListFetchToFinish -= 1
                 })
                 NSLog("thermostat key: \(identifier)")
@@ -189,13 +192,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     })
   }
   
-  func fetchDataOfThermostat(thermostat: Thermostat) {
-    fetchCurrentTemperatureOfThermostat(thermostat)
-    
-    fetchTemperatureSetpointOfThermostat(thermostat)
-    
-    fetchOccupationModeOfThermostat(thermostat)
-    
+  private func fetchComfortModeOfThermostat(thermostat: Thermostat, completionHandler: (() -> Void)? = nil) {
     fetchPresentValueOfPoint("CmfBtn", forThermostat: thermostat, successHandler: { (presentValue) in
       if let thermostatIsInComfortMode = presentValue as? Bool {
         if thermostatIsInComfortMode == false {
@@ -204,7 +201,17 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
           thermostat.isInAutoMode = false
         }
       }
+      completionHandler?()
+      }, errorHandler: { (error) in
+        completionHandler?()
     })
+  }
+  
+  func fetchDataOfThermostat(thermostat: Thermostat) {
+    fetchOccupationModeOfThermostat(thermostat)
+    fetchComfortModeOfThermostat(thermostat)
+    fetchCurrentTemperatureOfThermostat(thermostat)
+    fetchTemperatureSetpointOfThermostat(thermostat)
   }
   
   // MARK: - Change thermostat data

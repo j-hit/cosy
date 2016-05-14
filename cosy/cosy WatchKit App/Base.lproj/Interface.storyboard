@@ -79,15 +79,13 @@
             <objects>
                 <controller id="OjV-xj-1aT" customClass="ThermostatInterfaceController" customModule="cosy_WatchKit_Extension">
                     <items>
-                        <group width="1" alignment="left" id="fuQ-qA-Qps">
+                        <group width="1" height="20" alignment="left" id="fuQ-qA-Qps">
                             <items>
-                                <label width="0.45000000000000001" alignment="left" text="--" textAlignment="center" id="qBW-eA-vpx">
-                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
-                                </label>
-                                <separator alignment="left" id="fLj-gY-eHK">
-                                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                </separator>
+                                <group width="0.5" alignment="left" id="JuZ-fm-dKs">
+                                    <items>
+                                        <imageView alignment="center" image="green-leaf" id="xuR-uU-Hn7"/>
+                                    </items>
+                                </group>
                                 <label width="0.5" alignment="right" text="now --°" textAlignment="center" id="sYJ-he-f92">
                                     <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                 </label>
@@ -131,15 +129,13 @@
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="sYJ-he-f92" id="7eG-Du-MLn"/>
                         <outlet property="errorIndiciationButton" destination="Mvi-Uj-l3y" id="jjb-Yk-Mw0"/>
-                        <outlet property="heatCoolLabel" destination="qBW-eA-vpx" id="rCy-Jb-KMC"/>
                         <outlet property="informationLabel" destination="Pzd-fT-WXV" id="3hP-OT-d2F"/>
                         <outlet property="temperatureSetPointLabel" destination="ygq-QZ-zPd" id="Fz5-t7-PJh"/>
                         <outlet property="temperatureSetPointSlider" destination="KZS-cr-NeH" id="Wvv-AA-oqG"/>
-                        <outlet property="topViewSeparator" destination="fLj-gY-eHK" id="LUh-kJ-nrP"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="540" y="347"/>
+            <point key="canvasLocation" x="540" y="349"/>
         </scene>
         <!--errorInterfaceController-->
         <scene sceneID="tDm-RV-eP4">
