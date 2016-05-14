@@ -50,20 +50,20 @@ final class ThermostatManagerImpl: ThermostatManager {
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
     if let temperatureSetPoint = thermostat.temperatureSetPoint {
-      dataAccessor.setPresentValueOfPoint("SpTR", forThermostat: thermostat, toValue: temperatureSetPoint)
+      dataAccessor.setPresentValueOfPoint(.temperatureSetPoint, forThermostat: thermostat, toValue: temperatureSetPoint)
     }
   }
   
   func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode) {
     switch mode {
     case .Auto:
-      dataAccessor.setPresentValueOfPoint("CmfBtn", forThermostat: thermostat, toValue: false)
+      dataAccessor.setPresentValueOfPoint(.comfortMode, forThermostat: thermostat, toValue: false)
     case .Manual:
-      dataAccessor.setPresentValueOfPoint("CmfBtn", forThermostat: thermostat, toValue: true)
+      dataAccessor.setPresentValueOfPoint(.comfortMode, forThermostat: thermostat, toValue: true)
     case .Home:
-      dataAccessor.setPresentValueOfPoint("OccMod", forThermostat: thermostat, toValue: "Present")
+      dataAccessor.setPresentValueOfPoint(.occupationMode, forThermostat: thermostat, toValue: "Present")
     case .Away:
-      dataAccessor.setPresentValueOfPoint("OccMod", forThermostat: thermostat, toValue: "Absent")
+      dataAccessor.setPresentValueOfPoint(.occupationMode, forThermostat: thermostat, toValue: "Absent")
     }
   }
   

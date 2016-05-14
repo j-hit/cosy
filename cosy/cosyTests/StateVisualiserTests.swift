@@ -21,17 +21,17 @@ class StateVisualiserTests: XCTestCase {
   
   func testIdleStateVisualiser() {
     let visualiser = IdleStateVisualiser()
-    XCTAssertTrue(!visualiser.description.isEmpty, "The idle state visualiser should have a description defined")
+    XCTAssertTrue(!visualiser.circularImageName.isEmpty, "The idle state visualiser should have a circular image name defined")
   }
   
   func testHeatingStateVisualiser() {
     let visualiser = HeatingStateVisualiser()
-    XCTAssertTrue(!visualiser.description.isEmpty, "The heating state visualiser should have a description defined")
+    XCTAssertTrue(!visualiser.circularImageName.isEmpty, "The heating state visualiser should have a circular image name defined")
   }
   
   func testCoolingStateVisualiser() {
     let visualiser = CoolingStateVisualiser()
-    XCTAssertTrue(!visualiser.description.isEmpty, "The cooling state visualiser should have a description defined")
+    XCTAssertTrue(!visualiser.circularImageName.isEmpty, "The cooling state visualiser should have a circular image name defined")
   }
   
   func testColorOfStateVisualisersShouldBeDifferent() {
@@ -44,14 +44,14 @@ class StateVisualiserTests: XCTestCase {
     XCTAssertNotEqual(coolingVisualiser.color, heatingVisualiser.color)
   }
   
-  func testDescriptionOfStateVisualisersShouldBeDifferent() {
+  func testCircularImageNameOfStateVisualisersShouldBeDifferent() {
     let idleVisualiser = IdleStateVisualiser()
     let heatingVisualiser = HeatingStateVisualiser()
     let coolingVisualiser = CoolingStateVisualiser()
     
-    XCTAssertNotEqual(idleVisualiser.description, heatingVisualiser.description)
-    XCTAssertNotEqual(idleVisualiser.description, coolingVisualiser.description)
-    XCTAssertNotEqual(coolingVisualiser.description, heatingVisualiser.description)
+    XCTAssertNotEqual(idleVisualiser.circularImageName, heatingVisualiser.circularImageName)
+    XCTAssertNotEqual(idleVisualiser.circularImageName, coolingVisualiser.circularImageName)
+    XCTAssertNotEqual(coolingVisualiser.circularImageName, heatingVisualiser.circularImageName)
   }
 
 }
