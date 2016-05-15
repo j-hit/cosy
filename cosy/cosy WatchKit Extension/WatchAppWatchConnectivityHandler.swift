@@ -11,7 +11,7 @@ import WatchConnectivity
 import WatchKit
 
 final class WatchAppWatchConnectivityHandler: NSObject {
-  var delegate: WatchAppWatchConnectivityHandlerDelegate?
+  weak var delegate: WatchAppWatchConnectivityHandlerDelegate?
   var settingsProvider: SettingsProvider?
 
   var thermostatManager = {

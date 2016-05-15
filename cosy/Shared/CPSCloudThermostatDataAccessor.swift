@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
-  var delegate: ThermostatDataAccessorDelegate?
+  weak var delegate: ThermostatDataAccessorDelegate?
   var settingsProvider: SettingsProvider
   var lastFetchedThermostats: [Thermostat]
   

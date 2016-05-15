@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol ThermostatManagerDelegate {
+protocol ThermostatManagerDelegate: class {
   func didUpdateListOfThermostats()
   func didFailToRetrieveData(withError error: String)
 }
 
 protocol ThermostatManager: class {
-  var delegate: ThermostatManagerDelegate? { get set }
+  weak var delegate: ThermostatManagerDelegate? { get set }
   var thermostats: [Thermostat] { get set }
   var favouriteThermostat: Thermostat? { get set }
   func fetchNewListOfThermostats()

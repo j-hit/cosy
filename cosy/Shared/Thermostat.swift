@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ThermostatDelegate {
+protocol ThermostatDelegate: class {
   func didUpdateName(toNewValue newValue: String)
   func didUpdateCurrentTemperature(toNewValue newValue: Int)
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int)
@@ -22,7 +22,7 @@ final class Thermostat: NSObject, NSCoding {
   static let maximumTemperatureValue: Float = 40.0
   static let minimumTemperatureValue: Float = 10.0
   
-  var delegate: ThermostatDelegate?
+  weak var delegate: ThermostatDelegate?
   var identifier: String
   var isMarkedAsFavourite: Bool
   

@@ -15,7 +15,7 @@ enum ThermostatManagerState{
 }
 
 final class ThermostatManagerImpl: ThermostatManager {
-  var delegate: ThermostatManagerDelegate? // consider declaring delegate as weak
+  weak var delegate: ThermostatManagerDelegate?
   var thermostats: [Thermostat]
   private var dataAccessor: ThermostatDataAccessor
   private var state: ThermostatManagerState

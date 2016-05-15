@@ -11,7 +11,7 @@ import WatchConnectivity
 
 final class iPhoneWatchConnectivityHandler: NSObject {
   var settingsProvider: SettingsProvider?
-  var delegate: iPhoneWatchConnectivityHandlerDelegate?
+  weak var delegate: iPhoneWatchConnectivityHandlerDelegate?
   
   override init() {
     super.init()
