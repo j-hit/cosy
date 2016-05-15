@@ -50,20 +50,30 @@ final class ThermostatManagerImpl: ThermostatManager {
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
     if let temperatureSetPoint = thermostat.temperatureSetPoint {
-      dataAccessor.setPresentValueOfPoint(.temperatureSetPoint, forThermostat: thermostat, toValue: temperatureSetPoint)
+      dataAccessor.setPresentValueOfPoint(.temperatureSetPoint, forThermostat: thermostat, toValue: temperatureSetPoint) {
+        thermostat.temperatureSetPoint = temperatureSetPoint
+      }
     }
   }
   
   func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode) {
     switch mode {
     case .Auto:
-      dataAccessor.setPresentValueOfPoint(.comfortMode, forThermostat: thermostat, toValue: false)
+      dataAccessor.setPresentValueOfPoint(.comfortMode, forThermostat: thermostat, toValue: false) {
+        thermostat.isInAutoMode = true
+      }
     case .Manual:
-      dataAccessor.setPresentValueOfPoint(.comfortMode, forThermostat: thermostat, toValue: true)
+      dataAccessor.setPresentValueOfPoint(.comfortMode, forThermostat: thermostat, toValue: true) {
+        thermostat.isInAutoMode = false
+      }
     case .Home:
-      dataAccessor.setPresentValueOfPoint(.occupationMode, forThermostat: thermostat, toValue: "Present")
+      dataAccessor.setPresentValueOfPoint(.occupationMode, forThermostat: thermostat, toValue: "Present") {
+        thermostat.isOccupied = true
+      }
     case .Away:
-      dataAccessor.setPresentValueOfPoint(.occupationMode, forThermostat: thermostat, toValue: "Absent")
+      dataAccessor.setPresentValueOfPoint(.occupationMode, forThermostat: thermostat, toValue: "Absent") {
+        thermostat.isOccupied = false
+      }
     }
   }
   

@@ -26,8 +26,6 @@ class ThermostatInterfaceController: WKInterfaceController {
     }
   }
   private var lastThermostatState = ThermostatState.Idle
-  
-  private var changingTemperatureSetpoint = false
   private var timer: NSTimer?
   
   private var lastDataFetchOrChangeWasFaulty = false {
@@ -88,6 +86,12 @@ class ThermostatInterfaceController: WKInterfaceController {
     if let temperatureSetPoint = thermostat?.temperatureSetPoint where temperatureSetPoint > 0 {
       temperatureSetPointLabel.setText(String(format: NSLocalizedString("TemperatureSetpointDescription", comment: "describes the temperature set-point of a thermostat"), temperatureSetPoint))
       temperatureSetPointSlider.setValue(Float(temperatureSetPoint))
+      
+      if WKAccessibilityIsVoiceOverRunning() {
+        temperatureSetPointLabel.setAccessibilityLabel(String(format: NSLocalizedString("ThermostatSetPointAccessibilityLabel", comment: "Accessibility Label: Thermostat temperature set point"), temperatureSetPoint))
+        temperatureSetPointSlider.setAccessibilityLabel("Temperature set point slider, use to change set point")
+        temperatureSetPointSlider.setAccessibilityValue("\(temperatureSetPoint)°")
+      }
     } else {
       temperatureSetPointLabel.setText("--")
       temperatureSetPointSlider.setValue(0)
@@ -128,6 +132,10 @@ class ThermostatInterfaceController: WKInterfaceController {
     informationLabel.setText(NSLocalizedString("LocationNotOccupiedDescription", comment: "describes that a location is not occupied"))
     informationLabel.setHidden(false)
     
+    if WKAccessibilityIsVoiceOverRunning() {
+      informationLabel.setAccessibilityLabel("Currently set to away")
+    }
+    
     clearAllMenuItems()
     addHomeMenuItem()
   }
@@ -147,6 +155,10 @@ class ThermostatInterfaceController: WKInterfaceController {
     informationLabel.setText(NSLocalizedString("ThermostatInAutoModeDescription", comment: "describes that a thermostat is in auto mode"))
     informationLabel.setHidden(false)
     
+    if WKAccessibilityIsVoiceOverRunning() {
+      informationLabel.setAccessibilityLabel("Currently set to auto")
+    }
+    
     clearAllMenuItems()
     addManualMenuItem()
     addAwayMenuItem()
@@ -156,6 +168,10 @@ class ThermostatInterfaceController: WKInterfaceController {
     temperatureSetPointSlider.setHidden(false)
     informationLabel.setHidden(true)
     
+    if WKAccessibilityIsVoiceOverRunning() {
+      informationLabel.setAccessibilityLabel("Currently set to manual")
+    }
+    
     clearAllMenuItems()
     addAutoMenuItem()
     addAwayMenuItem()
@@ -164,6 +180,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   // MARK: Menu Items and Actions
   
   func onAwaySelected() {
+    thermostat?.delegate = nil
     configureForModeAway()
     if let thermostat = thermostat {
       thermostat.isOccupied = false
@@ -172,6 +189,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   func onHomeSelected() {
+    thermostat?.delegate = nil
     configureForModeHome()
     if let thermostat = thermostat {
       thermostat.isOccupied = true
@@ -180,6 +198,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   func onAutoSelected() {
+    thermostat?.delegate = nil
     configureForModeAuto()
     if let thermostat = thermostat {
       thermostat.isInAutoMode = true
@@ -188,6 +207,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   }
   
   func onManualSelected() {
+    thermostat?.delegate = nil
     configureForModeManual()
     if let thermostat = thermostat {
       thermostat.isInAutoMode = false
@@ -244,7 +264,6 @@ class ThermostatInterfaceController: WKInterfaceController {
   func saveTemperatureSetPoint() {
     if let thermostat = thermostat {
       thermostatManager?.saveTemperatureSetPointOfThermostat(thermostat)
-      changingTemperatureSetpoint = false
     }
   }
   
@@ -276,10 +295,8 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
-    if !changingTemperatureSetpoint {
-      showTemperatureSetPoint()
-      visualiseStateOfThermostat()
-    }
+    showTemperatureSetPoint()
+    visualiseStateOfThermostat()
     
     lastDataFetchOrChangeWasFaulty = false
   }

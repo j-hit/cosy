@@ -11,5 +11,6 @@ import WatchKit
 
 protocol ThermostatStateVisualiser {
   var color: UIColor { get }
+  var textColor: UIColor { get }
   var circularImageName: String { get }
 }

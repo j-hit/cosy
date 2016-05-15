@@ -13,6 +13,9 @@ struct HeatingStateVisualiser: ThermostatStateVisualiser {
   var color: UIColor {
     return UIColor(red:1.00, green:0.47, blue:0.00, alpha:1.0)
   }
+  var textColor: UIColor {
+    return UIColor.whiteColor()
+  }
   var circularImageName: String {
     return "heating-thermostat-list"
   }

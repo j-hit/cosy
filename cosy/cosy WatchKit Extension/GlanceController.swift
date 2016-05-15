@@ -77,8 +77,13 @@ class GlanceController: WKInterfaceController {
   }
   
   private func showTemperatureSetpoint(temperatureSetpoint: Int?) {
-    temperatureSetpointLabel.setText("\(temperatureSetpoint ?? 0)")
+    let setpoint = temperatureSetpoint ?? 0
+    temperatureSetpointLabel.setText("\(setpoint)")
     temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
+    
+    if WKAccessibilityIsVoiceOverRunning() {
+      temperatureSetpointLabel.setAccessibilityLabel(String(format: NSLocalizedString("ThermostatSetPointAccessibilityLabel", comment: "Accessibility Label: Thermostat temperature set point"), setpoint))
+    }
   }
   
   // MARK: Error handling

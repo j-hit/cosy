@@ -8,11 +8,6 @@
 
 import Foundation
 
-protocol ThermostatDataAccessorDelegate {
-  func thermostatDataAccessor(didFetchThermostats fetchedThermostats: [Thermostat])
-  func thermostatDataAccessorFailedToFetchListOfThermostats()
-}
-
 enum AccessibleThermostatDataPoint {
   case roomTemperature
   case temperatureSetPoint
@@ -33,9 +28,14 @@ enum AccessibleThermostatDataPoint {
   }
 }
 
+protocol ThermostatDataAccessorDelegate {
+  func thermostatDataAccessor(didFetchThermostats fetchedThermostats: [Thermostat])
+  func thermostatDataAccessorFailedToFetchListOfThermostats()
+}
+
 protocol ThermostatDataAccessor {
   var delegate: ThermostatDataAccessorDelegate? { get set }
   func fetchListOfThermostats()
   func fetchDataOfThermostat(thermostat: Thermostat)
-  func setPresentValueOfPoint(point: AccessibleThermostatDataPoint, forThermostat thermostat: Thermostat, toValue value: AnyObject)
+  func setPresentValueOfPoint(point: AccessibleThermostatDataPoint, forThermostat thermostat: Thermostat, toValue value: AnyObject, successHandler: (() -> Void)?)
 }

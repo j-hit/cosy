@@ -218,7 +218,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
   
   // MARK: - Change thermostat data
   
-  func setPresentValueOfPoint(point: AccessibleThermostatDataPoint, forThermostat thermostat: Thermostat, toValue value: AnyObject) {
+  func setPresentValueOfPoint(point: AccessibleThermostatDataPoint, forThermostat thermostat: Thermostat, toValue value: AnyObject, successHandler: (() -> Void)? = nil) {
     let pointName = point.stringRepresentation
     guard let url = URLForChangingPresentValue(ofPoint: pointName, forThermostat: thermostat),
       urlRequest = URLRequestForChangingPresentValueOfPoint(withURL: url, toValue: value) else {
@@ -226,19 +226,17 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
         return
     }
     
-    thermostat.savingData = true
-    
     Alamofire.request(urlRequest)
       .validate()
       .responseString { response in
         switch response.result {
         case .Success:
+          successHandler?()
           NSLog("Changed point \(point) of thermostat \(thermostat.name) to \(value)")
         case .Failure(let error):
           NSLog("Error changing point \(point) of thermostat \(thermostat.identifier). Details = \(error.localizedDescription)")
           thermostat.delegate?.didFailToChangeData(withError: String(format: NSLocalizedString("SetPresentValueFailure", comment: "Error changing the temperature set point"), thermostat.name, error.localizedDescription))
         }
-        thermostat.savingData = false
     }
   }
   
