@@ -25,19 +25,10 @@ final class Thermostat: NSObject, NSCoding {
   var delegate: ThermostatDelegate?
   var identifier: String
   var isMarkedAsFavourite: Bool
-  var savingData = false
   
   var name: String {
     didSet {
       delegate?.didUpdateName(toNewValue: name)
-    }
-  }
-  
-  var isOccupied: Bool {
-    didSet {
-      if isOccupied != oldValue {
-        delegate?.didUpdateOccupationMode(toNewValue: isOccupied)
-      }
     }
   }
   
@@ -59,10 +50,16 @@ final class Thermostat: NSObject, NSCoding {
   
   var isInAutoMode: Bool {
     didSet {
-      if savingData {
-        isInAutoMode = oldValue
-      } else if isInAutoMode != oldValue {
+      if isInAutoMode != oldValue {
         delegate?.didUpdateAutoMode(toOn: isInAutoMode)
+      }
+    }
+  }
+  
+  var isOccupied: Bool {
+    didSet {
+      if isOccupied != oldValue {
+        delegate?.didUpdateOccupationMode(toNewValue: isOccupied)
       }
     }
   }
@@ -100,7 +97,7 @@ final class Thermostat: NSObject, NSCoding {
   
   convenience init?(coder decoder: NSCoder) {
     guard let name = decoder.decodeObjectForKey("name") as? String else {
-        return nil
+      return nil
     }
     
     self.init(identifier: decoder.decodeObjectForKey("identifier") as? String ?? "", name: name, currentTemperature: decoder.decodeIntegerForKey("currentTemperature"), temperatureSetPoint: decoder.decodeIntegerForKey("temperatureSetpoint"), isInAutoMode: decoder.decodeBoolForKey("isInAutoMode"), isMarkedAsFavourite: decoder.decodeBoolForKey("isMarkedAsFavourite"))
