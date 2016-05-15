@@ -98,7 +98,8 @@
                                         <action selector="onErrorIndicationImageTapped" destination="OjV-xj-1aT" id="vdO-nk-Bjq"/>
                                     </connections>
                                 </button>
-                                <label alignment="center" verticalAlignment="center" text="--°" id="ygq-QZ-zPd">
+                                <label alignment="center" verticalAlignment="center" accessibilityHint="Press screen firmly to change thermostat mode or set it as the favourite" text="--°" id="ygq-QZ-zPd">
+                                    <accessibilityTraits key="accessibilityTraits" staticText="YES" updatesFrequently="YES"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="font" type="system" weight="thin" pointSize="75"/>
                                     <variation key="device=watch38mm">

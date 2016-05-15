@@ -13,6 +13,9 @@ struct IdleStateVisualiser: ThermostatStateVisualiser {
   var color: UIColor {
     return UIColor.lightGrayColor()
   }
+  var textColor: UIColor {
+    return UIColor.blackColor()
+  }
   var circularImageName: String {
     return "idle-thermostat-list"
   }

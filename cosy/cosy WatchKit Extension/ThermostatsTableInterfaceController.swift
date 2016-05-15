@@ -110,11 +110,6 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
       
       if let row = row as? ThermostatRowController {
         let thermostat = sortedThermostats[rowIndex]
-        row.thermostatLabel.setText(thermostat.name)
-        row.occupationModeImage.setImageNamed(thermostat.occupationModeimageName)
-        row.temperatureSetpointLabel.setText("\(thermostat.temperatureSetPoint ?? 0)°")
-        row.innerRowGroup.setBackgroundImageNamed(thermostat.rowBackgroundImageName)
-        
         row.thermostat = thermostat
       }
     }
@@ -208,11 +203,18 @@ extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
 
 extension Thermostat {
   var occupationModeimageName: String {
+    var imageName: String
     if isOccupied {
-      return "occupied"
+      imageName = "occupied"
     } else {
-      return "unoccupied"
+      imageName = "unoccupied"
     }
+    
+    if state == .Idle {
+      imageName += "-black"
+    }
+    
+    return imageName
   }
   
   var rowBackgroundImageName: String {

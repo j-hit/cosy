@@ -20,8 +20,16 @@ class ThermostatRowController: NSObject {
   
   var thermostat: Thermostat? {
     didSet {
-      if let thermostat = thermostat where thermostat.isMarkedAsFavourite {
-        thermostatLabel.setTextColor(colourOfThermostatMarkedAsFavourite)
+      if let thermostat = thermostat {
+        thermostatLabel.setText(thermostat.name)
+        occupationModeImage.setImageNamed(thermostat.occupationModeimageName)
+        temperatureSetpointLabel.setText("\(thermostat.temperatureSetPoint ?? 0)°")
+        innerRowGroup.setBackgroundImageNamed(thermostat.rowBackgroundImageName)
+        temperatureSetpointLabel.setTextColor(thermostat.state.visualiser().textColor)
+        
+        if thermostat.isMarkedAsFavourite {
+          thermostatLabel.setTextColor(colourOfThermostatMarkedAsFavourite)
+        }
       }
       if WKAccessibilityIsVoiceOverRunning() {
         makeAccessibile()
