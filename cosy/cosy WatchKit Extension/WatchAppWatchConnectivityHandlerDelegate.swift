@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol WatchAppWatchConnectivityHandlerDelegate {
+protocol WatchAppWatchConnectivityHandlerDelegate: class {
   func didUpdateApplicationSettings()
 }

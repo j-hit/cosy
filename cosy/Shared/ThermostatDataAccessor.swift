@@ -28,13 +28,13 @@ enum AccessibleThermostatDataPoint {
   }
 }
 
-protocol ThermostatDataAccessorDelegate {
+protocol ThermostatDataAccessorDelegate: class {
   func thermostatDataAccessor(didFetchThermostats fetchedThermostats: [Thermostat])
   func thermostatDataAccessorFailedToFetchListOfThermostats()
 }
 
 protocol ThermostatDataAccessor {
-  var delegate: ThermostatDataAccessorDelegate? { get set }
+  weak var delegate: ThermostatDataAccessorDelegate? { get set }
   func fetchListOfThermostats()
   func fetchDataOfThermostat(thermostat: Thermostat)
   func setPresentValueOfPoint(point: AccessibleThermostatDataPoint, forThermostat thermostat: Thermostat, toValue value: AnyObject, successHandler: (() -> Void)?)

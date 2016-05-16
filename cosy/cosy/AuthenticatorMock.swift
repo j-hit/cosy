@@ -9,7 +9,7 @@
 import Foundation
 
 final class AuthenticatorMock: Authenticator {
-  var delegate: AuthenticatorDelegate?
+  weak var delegate: AuthenticatorDelegate?
   
   let mockSessionID = "mockModeSessionID"
   

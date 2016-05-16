@@ -11,7 +11,7 @@ import Foundation
 final class ThermostatManagerMock: ThermostatManager {
   private var state: ThermostatManagerState
   var settingsProvider: SettingsProvider
-  var delegate: ThermostatManagerDelegate?
+  weak var delegate: ThermostatManagerDelegate?
   var thermostats: [Thermostat]
   var favouriteThermostat: Thermostat? {
     willSet(newFavourite) {

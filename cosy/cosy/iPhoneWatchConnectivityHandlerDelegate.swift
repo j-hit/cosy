@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol iPhoneWatchConnectivityHandlerDelegate {
+protocol iPhoneWatchConnectivityHandlerDelegate: class {
   func didReceiveErrorMessageFromWatch(error: String)
 }

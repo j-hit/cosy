@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 final class AuthenticatorImpl: Authenticator {
-  var delegate: AuthenticatorDelegate?
+  weak var delegate: AuthenticatorDelegate?
   
   private let baseURL = ApplicationSettingsManager.sharedInstance.baseURLOfCPSCloud
   
