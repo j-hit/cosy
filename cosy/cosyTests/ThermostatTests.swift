@@ -45,6 +45,57 @@ class ThermostatTests: XCTestCase {
     XCTAssertEqual(thermostat.name, thermostatName)
   }
   
+  func testSettingThermostatAttributes() {
+    let thermostat = Thermostat(identifier: "myIdentifier")
+    let currentTemperature = 16
+    let isInAutoMode = false
+    let isMarkedAsFavourite = true
+    let isOccupied = true
+    let name = "myThermostat"
+    let temperatureSetPoint = 20
+    
+    thermostat.currentTemperature = currentTemperature
+    thermostat.isInAutoMode = isInAutoMode
+    thermostat.isMarkedAsFavourite = isMarkedAsFavourite
+    thermostat.isOccupied = isOccupied
+    thermostat.name = name
+    thermostat.temperatureSetPoint = temperatureSetPoint
+    
+    XCTAssertEqual(currentTemperature, thermostat.currentTemperature)
+    XCTAssertEqual(isInAutoMode, thermostat.isInAutoMode)
+    XCTAssertEqual(isMarkedAsFavourite, thermostat.isMarkedAsFavourite)
+    XCTAssertEqual(isOccupied, thermostat.isOccupied)
+    XCTAssertEqual(name, thermostat.name)
+    XCTAssertEqual(temperatureSetPoint, thermostat.temperatureSetPoint)
+  }
+  
+  func testThermostatShouldBeInCoolingState() {
+    let thermostat = Thermostat(identifier: "myIdentifier")
+    thermostat.currentTemperature = 20
+    thermostat.temperatureSetPoint = 16
+    let state = thermostat.state
+    XCTAssertTrue(thermostat.currentTemperature > thermostat.temperatureSetPoint)
+    XCTAssertTrue(state == .Cooling)
+  }
+  
+  func testThermostatShouldBeInHeatingState() {
+    let thermostat = Thermostat(identifier: "myIdentifier")
+    thermostat.currentTemperature = 14
+    thermostat.temperatureSetPoint = 20
+    let state = thermostat.state
+    XCTAssertTrue(thermostat.currentTemperature < thermostat.temperatureSetPoint)
+    XCTAssertTrue(state == .Heating)
+  }
+  
+  func testThermostatShouldBeInIdleState() {
+    let thermostat = Thermostat(identifier: "myIdentifier")
+    thermostat.currentTemperature = 12
+    thermostat.temperatureSetPoint = 12
+    let state = thermostat.state
+    XCTAssertTrue(thermostat.currentTemperature == thermostat.temperatureSetPoint)
+    XCTAssertTrue(state == .Idle)
+  }
+  
   func testThermostatStateCoolingVisualiser() {
     let coolingVisualiser = ThermostatState.Cooling.visualiser() as? CoolingStateVisualiser
     XCTAssertNotNil(coolingVisualiser)

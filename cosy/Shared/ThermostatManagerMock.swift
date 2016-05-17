@@ -79,10 +79,11 @@ final class ThermostatManagerMock: ThermostatManager {
   }
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
-    print("saved temperature set point of thermostat")
+    NSLog("ThermostatManagerMock - Saved temperature set point of thermostat")
   }
   
   func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode) {
+    NSLog("ThermostatManagerMock - Saved mode")
   }
   
   func clearAllData() {
