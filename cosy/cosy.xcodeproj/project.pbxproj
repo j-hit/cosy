@@ -63,6 +63,7 @@
 		1A9B73CD1CB10E0000C62F10 /* ThermostatManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF1CAE1CAEA422008B346D /* ThermostatManagerImpl.swift */; };
 		1A9B73CF1CB10E0D00C62F10 /* Thermostat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C04871CAE65BB002CDE1A /* Thermostat.swift */; };
 		1AA1E1811CEBCAF7009ABA80 /* ThermostatManagerMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1E1801CEBCAF7009ABA80 /* ThermostatManagerMockTests.swift */; };
+		1AA1E1831CED1E0D009ABA80 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1E1821CED1E0D009ABA80 /* LoginViewControllerTests.swift */; };
 		1AA28E7A1CD7D03C0047D3AD /* ErrorInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA28E791CD7D03C0047D3AD /* ErrorInterfaceController.swift */; };
 		1AB62C2F1CAD228300C35351 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1AB62C311CAD228300C35351 /* Localizable.strings */; };
 		1AB62C331CAD50C500C35351 /* AuthenticatorMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB62C321CAD50C500C35351 /* AuthenticatorMockTests.swift */; };
@@ -188,6 +189,7 @@
 		1A97C98C1C8B62710089D269 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A97C98E1C8B62710089D269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AA1E1801CEBCAF7009ABA80 /* ThermostatManagerMockTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThermostatManagerMockTests.swift; sourceTree = "<group>"; };
+		1AA1E1821CED1E0D009ABA80 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
 		1AA28E791CD7D03C0047D3AD /* ErrorInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorInterfaceController.swift; sourceTree = "<group>"; };
 		1AB62C301CAD228300C35351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1AB62C321CAD50C500C35351 /* AuthenticatorMockTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatorMockTests.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				1ACBA5221CBF9FA200814DD9 /* ThermostatTests.swift */,
 				1A3C135F1CEA704800A377DB /* DataAccessorTests.swift */,
 				1AA1E1801CEBCAF7009ABA80 /* ThermostatManagerMockTests.swift */,
+				1AA1E1821CED1E0D009ABA80 /* LoginViewControllerTests.swift */,
 			);
 			path = cosyTests;
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 				1AA1E1811CEBCAF7009ABA80 /* ThermostatManagerMockTests.swift in Sources */,
 				1A97C95D1C8B62710089D269 /* ApplicationSettingsManagerTests.swift in Sources */,
 				1ACBA5231CBF9FA200814DD9 /* ThermostatTests.swift in Sources */,
+				1AA1E1831CED1E0D009ABA80 /* LoginViewControllerTests.swift in Sources */,
 				1A3C13601CEA704800A377DB /* DataAccessorTests.swift in Sources */,
 				1ACBA51F1CBF8E4E00814DD9 /* StateVisualiserTests.swift in Sources */,
 				1AB62C331CAD50C500C35351 /* AuthenticatorMockTests.swift in Sources */,
