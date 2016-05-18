@@ -31,10 +31,6 @@ class LoginViewController: UIViewController {
     informationLabel.text = ""
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-  }
-  
   override func prefersStatusBarHidden() -> Bool {
     return true
   }
