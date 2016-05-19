@@ -28,14 +28,14 @@ class LoginViewControllerTests: XCTestCase {
   }
   
   func testSignIn() {
-    viewController.emailTextField.text = "a@b.c"
+    viewController.emailTextField.text = "james@siemens.com"
     viewController.passwordTextField.text = "Abcd1234!"
     viewController.signInButtonPressed(viewController.signInButton)
     XCTAssertTrue(viewController.signInButton.hidden == true)
   }
   
   func testPasswordMissing() {
-    viewController.emailTextField.text = "a@b.c"
+    viewController.emailTextField.text = "james@siemens.com"
     viewController.passwordTextField.text = ""
     viewController.signInButtonPressed(viewController.signInButton)
     XCTAssertFalse(viewController.informationLabel.text!.isEmpty)
@@ -54,12 +54,4 @@ class LoginViewControllerTests: XCTestCase {
     viewController.signInButtonPressed(viewController.signInButton)
     XCTAssertFalse(viewController.informationLabel.text!.isEmpty)
   }
-  
-  /*func testLogout() {
-    viewController.emailTextField.text = "a@b.c"
-    viewController.passwordTextField.text = "Abcd1234!"
-    viewController.signInButtonPressed(viewController.signInButton)
-    viewController.authenticator.performSignOut()
-    XCTAssertTrue(viewController.signInButton.hidden == false)
-  }*/
 }
