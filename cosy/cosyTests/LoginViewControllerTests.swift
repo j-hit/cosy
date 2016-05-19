@@ -55,11 +55,11 @@ class LoginViewControllerTests: XCTestCase {
     XCTAssertFalse(viewController.informationLabel.text!.isEmpty)
   }
   
-  func testLogout() {
+  /*func testLogout() {
     viewController.emailTextField.text = "a@b.c"
     viewController.passwordTextField.text = "Abcd1234!"
     viewController.signInButtonPressed(viewController.signInButton)
     viewController.authenticator.performSignOut()
     XCTAssertTrue(viewController.signInButton.hidden == false)
-  }
+  }*/
 }
