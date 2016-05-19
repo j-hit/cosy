@@ -45,12 +45,4 @@ class ThermostatsTableViewControllerTests: XCTestCase {
     let row = viewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! ThermostatTableViewCell
     XCTAssertFalse(row.thermostatNameLabel.text!.isEmpty)
   }
-  
-  /*
-  func testSignOutButton() {
-    viewController.viewDidLoad()
-    viewController.viewWillAppear(true)
-    viewController.signOutPressed(viewController.signOutButton)
-    XCTAssertTrue(viewController.tableView(viewController.tableView, numberOfRowsInSection: 0) == 0)
-  }*/
 }
