@@ -39,7 +39,7 @@ class ThermostatsTableViewControllerTests: XCTestCase {
     XCTAssertTrue(rowHeight >= 44.0)
   }
   
-  func testRowContent() {
+  func testThermostatLabelOfRowShouldNotBeEmpty() {
     viewController.viewDidLoad()
     viewController.viewWillAppear(true)
     let row = viewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! ThermostatTableViewCell
