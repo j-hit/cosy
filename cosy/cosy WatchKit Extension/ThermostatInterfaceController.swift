@@ -26,6 +26,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     }
   }
   private var lastThermostatState = ThermostatState.Idle
+  private var temperatureSetPointIsBeingChanged = false
   private var timer: NSTimer?
   
   private var lastDataFetchOrChangeWasFaulty = false {
@@ -249,6 +250,8 @@ class ThermostatInterfaceController: WKInterfaceController {
   // MARK: Interface builder actions
   
   @IBAction func onTemperatureSetPointChanged(value: Float) {
+    temperatureSetPointIsBeingChanged = true
+    
     thermostat?.temperatureSetPoint = Int(value)
     reloadDataShownOnView()
     if value == Thermostat.maximumTemperatureValue {
@@ -265,6 +268,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     if let thermostat = thermostat {
       thermostatManager?.saveTemperatureSetPointOfThermostat(thermostat)
     }
+    temperatureSetPointIsBeingChanged = false
   }
   
   // MARK: Error handling
@@ -295,9 +299,10 @@ extension ThermostatInterfaceController: ThermostatDelegate {
   }
   
   func didUpdateTemperatureSetpoint(toNewValue newValue: Int) {
-    showTemperatureSetPoint()
-    visualiseStateOfThermostat()
-    
+    if !temperatureSetPointIsBeingChanged {
+      showTemperatureSetPoint()
+      visualiseStateOfThermostat()
+    }
     lastDataFetchOrChangeWasFaulty = false
   }
   
