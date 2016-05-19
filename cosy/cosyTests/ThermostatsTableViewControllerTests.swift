@@ -26,7 +26,7 @@ class ThermostatsTableViewControllerTests: XCTestCase {
     super.tearDown()
   }
   
-  func testExample() {
+  func testNumberOfRowsAfterLoading() {
     viewController.viewDidLoad()
     viewController.viewWillAppear(true)
     XCTAssertTrue(viewController.tableView.numberOfRowsInSection(0) == 3)
