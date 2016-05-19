@@ -34,17 +34,11 @@ final class ThermostatManagerMock: ThermostatManager {
       return
     }
     
-    let seconds = 2.0
-    let delay = seconds * Double(NSEC_PER_SEC)
-    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-    
-    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-      if self.thermostats.count == 0 {
-        self.loadThermostatLocations()
-      } else {
-        self.delegate?.didUpdateListOfThermostats()
-      }
-    })
+    if self.thermostats.count == 0 {
+      self.loadThermostatLocations()
+    } else {
+      self.delegate?.didUpdateListOfThermostats()
+    }
   }
   
   private func loadThermostatLocations() {
@@ -64,25 +58,20 @@ final class ThermostatManagerMock: ThermostatManager {
   }
   
   private func setRandomValuesForThermostat(thermostat: Thermostat) {
-    let seconds = 2.0
-    let delay = seconds * Double(NSEC_PER_SEC)
-    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+    thermostat.currentTemperature = Int(arc4random_uniform(30) + 5)
+    thermostat.temperatureSetPoint = Int(arc4random_uniform(30) + 5)
     
-    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-      thermostat.currentTemperature = Int(arc4random_uniform(30) + 5)
-      thermostat.temperatureSetPoint = Int(arc4random_uniform(30) + 5)
-      
-      if thermostat.isMarkedAsFavourite {
-        self.settingsProvider.favouriteThermostat = thermostat
-      }
-    })
+    if thermostat.isMarkedAsFavourite {
+      self.settingsProvider.favouriteThermostat = thermostat
+    }
   }
   
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat) {
-    print("saved temperature set point of thermostat")
+    NSLog("ThermostatManagerMock - Saved temperature set point of thermostat")
   }
   
   func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode) {
+    NSLog("ThermostatManagerMock - Saved mode")
   }
   
   func clearAllData() {

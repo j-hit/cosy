@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
   
   private let segueIdentifierToShowThermostatsView = "showListOfThermostats"
   
-  private let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
+  let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
   private let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
   
   override func viewWillAppear(animated: Bool) {
@@ -29,10 +29,6 @@ class LoginViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     informationLabel.text = ""
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
   }
   
   override func prefersStatusBarHidden() -> Bool {
@@ -88,6 +84,7 @@ extension LoginViewController: AuthenticatorDelegate {
   }
   
   func authenticatorDidPerformSignOut() {
+    self.signInButton.hidden = false
     watchConnectivityHandler.transferApplicationSettingsToWatch()
   }
 }

@@ -59,4 +59,64 @@ class applicationSettingsManagerTests: XCTestCase {
     applicationSettingsManager.sessionID = nil
     XCTAssertEqual(applicationSettingsManager.sessionID, nil)
   }
+  
+  func testKeyShouldNotBeEmpty() {
+    XCTAssertFalse(applicationSettingsManager.key.isEmpty)
+  }
+  
+  func testApplicationSettingsCanBeExportedAsDictionary() {
+    let sessionID = "myTestSessionID"
+    applicationSettingsManager.sessionID = sessionID
+    
+    let export = applicationSettingsManager.exportAsDictionary()
+    XCTAssertTrue(export["sessionID"] as? String == sessionID)
+  }
+  
+  func testExportedSessionIDShouldBeEmptyIfNonIsSet() {
+    applicationSettingsManager.sessionID = nil
+    let export = applicationSettingsManager.exportAsDictionary()
+    applicationSettingsManager.sessionID = "modifiedSessionID"
+    applicationSettingsManager.importFromDictionary(export)
+    
+    XCTAssertTrue(export["sessionID"] as? String == "")
+    XCTAssertTrue(applicationSettingsManager.sessionID == nil)
+  }
+  
+  func testApplicationSettingsCanBeImportedFromDictionary() {
+    let sessionID = "myTestSessionID"
+    let mockModeEnabled = true
+    let baseURL = "https://cosy.rdzug.net/api"
+    
+    applicationSettingsManager.sessionID = sessionID
+    applicationSettingsManager.mockModeEnabled = mockModeEnabled
+    applicationSettingsManager.baseURLOfCPSCloud = baseURL
+    let export = applicationSettingsManager.exportAsDictionary()
+    
+    applicationSettingsManager.sessionID = "modifiedSessionID"
+    applicationSettingsManager.mockModeEnabled = false
+    applicationSettingsManager.baseURLOfCPSCloud = "https://modified-url.net"
+    
+    applicationSettingsManager.importFromDictionary(export)
+    
+    XCTAssertTrue(applicationSettingsManager.sessionID == sessionID)
+    XCTAssertTrue(applicationSettingsManager.mockModeEnabled == mockModeEnabled)
+    XCTAssertTrue(applicationSettingsManager.baseURLOfCPSCloud == baseURL)
+  }
+  
+  func testSettingFavouriteThermostat() {
+    let thermostat = Thermostat(identifier: "myFavouriteThermostat")
+    
+    applicationSettingsManager.favouriteThermostat = thermostat
+    
+    XCTAssertTrue(applicationSettingsManager.favouriteThermostat?.identifier == thermostat.identifier)
+  }
+  
+  func testRemovingFavouriteThermostat() {
+    let thermostat = Thermostat(identifier: "myFavouriteThermostat")
+    applicationSettingsManager.favouriteThermostat = thermostat
+    applicationSettingsManager.favouriteThermostat = nil
+    
+    let favouriteThermostat = applicationSettingsManager.favouriteThermostat
+    XCTAssertTrue(favouriteThermostat == nil)
+  }
 }
