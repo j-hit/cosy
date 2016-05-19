@@ -16,7 +16,6 @@ class ThermostatRowController: NSObject {
   @IBOutlet var temperatureSetpointLabel: WKInterfaceLabel!
   
   static let identifier = "ThermostatRow"
-  private let colourOfThermostatMarkedAsFavourite = UIColor(red:0.51, green:0.70, blue:0.22, alpha:0.8)
   
   var thermostat: Thermostat? {
     didSet {
@@ -26,10 +25,6 @@ class ThermostatRowController: NSObject {
         temperatureSetpointLabel.setText("\(thermostat.temperatureSetPoint ?? 0)°")
         innerRowGroup.setBackgroundImageNamed(thermostat.rowBackgroundImageName)
         temperatureSetpointLabel.setTextColor(thermostat.state.visualiser().textColor)
-        
-        if thermostat.isMarkedAsFavourite {
-          thermostatLabel.setTextColor(colourOfThermostatMarkedAsFavourite)
-        }
       }
       if WKAccessibilityIsVoiceOverRunning() {
         makeAccessibile()
