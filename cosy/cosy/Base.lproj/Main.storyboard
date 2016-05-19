@@ -109,7 +109,7 @@
         <!--Thermostats-->
         <scene sceneID="DhY-1u-aoa">
             <objects>
-                <tableViewController id="hbT-IS-DTy" customClass="ThermostatsTableViewController" customModule="cosy" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ThermostatView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hbT-IS-DTy" customClass="ThermostatsTableViewController" customModule="cosy" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="A2W-rL-CWL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -153,6 +153,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="signOutButton" destination="CcC-D7-SQY" id="0DU-cZ-Gas"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IBl-8e-QxJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -10,9 +10,11 @@ import UIKit
 
 class ThermostatsTableViewController: UITableViewController {
   
+  @IBOutlet weak var signOutButton: UIBarButtonItem!
+  
   private let authenticator = (UIApplication.sharedApplication().delegate as! AppDelegate).authenticator
   private let watchConnectivityHandler = (UIApplication.sharedApplication().delegate as! AppDelegate).watchConnectivityHandler
-  private let thermostatManager = (UIApplication.sharedApplication().delegate as! AppDelegate).thermostatManager
+  let thermostatManager = (UIApplication.sharedApplication().delegate as! AppDelegate).thermostatManager
   
   private var thermostats = [Thermostat]() {
     didSet {
@@ -29,10 +31,6 @@ class ThermostatsTableViewController: UITableViewController {
   override func viewWillAppear(animated: Bool) {
     thermostatManager.fetchNewListOfThermostats()
     watchConnectivityHandler.delegate = self
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
   }
   
   // MARK: - Table view data source
@@ -68,14 +66,14 @@ class ThermostatsTableViewController: UITableViewController {
 // MARK: - AuthenticatorDelegate
 extension ThermostatsTableViewController: AuthenticatorDelegate {
   func authenticator(didRetrieveSessionID sessionID: String) {
-    // TODO: Reload table
   }
   
   func authenticator(didFailToAuthenticateWithError error: String) {
-    // TODO: Show information
   }
   
   func authenticatorDidPerformSignOut() {
+    thermostatManager.clearAllData()
+    thermostats.removeAll()
     watchConnectivityHandler.transferApplicationSettingsToWatch()
     self.dismissViewControllerAnimated(true, completion: nil)
   }
@@ -85,11 +83,10 @@ extension ThermostatsTableViewController: AuthenticatorDelegate {
 extension ThermostatsTableViewController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
     thermostats = thermostatManager.thermostats
-    watchConnectivityHandler.transferAppContextToWatch(withDataFromThermsotatManager: thermostatManager)
+    watchConnectivityHandler.transferAppContextToWatch(withDataFromThermostatManager: thermostatManager)
   }
   
   func didFailToRetrieveData(withError error: String) {
-    // TODO: Show information
   }
 }
 

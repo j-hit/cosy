@@ -47,7 +47,7 @@ final class iPhoneWatchConnectivityHandler: NSObject {
     }
   }
   
-  func transferAppContextToWatch(withDataFromThermsotatManager thermostatManager: ThermostatManager) {
+  func transferAppContextToWatch(withDataFromThermostatManager thermostatManager: ThermostatManager) {
     if WCSession.isSupported() {
       let session = WCSession.defaultSession()
       if session.watchAppInstalled {
