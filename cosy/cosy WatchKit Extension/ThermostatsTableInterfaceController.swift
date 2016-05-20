@@ -16,7 +16,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   
   private let segueIdentifierToShowThermostat = "showThermostat"
   
-  private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
+  private let applicationFacade = ApplicationFacade.instance
   
   private var thermostatManager: ThermostatManager?
   
@@ -47,15 +47,15 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     
-    thermostatManager = watchDelegate.thermostatManager
+    thermostatManager = applicationFacade.thermostatManager
     thermostatManager?.delegate = self
   }
   
   override func willActivate() {
     super.willActivate()
     
-    watchDelegate.watchConnectivityHandler.delegate = self
-    watchDelegate.appIsActive = true
+    applicationFacade.watchConnectivityHandler.delegate = self
+    applicationFacade.appIsActive = true
     
     reloadDataShownOnView()
     tryToFetchNewData()
@@ -80,7 +80,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
     if let _ = table.rowControllerAtIndex(rowIndex) as? ErrorRowController {
       let errorMessage = NSLocalizedString("ErrorFetchingListOfThermostats", comment: "Message shown to the user when an error occurs while fetching the list of thermostats")
-      watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(errorMessage, completionHander: {
+      applicationFacade.watchConnectivityHandler.transmitErrorToiPhone(errorMessage, completionHander: {
         self.presentControllerWithName(ErrorInterfaceController.identifier, context: errorMessage)
       })
     }
@@ -97,7 +97,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
   }
   
   private func showAllThermostats(fromThermostatManager thermostatManager: ThermostatManager) {
-    if let thermostatToBeSetAsFavourite = thermostatManager.thermostats.filter({ $0.identifier == ExtensionDelegate.settingsProvider.favouriteThermostat?.identifier }).first {
+    if let thermostatToBeSetAsFavourite = thermostatManager.thermostats.filter({ $0.identifier == applicationFacade.settingsProvider.favouriteThermostat?.identifier }).first {
       thermostatManager.favouriteThermostat = thermostatToBeSetAsFavourite
     }
     
@@ -176,7 +176,7 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
 // MARK: - WatchAppWatchConnectivityHandlerDelegate
 extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
-    if watchDelegate.appIsActive {
+    if applicationFacade.appIsActive {
       tryToFetchNewData()
     }
   }
@@ -185,7 +185,7 @@ extension ThermostatsTableInterfaceController: WatchAppWatchConnectivityHandlerD
 // MARK: - ThermostatManagerDelegate
 extension ThermostatsTableInterfaceController: ThermostatManagerDelegate {
   func didUpdateListOfThermostats() {
-    if watchDelegate.appIsActive {
+    if applicationFacade.appIsActive {
       dispatch_async(dispatch_get_main_queue()) {
         self.reloadDataShownOnView()
       }

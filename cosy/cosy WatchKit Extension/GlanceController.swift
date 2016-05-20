@@ -18,7 +18,7 @@ class GlanceController: WKInterfaceController {
   @IBOutlet var errorIndicationImage: WKInterfaceImage!
   
   private var thermostat: Thermostat?
-  private var watchDelegate: ExtensionDelegate?
+  private var applicationFacade: ApplicationFacade?
   
   private var lastDataFetchWasFaulty = false {
     didSet {
@@ -34,12 +34,12 @@ class GlanceController: WKInterfaceController {
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
-    watchDelegate = WKExtension.sharedExtension().delegate as? ExtensionDelegate
+    applicationFacade = ApplicationFacade.instance
   }
   
   override func willActivate() {
     super.willActivate()
-    thermostat = ExtensionDelegate.settingsProvider.favouriteThermostat
+    thermostat = applicationFacade?.settingsProvider.favouriteThermostat
     if let thermostat = thermostat {
       thermostat.delegate = self
       
@@ -48,13 +48,13 @@ class GlanceController: WKInterfaceController {
       showTemperatureSetpoint(thermostat.temperatureSetPoint)
       showStateImage()
       
-      watchDelegate?.thermostatManager.updateData(ofThermostat: thermostat)
+      applicationFacade?.thermostatManager.updateData(ofThermostat: thermostat)
     }
   }
   
   override func didDeactivate() {
     super.didDeactivate()
-    ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
+    applicationFacade?.settingsProvider.favouriteThermostat = thermostat
   }
   
   // MARK: - Reloading data on view
