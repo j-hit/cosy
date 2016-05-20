@@ -24,7 +24,7 @@ class GlanceController: WKInterfaceController {
     didSet {
       if lastDataFetchWasFaulty == true {
         showErrorIndication(true)
-      } else if lastDataFetchWasFaulty == false && oldValue == true {
+      } else if lastDataFetchWasFaulty == false {
         showErrorIndication(false)
       }
     }
