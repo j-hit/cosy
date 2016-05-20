@@ -17,7 +17,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   @IBOutlet var informationLabel: WKInterfaceLabel!
   @IBOutlet var errorIndiciationButton: WKInterfaceButton!
   
-  private let watchDelegate = WKExtension.sharedExtension().delegate as! ExtensionDelegate
+  private let applicationFacade = ApplicationFacade.instance
   
   private var thermostatManager: ThermostatManager?
   private var thermostat: Thermostat? {
@@ -44,7 +44,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
     self.thermostat = context as? Thermostat
-    self.thermostatManager = watchDelegate.thermostatManager
+    self.thermostatManager = applicationFacade.thermostatManager
     visualiseForState(lastThermostatState)
   }
   
@@ -54,7 +54,7 @@ class ThermostatInterfaceController: WKInterfaceController {
       thermostat.delegate = self
       thermostatManager?.updateData(ofThermostat: thermostat)
     }
-    watchDelegate.watchConnectivityHandler.delegate = self
+    applicationFacade.watchConnectivityHandler.delegate = self
     reloadDataShownOnView()
   }
   
@@ -62,7 +62,7 @@ class ThermostatInterfaceController: WKInterfaceController {
     super.didDeactivate()
     if let thermostat = thermostat {
       if thermostat.isMarkedAsFavourite {
-        ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
+        applicationFacade.settingsProvider.favouriteThermostat = thermostat
       }
     }
   }
@@ -242,7 +242,7 @@ class ThermostatInterfaceController: WKInterfaceController {
   @IBAction func onErrorIndicationImageTapped() {
     let thermostatName = thermostat?.name ?? ""
     let errorMessage = String(format: NSLocalizedString("ErrorFetchingThermostatInformation", comment: "Message shown to the user when an error occurs while fetching information of a thermostat"), thermostatName)
-    watchDelegate.watchConnectivityHandler.transmitErrorToiPhone(errorMessage, completionHander: {
+    applicationFacade.watchConnectivityHandler.transmitErrorToiPhone(errorMessage, completionHander: {
       self.presentControllerWithName(ErrorInterfaceController.identifier, context: errorMessage)
     })
   }
@@ -340,7 +340,7 @@ extension ThermostatInterfaceController: ThermostatDelegate {
 
 extension ThermostatInterfaceController: WatchAppWatchConnectivityHandlerDelegate {
   func didUpdateApplicationSettings() {
-    if ExtensionDelegate.settingsProvider.sessionID == nil {
+    if applicationFacade.settingsProvider.sessionID == nil {
       popController()
     }
   }

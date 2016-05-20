@@ -18,13 +18,13 @@ class GlanceController: WKInterfaceController {
   @IBOutlet var errorIndicationImage: WKInterfaceImage!
   
   private var thermostat: Thermostat?
-  private var watchDelegate: ExtensionDelegate?
+  private var applicationFacade: ApplicationFacade?
   
   private var lastDataFetchWasFaulty = false {
     didSet {
       if lastDataFetchWasFaulty == true {
         showErrorIndication(true)
-      } else if lastDataFetchWasFaulty == false && oldValue == true {
+      } else if lastDataFetchWasFaulty == false {
         showErrorIndication(false)
       }
     }
@@ -34,12 +34,12 @@ class GlanceController: WKInterfaceController {
   
   override func awakeWithContext(context: AnyObject?) {
     super.awakeWithContext(context)
-    watchDelegate = WKExtension.sharedExtension().delegate as? ExtensionDelegate
+    applicationFacade = ApplicationFacade.instance
   }
   
   override func willActivate() {
     super.willActivate()
-    thermostat = ExtensionDelegate.settingsProvider.favouriteThermostat
+    thermostat = applicationFacade?.settingsProvider.favouriteThermostat
     if let thermostat = thermostat {
       thermostat.delegate = self
       
@@ -48,13 +48,13 @@ class GlanceController: WKInterfaceController {
       showTemperatureSetpoint(thermostat.temperatureSetPoint)
       showStateImage()
       
-      watchDelegate?.thermostatManager.updateData(ofThermostat: thermostat)
+      applicationFacade?.thermostatManager.updateData(ofThermostat: thermostat)
     }
   }
   
   override func didDeactivate() {
     super.didDeactivate()
-    ExtensionDelegate.settingsProvider.favouriteThermostat = thermostat
+    applicationFacade?.settingsProvider.favouriteThermostat = thermostat
   }
   
   // MARK: - Reloading data on view
@@ -73,16 +73,19 @@ class GlanceController: WKInterfaceController {
   }
   
   private func showCurrentTemperature(currentTemperature: Int?) {
-    currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature ?? 0))
+    if let currentTemperature = currentTemperature where currentTemperature > 0 {
+      currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature))
+    }
   }
   
   private func showTemperatureSetpoint(temperatureSetpoint: Int?) {
-    let setpoint = temperatureSetpoint ?? 0
-    temperatureSetpointLabel.setText("\(setpoint)")
-    temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
-    
-    if WKAccessibilityIsVoiceOverRunning() {
-      temperatureSetpointLabel.setAccessibilityLabel(String(format: NSLocalizedString("ThermostatSetPointAccessibilityLabel", comment: "Accessibility Label: Thermostat temperature set point"), setpoint))
+    if let temperatureSetpoint = temperatureSetpoint where temperatureSetpoint > 0 {
+      temperatureSetpointLabel.setText("\(temperatureSetpoint)")
+      temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
+      
+      if WKAccessibilityIsVoiceOverRunning() {
+        temperatureSetpointLabel.setAccessibilityLabel(String(format: NSLocalizedString("ThermostatSetPointAccessibilityLabel", comment: "Accessibility Label: Thermostat temperature set point"), temperatureSetpoint))
+      }
     }
   }
   

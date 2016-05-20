@@ -39,16 +39,6 @@
                ReferencedContainer = "container:cosy.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1A97C9621C8B62710089D269"
-               BuildableName = "cosyUITests.xctest"
-               BlueprintName = "cosyUITests"
-               ReferencedContainer = "container:cosy.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

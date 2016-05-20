@@ -15,7 +15,7 @@ final class WatchAppWatchConnectivityHandler: NSObject {
   var settingsProvider: SettingsProvider?
 
   var thermostatManager = {
-    return (WKExtension.sharedExtension().delegate as? ExtensionDelegate)?.thermostatManager
+    return ApplicationFacade.instance.thermostatManager
   }()
   
   override init() {
@@ -58,7 +58,7 @@ extension WatchAppWatchConnectivityHandler: WCSessionDelegate {
     }
     
     if let thermostats = applicationContext["thermostats"] as? NSData {
-      thermostatManager?.importThermostats(fromNSDataObject: thermostats)
+      thermostatManager.importThermostats(fromNSDataObject: thermostats)
     }
   }
 }
