@@ -73,16 +73,19 @@ class GlanceController: WKInterfaceController {
   }
   
   private func showCurrentTemperature(currentTemperature: Int?) {
-    currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature ?? 0))
+    if let currentTemperature = currentTemperature where currentTemperature > 0 {
+      currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature))
+    }
   }
   
   private func showTemperatureSetpoint(temperatureSetpoint: Int?) {
-    let setpoint = temperatureSetpoint ?? 0
-    temperatureSetpointLabel.setText("\(setpoint)")
-    temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
-    
-    if WKAccessibilityIsVoiceOverRunning() {
-      temperatureSetpointLabel.setAccessibilityLabel(String(format: NSLocalizedString("ThermostatSetPointAccessibilityLabel", comment: "Accessibility Label: Thermostat temperature set point"), setpoint))
+    if let temperatureSetpoint = temperatureSetpoint where temperatureSetpoint > 0 {
+      temperatureSetpointLabel.setText("\(temperatureSetpoint)")
+      temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
+      
+      if WKAccessibilityIsVoiceOverRunning() {
+        temperatureSetpointLabel.setAccessibilityLabel(String(format: NSLocalizedString("ThermostatSetPointAccessibilityLabel", comment: "Accessibility Label: Thermostat temperature set point"), temperatureSetpoint))
+      }
     }
   }
   

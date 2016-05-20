@@ -48,12 +48,12 @@ class ThermostatsTableInterfaceController: WKInterfaceController {
     super.awakeWithContext(context)
     
     thermostatManager = applicationFacade.thermostatManager
-    thermostatManager?.delegate = self
   }
   
   override func willActivate() {
     super.willActivate()
     
+    thermostatManager?.delegate = self
     applicationFacade.watchConnectivityHandler.delegate = self
     applicationFacade.appIsActive = true
     
