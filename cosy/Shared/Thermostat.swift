@@ -19,8 +19,8 @@ protocol ThermostatDelegate: class {
 }
 
 final class Thermostat: NSObject, NSCoding {
-  static let maximumTemperatureValue: Float = 40.0
-  static let minimumTemperatureValue: Float = 10.0
+  static let maximumTemperatureValue: Float = 35.0
+  static let minimumTemperatureValue: Float = 5.0
   
   weak var delegate: ThermostatDelegate?
   var identifier: String
