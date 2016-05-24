@@ -61,13 +61,22 @@ class GlanceController: WKInterfaceController {
   
   private func showStateImage() {
     if let thermostat = thermostat {
+      var thermostatAccessibilityLabel: String
+      
       switch thermostat.state {
       case .Heating:
         thermostatStateImage.setImageNamed("heating-glance")
+        thermostatAccessibilityLabel = NSLocalizedString("ThermostatHeatingAccessibilityLabel", comment: "Accessibility Label: Thermostat state heating")
       case .Cooling:
         thermostatStateImage.setImageNamed("cooling-glance")
+        thermostatAccessibilityLabel = NSLocalizedString("ThermostatCoolingAccessibilityLabel", comment: "Accessibility Label: Thermostat state cooling")
       default:
         thermostatStateImage.setImage(nil)
+        thermostatAccessibilityLabel = NSLocalizedString("ThermostatNeutralAccessibilityLabel", comment: "Accessibility Label: Thermostat state neutral")
+      }
+      
+      if WKAccessibilityIsVoiceOverRunning() {
+        thermostatStateImage.setAccessibilityLabel(thermostatAccessibilityLabel)
       }
     }
   }
