@@ -1,16 +1,16 @@
 {
     "aps": {
         "alert": {
-            "body": "Test message",
-            "title": "Optional title"
+            "body": "Turn the green leaf on to optimise the energy efficiency of the living room.",
+            "title": "Save energy"
         },
-        "category": "myCategory"
+        "category": "greenLeaf"
     },
     
     "WatchKit Simulator Actions": [
         {
-            "title": "First Button",
-            "identifier": "firstButtonAction"
+            "title": "Save energy now",
+            "identifier": "greenLeafOnAction"
         }
     ],
     

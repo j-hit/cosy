@@ -22,7 +22,6 @@ protocol ThermostatManager: class {
   func saveTemperatureSetPointOfThermostat(thermostat: Thermostat)
   func saveMode(ofThermostat thermostat: Thermostat, toMode mode: ThermostatMode)
   func clearAllData()
-  // TODO: Consider using separate class for import export
   func exportThermostatsAsNSData() -> NSData
   func importThermostats(fromNSDataObject thermostatsAsNSData: NSData?)
 }
