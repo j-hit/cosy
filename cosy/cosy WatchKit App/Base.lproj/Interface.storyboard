@@ -187,6 +187,7 @@
                                         </label>
                                     </items>
                                 </group>
+                                <label alignment="left" verticalAlignment="center" hidden="YES" text="Information label" numberOfLines="0" id="gs4-uq-Uwd"/>
                                 <label alignment="center" verticalAlignment="bottom" text="now 18" id="L7U-mP-lUE">
                                     <accessibilityTraits key="accessibilityTraits" staticText="YES" notEnabled="YES"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -199,6 +200,7 @@
                     <connections>
                         <outlet property="currentTemperatureLabel" destination="L7U-mP-lUE" id="YkB-M1-Hlh"/>
                         <outlet property="errorIndicationImage" destination="cUg-zy-F08" id="h2u-F5-kTp"/>
+                        <outlet property="informationLabel" destination="gs4-uq-Uwd" id="wha-o6-PoF"/>
                         <outlet property="temperatureSetpointLabel" destination="P10-Am-o8c" id="scc-hw-hjy"/>
                         <outlet property="thermostatNameLabel" destination="3Ah-4c-d1E" id="Pft-Ah-keV"/>
                         <outlet property="thermostatStateImage" destination="gZj-rz-aFf" id="Okg-JQ-Xae"/>
