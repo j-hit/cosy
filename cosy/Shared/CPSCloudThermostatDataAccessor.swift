@@ -19,6 +19,13 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
     self.lastFetchedThermostats = [Thermostat]()
   }
   
+  var alamofireManager: Alamofire.Manager = {
+    let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+    configuration.timeoutIntervalForResource = 5
+    configuration.timeoutIntervalForRequest = 5
+    return Alamofire.Manager(configuration: configuration)
+  }()
+  
   var outstandingRequestsForThermostatListFetchToFinish: Int = 0 {
     didSet {
       if outstandingRequestsForThermostatListFetchToFinish == 0 {
@@ -60,7 +67,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       return
     }
     
-    Alamofire.request(.GET, urlForLocations, headers: headersForRequest)
+    alamofireManager.request(.GET, urlForLocations, headers: headersForRequest)
       .responseJSON { response in
         switch response.result {
         case .Success:
@@ -111,11 +118,10 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       return
     }
     
-    Alamofire.request(.GET, urlForLocationName, headers: headersForRequest)
+    alamofireManager.request(.GET, urlForLocationName, headers: headersForRequest)
       .responseString { response in
         switch response.result {
         case .Success:
-          print("thermostat name fetch response: \(response.result.value)")
           if let thermostatName = response.result.value
           {
             thermostat.name = thermostatName
@@ -144,7 +150,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
       return
     }
     
-    Alamofire.request(.GET, urlForPresentValueOfPoint, headers: headersForRequest)
+    alamofireManager.request(.GET, urlForPresentValueOfPoint, headers: headersForRequest)
       .responseJSON { response in
         switch response.result {
         case .Success:
@@ -226,7 +232,7 @@ final class CPSCloudThermostatDataAccessor: ThermostatDataAccessor {
         return
     }
     
-    Alamofire.request(urlRequest)
+    alamofireManager.request(urlRequest)
       .validate()
       .responseString { response in
         switch response.result {

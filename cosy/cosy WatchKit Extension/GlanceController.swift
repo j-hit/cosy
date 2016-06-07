@@ -16,6 +16,7 @@ class GlanceController: WKInterfaceController {
   @IBOutlet var currentTemperatureLabel: WKInterfaceLabel!
   @IBOutlet var thermostatStateImage: WKInterfaceImage!
   @IBOutlet var errorIndicationImage: WKInterfaceImage!
+  @IBOutlet var informationLabel: WKInterfaceLabel!
   
   private var thermostat: Thermostat?
   private var applicationFacade: ApplicationFacade?
@@ -43,12 +44,16 @@ class GlanceController: WKInterfaceController {
     if let thermostat = thermostat {
       thermostat.delegate = self
       
+      informationLabel.setHidden(true)
       thermostatNameLabel.setText(thermostat.name)
+      thermostatNameLabel.setHidden(false)
       showCurrentTemperature(thermostat.currentTemperature)
       showTemperatureSetpoint(thermostat.temperatureSetPoint)
       showStateImage()
       
       applicationFacade?.thermostatManager.updateData(ofThermostat: thermostat)
+    } else {
+      handleNoThermostatSetAsFavourite()
     }
   }
   
@@ -58,6 +63,15 @@ class GlanceController: WKInterfaceController {
   }
   
   // MARK: - Reloading data on view
+  
+  private func handleNoThermostatSetAsFavourite() {
+    informationLabel.setText(NSLocalizedString("ErrorGlanceNoThermostatAsFavourite", comment: "Message shown to the user the glance is view without having set a thermostat as Favourite"))
+    informationLabel.setHidden(false)
+    thermostatNameLabel.setHidden(true)
+    currentTemperatureLabel.setHidden(true)
+    temperatureSetpointLabel.setHidden(true)
+    thermostatStateImage.setImage(nil)
+  }
   
   private func showStateImage() {
     if let thermostat = thermostat {
@@ -84,6 +98,7 @@ class GlanceController: WKInterfaceController {
   private func showCurrentTemperature(currentTemperature: Int?) {
     if let currentTemperature = currentTemperature where currentTemperature > 0 {
       currentTemperatureLabel.setText(String(format: NSLocalizedString("CurrentTemperatureDescription", comment: "describes the current temperature from a thermostat"), currentTemperature))
+      currentTemperatureLabel.setHidden(false)
     }
   }
   
@@ -91,6 +106,7 @@ class GlanceController: WKInterfaceController {
     if let temperatureSetpoint = temperatureSetpoint where temperatureSetpoint > 0 {
       temperatureSetpointLabel.setText("\(temperatureSetpoint)")
       temperatureSetpointLabel.setTextColor(thermostat?.state.visualiser().color)
+      temperatureSetpointLabel.setHidden(false)
       
       if WKAccessibilityIsVoiceOverRunning() {
         temperatureSetpointLabel.setAccessibilityLabel(String(format: NSLocalizedString("ThermostatSetPointAccessibilityLabel", comment: "Accessibility Label: Thermostat temperature set point"), temperatureSetpoint))
